@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.43 2005/03/22 05:20:08 weitzman Exp $
+// $Id: og.module,v 1.44 2005/03/22 14:00:01 weitzman Exp $
 
 function og_help($section) {
   $output = "";
@@ -51,7 +51,7 @@ function og_menu($may_cache) {
     
     if (arg(0) == 'node' && is_numeric(arg(1))) {
       $node = node_load(array('nid' => arg(1)));
-      if ($node->nid) {
+      if ($node->type == 'og') {
         $items[] = array('path' => 'node/'. arg(1). '/email', 'title' => t('email'), 'callback' => 'og_email', 'callback arguments' => arg(1), 'access' => node_access('view', $node), 'type' => MENU_LOCAL_TASK, 'weight' => 7);               
       }
     }
