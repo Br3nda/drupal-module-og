@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.31 2005/02/15 03:07:54 weitzman Exp $
+// $Id: og.module,v 1.1.2.32 2005/03/04 20:17:47 weitzman Exp $
 
 function og_help($section) {
   $output = "";
@@ -688,23 +688,28 @@ function og_block($op = 'list', $delta = 0) {
   }
 }
 
-function og_albums_page($gid, $str_tags) {
-  list($operator, $tags) = folksonomy_parse_request($str_tags);
+function og_albums_page($gid, $str_tags, $operator = 'or') {
+  if (strstr($str_tags, ',')) {
+    $tags = explode(',', $str_tags);
+  }
+  else {
+    $tags = array($str_tags);
+  }
   if ($tags) {
     $title = str_replace(array(',', '+'), ', ', $str_tags);
     $node = node_load(array('nid' => $gid));
     $bc = array(l(t('Home'), ''), l(t('groups'), 'og'), l($node->title, "node/$node->nid"));
     $result = folksonomy_select_nodes($tags, $operator, 'image', 'og_group_'. $node->nid);
-    // append 'create album' link if available and permitted. a bit messy for now.
-    if (user_access('create images') && module_exist('folksonomy')) {
-      global $user;
-      $subs = og_get_subscriptions($user->uid);
-      if ($subs[$node->nid]['grant_view']) {
+    if (db_num_rows($result)) {
+      if (user_access('create images') && module_exist('folksonomy')) {
         $links[] = l(t('add to this album'), 'og/albums/form', array(), "edit[og_groups][]=$node->nid&edit[og_tags]=". urlencode($str_tags));
-        $output .= theme('links', $links);
+        $output = '<p>'. theme('links', $links). '</p>';
+        $output .= taxonomy_render_nodes($result);
       }
     }
-    $output .= taxonomy_render_nodes($result);
+    else {
+      drupal_set_message(t('no public images in this album'), 'error');
+    }
     print theme('page', $output, $title, $bc);
   }
   else {
