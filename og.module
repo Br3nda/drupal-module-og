@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.32 2005/03/04 20:17:47 weitzman Exp $
+// $Id: og.module,v 1.1.2.33 2005/03/10 02:30:16 weitzman Exp $
 
 function og_help($section) {
   $output = "";
@@ -142,9 +142,11 @@ function og_remove_node($gid, $nid) {
 }
 
 function og_delete_folksonomy($node) {
-  foreach ($node->og_groups as $gid) {
-    $realm = "og_group_$gid";
-    module_invoke('folksonomy', 'delete', array('realm' => $realm, 'id' => $node->nid));
+  if ($node->og_groups) {
+    foreach ($node->og_groups as $gid) {
+      $realm = "og_group_$gid";
+      module_invoke('folksonomy', 'delete', array('realm' => $realm, 'id' => $node->nid));
+    }
   }
 }
 
@@ -955,7 +957,7 @@ function og_settings() {
   $output .= form_radios(t('Audience required'), 'og_audience_required', variable_get('og_audience_required', 0), $options, t('Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group.'));
   unset($options);
   foreach (node_list() as $type) {
-    $options[$type] = module_invoke($type, 'node_name');
+    $options[$type] = module_invoke(node_get_module_name($type), 'node_name');
   }
   unset($options['og']);
   $output .= form_select(t('Omitted content types'), 'og_omitted', variable_get('og_omitted', array()), $options, t('Select any node types which should <em>not</em> participate in the Audience targetting system.'), 0, TRUE);
