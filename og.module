@@ -912,8 +912,8 @@ function og_create_links($group) {
       $links[] = l(t('create %type', array('%type' => $name)), "node/add/$type", array('title' => t('Add a new %s in this group.', array('%s' => $name))), "edit[og_groups][]=$group->nid");
     }
   }
-  // append 'create album' link if available. a bit messy for now.
-  if (user_access('create images') && module_exist('folksonomy') && user_access('access bulk upload')) {
+  // append 'create album' link if available.
+  if (user_access('create images') && module_exist('folksonomy')) {
     $links[] = l(t('create album'), 'og/albums/form', array(), "edit[og_groups][]=$group->nid");
   }
   return $links ? $links : array();
