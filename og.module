@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.33 2005/03/10 02:30:16 weitzman Exp $
+// $Id: og.module,v 1.1.2.34 2005/04/08 21:51:37 weitzman Exp $
 
 function og_help($section) {
   $output = "";
@@ -706,8 +706,8 @@ function og_albums_page($gid, $str_tags, $operator = 'or') {
       if (user_access('create images') && module_exist('folksonomy')) {
         $links[] = l(t('add to this album'), 'og/albums/form', array(), "edit[og_groups][]=$node->nid&edit[og_tags]=". urlencode($str_tags));
         $output = '<p>'. theme('links', $links). '</p>';
-        $output .= taxonomy_render_nodes($result);
       }
+      $output .= taxonomy_render_nodes($result);
     }
     else {
       drupal_set_message(t('no public images in this album'), 'error');
