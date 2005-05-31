@@ -1,4 +1,4 @@
-<?php // $Id: node.tpl.php,v 1.1.2.2 2005/05/31 04:43:18 weitzman Exp $
+<?php // $Id: node.tpl.php,v 1.1.2.3 2005/05/31 11:24:49 weitzman Exp $
 ?>
 
 <div class="node<?php print ($sticky) ? " sticky" : ""; ?>">
@@ -17,12 +17,15 @@
             $og_links[] = l($node->og_groups_names[$ind], 'node/', $node->og_groups[$ind]);
           }
           $og_links = theme('links', $og_links);
-  ?>
-  <div class="groups"><?php print t('groups'). ': '.  $og_links ?></div>
-  <div class="terms"><?php print t('categories'). ': '. $terms ?></div>
-  <?php } ?>
+          print '<div class="groups">';
+          print t('groups'). ': '.  $og_links. '</div>';
+   } ?>
+  <?php if ($terms) {
+          print '<div class="terms">';
+          print t('categories'). ': '. $terms.  '</div>';
+        }
 
-<?php if ($links): ?>
+        if ($links): ?>
 
     <?php if ($picture): ?>
       <br class='clear' />
