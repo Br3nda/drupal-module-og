@@ -1,3 +1,5 @@
+<?php //$Id: node-og.tpl.php,v 1.2 2005/05/31 04:43:34 weitzman Exp $ 
+?>
 <div class="node<?php print ($sticky) ? " sticky" : ""; ?>">
   <?php if ($page == 0): ?>
     <h2><a href="<?php print $node_url ?>" title="<?php print $title ?>"><?php print $title ?></a></h2>
