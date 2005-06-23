@@ -1,0 +1,790 @@
+# LANGUAGE translation of Drupal (og.module)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: og.module,v 1.53.2.14 2005/06/02 00:52:56 weitzman
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION 1.0\n"
+"POT-Creation-Date: 2005-06-08 10:55+0200\n"
+"PO-Revision-Date: 2005-06-22 01:43+0100\n"
+"Last-Translator: Lennart Kiil <lennart@zensci.com>\n"
+"Language-Team: Danish Language Team <lennart@zensci.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+
+#: og.module:19
+msgid "Organic groups"
+msgstr "Organiske grupper"
+
+#: og.module:21
+msgid "A group provides home page for like minded users. There they post articles about their shared interest."
+msgstr "En gruppe giver en hjemmeside for brugere med fælles iteresse. Her kan de kommunikere den fælles interesse."
+
+#: og.module:23
+msgid "Group blocks are only visible on group pages and not on systemwide pages like the home page or admin pages."
+msgstr "Gruppe blokke er kun synlige på gruppe sider."
+
+#: og.module:25
+msgid "In order to let group admins determine their own group theme, you must enable mutliple themes using %page. To enable admins to upload a group image, you must activate and configure image.module (see Contributions repository). It is strongly recommended that you back up your database before changing these options! Specifically, your node_access table will be altered."
+msgstr "Hvis du vil lade group administratorer bestemme deres eget tema, må du først aktivere flere temaer med %page. For at lade administratorer uploade et gruppe billede, må du først aktivere og konfigurere image.module. Det anbefals kraftigt at du backer din database op, før du ændrer disse indstillinger! Specifikt vil node_access tabellen blive ændret."
+
+#: og.module:25
+msgid "theme configuration page"
+msgstr "Tema konfigurationsside"
+
+#: og.module:35
+msgid "subscribe to group"
+msgstr "Abbonnér på gruppe"
+
+#: og.module:36
+msgid "group image (large)"
+msgstr "gruppebillede (stort)"
+
+#: og.module:37;790
+msgid "group"
+msgstr "gruppe"
+
+#: og.module:38;144;227;587;640;1205;1240
+msgid "groups"
+msgstr "grupper"
+
+#: og.module:40
+msgid "unsubscribe from group"
+msgstr "Opsig abbonnement på gruppe"
+
+#: og.module:41
+msgid "approve subscription request"
+msgstr "Godkend abbonementsansøgning"
+
+#: og.module:42
+msgid "deny subscription request"
+msgstr "Nægt abbonnementsansøgning"
+
+#: og.module:43
+msgid "create group administrator"
+msgstr "Opret gruppe-administrator"
+
+#: og.module:44
+msgid "delete group administrator"
+msgstr "Slet gruppe-administrator"
+
+#: og.module:45
+msgid "remove post from group"
+msgstr "Fjern indlæg fra gruppe"
+
+#: og.module:46
+msgid "group feed"
+msgstr "gruppe feed"
+
+#: og.module:47
+msgid "albums"
+msgstr "albums"
+
+#: og.module:48;49
+msgid "album"
+msgstr "album"
+
+#: og.module:57
+msgid "subscriber management"
+msgstr "Abbonnemtsstyring"
+
+#: og.module:58
+msgid "list"
+msgstr "liste"
+
+#: og.module:59
+msgid "add subscribers"
+msgstr "tilføj abbonnementer"
+
+#: og.module:60
+msgid "manage subscription"
+msgstr "håndter abbonnementer"
+
+#: og.module:61
+msgid "send invitation"
+msgstr "send invitation"
+
+#: og.module:67
+msgid "email"
+msgstr "e-mail"
+
+#: og.module:143;227
+msgid "home"
+msgstr "hjem"
+
+#: og.module:163
+msgid "Send email to %group"
+msgstr "Send email til %group"
+
+#: og.module:166
+msgid "Your email body may not be blank"
+msgstr "Din e-mail må ikke være tom"
+
+#: og.module:170
+msgid "Your email subject may not be blank"
+msgstr "Din e-mails emne må ikke være tomt"
+
+#: og.module:174
+msgid ""
+"\n"
+"\n"
+"--------------------------------\n"
+"This message was sent by an administrator in the '%group' group at %site. To visit this group, browse to %url1. To unsubscribe from this group, visit %url2"
+msgstr ""
+"\n"
+"\n"
+"--------------------------------\n"
+"Denne besked blev sent af en administrator i '%group' gruppe fra %site. For at besøge gruppen, gå til %url1. For at opsige dit abbonnement på denne gruppe, besøg %url2"
+
+#: og.module:186
+msgid "%count emails sent."
+msgstr "%count e-mails sendt"
+
+#: og.module:201
+msgid "Your email will be sent to %count in this group. Please use this feature sparingly."
+msgstr "Din e-mail vil blive sendt til %count i denne gruppe. Brug venligst denne funktion sjældent."
+
+#: og.module:202
+msgid "Subject"
+msgstr "Emne"
+
+#: og.module:202
+msgid "Enter a subject for your email."
+msgstr "Skriv et emne for din e-mail."
+
+#: og.module:203
+msgid "Body"
+msgstr "Indhold"
+
+#: og.module:203
+msgid "Enter a body for your email."
+msgstr "Skriv indhold i din e-mail."
+
+#: og.module:204
+msgid "Send email"
+msgstr "Send e-mail"
+
+#: og.module:216
+msgid "Subscription saved."
+msgstr "Abbonnement gemt."
+
+#: og.module:222
+msgid "Goodbye"
+msgstr "Farvel"
+
+#: og.module:222
+msgid "Unsubscribe from this group"
+msgstr "Opsig abbonnement på denne gruppe"
+
+#: og.module:224;1464
+msgid "disabled"
+msgstr "Ikke aktiveret"
+
+#: og.module:224;1467
+msgid "enabled"
+msgstr "Aktiveret"
+
+#: og.module:224
+msgid "Do you want to receive an email each time a message is posted to this group?"
+msgstr "Vil du modtage en e-mail hver gang en besked skrives her i denne gruppe?"
+
+#: og.module:225;535;1237
+msgid "Submit"
+msgstr "Insend"
+
+#: og.module:236
+msgid "Subscription request approved."
+msgstr "Abbonnementansøgning godkendt"
+
+#: og.module:238
+msgid "Subscription request approved for '%title'"
+msgstr "Abbonnementansøgning godkendt for '%title'"
+
+#: og.module:239
+msgid "You may now post messages in this group located at %url"
+msgstr "Du kan nu skrive beskeder i gruppen her %url"
+
+#: og.module:255
+msgid "Subscription request denied."
+msgstr "Abbonnementansøgning afvist"
+
+#: og.module:256
+msgid "Subscription request denied for %title"
+msgstr "Abbonnementansøgning afvist for %title"
+
+#: og.module:257
+msgid "Sorry, your subscription request was denied."
+msgstr "Desværre, din abbonnementansøgning blev afvist"
+
+#: og.module:273
+msgid "User was promoted to <em> group administrator</em>"
+msgstr "Bruger blev forfremmet til <em> gruppe-administrator </em>"
+
+#: og.module:285
+msgid "User is no longer a group administrator"
+msgstr "Bruger er ikke længere gruppe-administrator"
+
+#: og.module:300
+msgid "Post removed from group."
+msgstr "Indlæg fjernet fra gruppen."
+
+#: og.module:304
+msgid "Confirmation"
+msgstr "Bekræftelse"
+
+#: og.module:304
+msgid "Remove %title from this group."
+msgstr "Fjern %title fra denne gruppe"
+
+#: og.module:306
+msgid "Remove"
+msgstr "Fjern"
+
+#: og.module:341
+msgid "invalid email address: "
+msgstr "ugyldig e-mail adresse"
+
+#: og.module:347
+msgid "Invitation to join the group \"%group\" at %site"
+msgstr "Invitation til at blive medlem af gruppen \"%group\" på %site"
+
+#: og.module:348
+msgid ""
+"Hi. I'm a member of '%group' and I welcome you to join this group as well. Please see the link and message below.\n"
+"\n"
+msgstr ""
+"Hej. Jeg er medlem af '%group' , og jeg inviterer dig til at indmelde dig også. Se venligst link og besked nedenfor.\n"
+"\n"
+
+#: og.module:351
+msgid "Subscribe: %url"
+msgstr "Abbonnér: %url"
+
+#: og.module:360
+msgid "%count invitations sent."
+msgstr "%count invitationer sendt"
+
+#: og.module:379
+msgid "Email addresses"
+msgstr "E-mail adresser"
+
+#: og.module:380
+msgid "Personal message"
+msgstr "Personlig besked"
+
+#: og.module:380
+msgid "Optional. Enter a message which will become part of the invitation email"
+msgstr "Valgfrit. Skriv en besked, der vil blive en del af invitations e-mailen"
+
+#: og.module:381
+msgid "Send invitation"
+msgstr "Send invitation"
+
+#: og.module:392
+msgid "In order to subscribe to this group, you must login or register a new account. After you have successfully done so, you will need to follow the <em>subscribe</em> link again."
+msgstr "For at abbonnere på denne gruppe, må du først logge ind eller oprette en konto. Efter du har gjort det, kan du følge <em>abbonnér</em> linket igen. "
+
+#: og.module:405
+msgid "Subscription request awaits approval by an administrator."
+msgstr "Abbonnementansøgning venter på behandling fra en administrator."
+
+#: og.module:408
+msgid "User subscribed to group,"
+msgstr "Bruger abbonnerede på gruppe,"
+
+#: og.module:435
+msgid "Subscription request for '%group' from '%name'"
+msgstr "Abbonnementansøgning til '%group' fra '%name'"
+
+#: og.module:436
+msgid "You may approve or deny this request at %url"
+msgstr "Du kan godkende eller afvise denne ansøgning ved %url"
+
+#: og.module:464
+msgid "User unsubscribed from group."
+msgstr "Bruger opsagt abbonnement på gruppe."
+
+#: og.module:527
+msgid "%count added to the group"
+msgstr "%count tilføjet til gruppen"
+
+#: og.module:530
+msgid "Unrecognized %names: "
+msgstr "Ukendte %names:"
+
+#: og.module:534
+msgid "List of users"
+msgstr "Liste over brugere"
+
+#: og.module:534
+msgid "Add one or more usernames in order to associate users with this group. Multiple usernames should be separated by a comma."
+msgstr "Tilføj et eller flere brugernavne til gruppen. Flere brugernavne adskilles med komma."
+
+#: og.module:548;745
+msgid "Name"
+msgstr "Navn"
+
+#: og.module:551
+msgid "Operations"
+msgstr "Handlinger"
+
+#: og.module:556
+msgid "manager"
+msgstr "manager"
+
+#: og.module:558
+msgid "edit group"
+msgstr "rediger gruppe"
+
+#: og.module:567
+msgid "unsubscribe"
+msgstr "opsig abbonnement"
+
+#: og.module:569
+msgid "admin: remove"
+msgstr "admin: fjern"
+
+#: og.module:572
+msgid "admin: create"
+msgstr "admin: tilføj"
+
+#: og.module:576
+msgid "approve"
+msgstr "godkend"
+
+#: og.module:577
+msgid "deny"
+msgstr "afvis"
+
+#: og.module:587;640;1205;1240
+msgid "Home"
+msgstr "Hjem"
+
+#: og.module:589;602
+msgid "Subscribers"
+msgstr "Abbonnementer"
+
+#: og.module:602;1519
+msgid "Title"
+msgstr "Titel"
+
+#: og.module:602
+msgid "Owner"
+msgstr "Ejer"
+
+#: og.module:602;673
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: og.module:614
+msgid "No groups"
+msgstr "Ingen grupper"
+
+#: og.module:660
+msgid "No posts in this group."
+msgstr "Ingen indlæg i denne gruppe."
+
+#: og.module:694
+msgid "Selective"
+msgstr "Valgbare"
+
+#: og.module:694
+msgid "open - subscription requests are accepted immediately"
+msgstr "åben - abbonnementansøgninger godkendes straks"
+
+#: og.module:694
+msgid "moderated - subscription requests must be approved."
+msgstr "modereret - abbonnemtansøgninger skal godkendes"
+
+#: og.module:694
+msgid "invite only - subscriptions must be created by an administrator."
+msgstr "invitation kræves - abbonnementer kan kun tilføjes af administrator"
+
+#: og.module:694
+msgid "How subscription requests be handled in this group?"
+msgstr "Hvordan behandles abbonnementansøgninger i denne gruppe?"
+
+#: og.module:695
+msgid "Register"
+msgstr "Registrér"
+
+#: og.module:695
+msgid "no"
+msgstr "nej"
+
+#: og.module:695
+msgid "yes"
+msgstr "ja"
+
+#: og.module:695
+msgid "Should this group be available for subscription during registration?. If checked, a corrosponding checkbox will be added to the registration form."
+msgstr "Skal denne gruppe være tilgængelig for abbonnement under registrering? Hvis afkrydset, vil en korresponderende afkrydsningsboks blive tilføjet registreringsblanketten."
+
+#: og.module:705
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+#: og.module:707
+msgid "Image"
+msgstr "Billede"
+
+#: og.module:707
+msgid "Click \"Browse...\" to select an image to upload."
+msgstr "Klik \"Browse...\" for at vælge et billede at uploade."
+
+#: og.module:726
+msgid "Screenshot for %theme theme"
+msgstr "Screenshot for %theme tema"
+
+#: og.module:726
+msgid "no screenshot"
+msgstr "Intet screenshot"
+
+#: og.module:745
+msgid "Screenshot"
+msgstr "Screenshot"
+
+#: og.module:745
+msgid "Selected"
+msgstr "Valgt"
+
+#: og.module:746
+msgid "Select a theme for your group."
+msgstr "Vælg a tema til din gruppe."
+
+#: og.module:849
+msgid "You must select an audience in order to post."
+msgstr "Du skal vælge et publikum for at kunne indsende."
+
+#: og.module:855
+msgid "%name must be a subscriber in order to post into %group"
+msgstr "%name skal være abbonnement for at kunne indsende til %group"
+
+#: og.module:906
+msgid "You must subscribe to a group before posting."
+msgstr "Du skal abbonnere på en gruppe før indsending."
+
+#: og.module:911
+msgid "Admins: If you want to assign this post to a group whose checkbox does not appear below, you must first change the %author. The author's subscriptions are always shown."
+msgstr "Admins: Hvis du vil tilføje dette indlæg til en gruppe hvis afkrydsningsfelt ikke findes nedenfor, må du først ændre %author. Forfatterens abbonnementer bliver altid vist."
+
+#: og.module:911;1519
+msgid "Author"
+msgstr "Forfatter"
+
+#: og.module:927;1490
+msgid "Public"
+msgstr "Offentlig"
+
+#: og.module:927
+msgid "Show this post to everyone or only to members of the checked selected below."
+msgstr "Hvis indlægget til alle eller kun til medlemmer af afkrydsede herunder."
+
+#: og.module:941
+msgid "Audience"
+msgstr "Publikum"
+
+#: og.module:941
+msgid "Show this post in these groups."
+msgstr "Vis dette indlæg i disse grupper."
+
+#: og.module:966
+msgid "%author added '%title' at %site"
+msgstr "%author tilføjede '%title' på %site"
+
+#: og.module:968
+msgid "EXCERPT"
+msgstr "UDDRAG"
+
+#: og.module:968
+msgid "FULL POST"
+msgstr "HELT INDLÆG"
+
+#: og.module:971
+msgid "You are subscribed to the group '%group_name' at '%site'. To manage your subscription, visit %group_url"
+msgstr "Du abbonnerer på gruppen '%group_name' på '%site'. For at håndtere dit abbonnement, besøg %group_url "
+
+#: og.module:987
+msgid "Subscribe to %name"
+msgstr "Abbonnér på %name"
+
+#: og.module:990
+msgid "(approval needed)"
+msgstr "(godkendelse nødvendig)"
+
+#: og.module:994;1016
+msgid "Groups"
+msgstr "Grupper"
+
+#: og.module:1129
+msgid "Organic groups access control has been disabled. You may now disable the module on the <em>%modules</em> page"
+msgstr "Organiske grupper adgangskontrol er deaktiveret. Du kan nu deaktivere modulet på <em>%modules</em> siden"
+
+#: og.module:1129
+msgid "admin/modules"
+msgstr "admin/modules"
+
+#: og.module:1143
+msgid "Organic groups access control enabled."
+msgstr "Organiske grupper adgangskontrol aktiveret"
+
+#: og.module:1152
+msgid "Group details"
+msgstr "Gruppe detaljer"
+
+#: og.module:1153
+msgid "Group albums"
+msgstr "Gruppe albums"
+
+#: og.module:1154
+msgid "Group subscribers"
+msgstr "Gruppemedlemmer"
+
+#: og.module:1211
+msgid "add to this album"
+msgstr "tilføj til dette album"
+
+#: og.module:1227
+msgid "Album Title"
+msgstr "Album titel"
+
+#: og.module:1232
+msgid "Photo"
+msgstr "Foto"
+
+#: og.module:1250
+msgid "You must specify an album title."
+msgstr "Du skal specificere en album titel."
+
+#: og.module:1299
+msgid "album saved."
+msgstr "album gemt."
+
+#: og.module:1321
+msgid "submitted by %name. "
+msgstr "indsendt af %name."
+
+#: og.module:1327
+msgid "Albums"
+msgstr "Albums"
+
+#: og.module:1356
+msgid "more"
+msgstr "mere"
+
+#: og.module:1356
+msgid "View all subscribers."
+msgstr "Se alle abbonnementer."
+
+#: og.module:1359
+msgid "Recent subscribers"
+msgstr "Nylige abbonnementer"
+
+#: og.module:1391
+msgid "invite friend"
+msgstr "inviter en ven"
+
+#: og.module:1397
+msgid "age: %age"
+msgstr "alder: %age"
+
+#: og.module:1399;1402
+msgid "group manager: "
+msgstr "gruppe manager:"
+
+#: og.module:1404
+msgid "my subscription"
+msgstr "mit abbonnement"
+
+#: og.module:1407
+msgid "Your subscription request awaits approval."
+msgstr "Din abbonnementansøgning afventer godkendelse."
+
+#: og.module:1408
+msgid "delete request"
+msgstr "slet forespørgsel"
+
+#: og.module:1412
+msgid "request subscription"
+msgstr "ansøg om abbonnement"
+
+#: og.module:1415
+msgid "subscribe"
+msgstr "abbonnér"
+
+#: og.module:1436
+msgid "create %type"
+msgstr "tilføj %type"
+
+#: og.module:1436
+msgid "Add a new %s in this group."
+msgstr "Tilføj en ny %s i denne gruppe."
+
+#: og.module:1444
+msgid "create album"
+msgstr "tilføj album"
+
+#: og.module:1455
+msgid "remove from group"
+msgstr "fjern fra denne gruppe"
+
+#: og.module:1463
+msgid "Organic groups configuration"
+msgstr "Organiske grupper konfiguration"
+
+#: og.module:1465;1475
+msgid "Enable"
+msgstr "Aktiver"
+
+#: og.module:1468;1479
+msgid "Disable"
+msgstr "Deaktiver"
+
+#: og.module:1470
+msgid "Organic groups access control is currently"
+msgstr "Organiske grupper adgangskontrol er på nuværende tidspunkt"
+
+#: og.module:1472
+msgid "Module status"
+msgstr "Modul status"
+
+#: og.module:1472
+msgid "After enabling this module via the module settings page or before disabling this module, use the above button to restore default permissions."
+msgstr "Efter aktivering af dette modul via modul opsætningssiden eller før deaktivering af modulet, brug knappen ovenfor for at genoprette standard tilladelser."
+
+#: og.module:1486
+msgid "Explanation or submission guidelines"
+msgstr "Forklaring eller indsendelsesretningslinjer"
+
+#: og.module:1486
+msgid "This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users."
+msgstr "Denne tekst vil blive vist på toppen af gruppe indsendelsesblanketten. Den er hjælpsom som guide til brugere."
+
+#: og.module:1487
+msgid "Unlimited albums"
+msgstr "Ubegrænset antal albums"
+
+#: og.module:1487
+msgid "If you want to limit your groups to a single album, uncheck this box."
+msgstr "Hvis du ønsker at begrænse antallet af album en gruppe kan have til et enkelt, så fjern krydset i boksen."
+
+#: og.module:1488
+msgid "List moderated groups"
+msgstr "List modererede grupper"
+
+#: og.module:1488
+msgid "Moderated groups appear in the %s. Moderated groups require new subscription requests to be manually approved. Invite only groups never appear in the list."
+msgstr "Modererede grupper fremkommer i %s. Modererede grupper kræver at abbonnementansøgninger bliver manuelt godkendte. Invitationsgrupper vises aldrig på listen."
+
+#: og.module:1489
+msgid "Visible only within the targeted groups"
+msgstr "Kun synlig indenfor de specificerede grupper"
+
+#: og.module:1489
+msgid "Visible within the targeted groups and on other pages"
+msgstr "Synlig indenfor specificerede grupper og på andre sider"
+
+#: og.module:1489
+msgid "Visibility to be determined by the author/editor using a checkbox on the posting form"
+msgstr "Synlighed afhænger af forfatterens/redaktørens brug af afkrydsningsbokse"
+
+#: og.module:1490
+msgid "Visibility of posts"
+msgstr "Synlighed af indlæg"
+
+#: og.module:1490
+msgid "Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub."
+msgstr "Bestem hvor alment tilgængeligt et givent indlæg skal være, når det er affileret med en gruppe. OG admins ser altid afkrydsningsboksen for  at gøre et indlæg %pub."
+
+#: og.module:1491
+msgid "Maximum posts on group home page"
+msgstr "Maksimum antal indlæg på gruppe hjemmesiden"
+
+#: og.module:1491
+msgid "How many posts of a given type should display on the group home page."
+msgstr "Hvor mange indlæg af en given type skal vises på gruppe hjemmesiden"
+
+#: og.module:1493
+msgid "Show member pictures"
+msgstr "Vis medlemsbilleder"
+
+#: og.module:1493
+msgid "Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user."
+msgstr "Skal medlemsbilleder vises i gruppe medlems og gruppe detalje boksene? Du skal også aktivere billeder i %user."
+
+#: og.module:1493
+msgid "User configuration"
+msgstr "Bruger konfiguration"
+
+#: og.module:1494
+msgid "optional"
+msgstr "frivillig"
+
+#: og.module:1494
+msgid "required"
+msgstr "påkrævet"
+
+#: og.module:1495
+msgid "Audience required"
+msgstr "Publikum påkrævet"
+
+#: og.module:1495
+msgid "Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group."
+msgstr "Kræver du at alle indlæg affileres med en gruppe? Hvis ja, vil nye brugere være ude af stand til at færdiggøre et indlæg indtil de har tilmeldt sig en gruppe."
+
+#: og.module:1501
+msgid "Omitted content types"
+msgstr "Udeladte indholdstyper"
+
+#: og.module:1501
+msgid "Select any node types which should <em>not</em> participate in the Audience targetting system."
+msgstr "Vælg enhver indholdstype der <em>ikke</em> skal være med i det publikumspecifikke system."
+
+#: og.module:1519
+msgid "Replies"
+msgstr "Svar"
+
+#: og.module:1519
+msgid "Last reply"
+msgstr "Sidste svar"
+
+#: og.module:527
+msgid "1 user"
+msgid_plural "%count users"
+msgstr[0] "1 bruger"
+msgstr[1] "%count brugere"
+
+#: og.module:530
+msgid "name"
+msgid_plural "names"
+msgstr[0] "navn"
+msgstr[1] "navne"
+
+#: og.module:1322
+msgid "1 image"
+msgid_plural "%count images"
+msgstr[0] "1 billede"
+msgstr[1] "%count billeder"
+
+#: og.module:1393
+msgid "1 subscriber"
+msgid_plural "%count subscribers"
+msgstr[0] "1 abbonnent"
+msgstr[1] "%count abbonnenter"
+
+#: og.module:80
+msgid "create groups"
+msgstr "tilføj grupper"
+
+#: og.module:80
+msgid "administer organic groups"
+msgstr "administrer organiske grupper"
+
+#: og.module:0
+msgid "og"
+msgstr "og"
+
