@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.17 2005/06/24 14:22:02 weitzman Exp $
+// $Id: og.module,v 1.53.2.18 2005/06/24 14:24:39 weitzman Exp $
 
 // Selective groups states
 define ('OG_OPEN', 0);
@@ -872,14 +872,13 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
               case OG_VISIBLE_GROUPONLY:
                 $node->og_public = 0;
                 break;
-              }
             }
           }
-          // if a post isn't in any groups. it must be public as far as og goes
-          if (empty($node->og_groups)) {
-            $node->og_public = 1;
-          }
-
+        }
+        // if a post isn't in any groups. it must be public
+        if (empty($node->og_groups)) {
+          $node->og_public = 1;
+        }
       }
       break;
     case 'delete':
