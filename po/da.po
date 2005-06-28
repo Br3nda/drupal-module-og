@@ -1,14 +1,14 @@
-# LANGUAGE translation of Drupal (og.module)
-# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Danish translation of Drupal (og.module)
+# Copyright 2005 Lennart Kiil <lennart@zensci.com>
 # Generated from file: og.module,v 1.53.2.14 2005/06/02 00:52:56 weitzman
-#
+# $Id: da.po,v 1.1.2.2 2005/06/28 20:47:19 wulff Exp $
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION 1.0\n"
 "POT-Creation-Date: 2005-06-08 10:55+0200\n"
 "PO-Revision-Date: 2005-06-22 01:43+0100\n"
 "Last-Translator: Lennart Kiil <lennart@zensci.com>\n"
-"Language-Team: Danish Language Team <lennart@zensci.com>\n"
+"Language-Team: Danish Language Team <danish@psyke.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +38,7 @@ msgstr "Tema konfigurationsside"
 
 #: og.module:35
 msgid "subscribe to group"
-msgstr "Abbonnér på gruppe"
+msgstr "Abonnér på gruppe"
 
 #: og.module:36
 msgid "group image (large)"
@@ -54,7 +54,7 @@ msgstr "grupper"
 
 #: og.module:40
 msgid "unsubscribe from group"
-msgstr "Opsig abbonnement på gruppe"
+msgstr "Opsig abonnement på gruppe"
 
 #: og.module:41
 msgid "approve subscription request"
@@ -62,7 +62,7 @@ msgstr "Godkend abbonementsansøgning"
 
 #: og.module:42
 msgid "deny subscription request"
-msgstr "Nægt abbonnementsansøgning"
+msgstr "Nægt abonnementsansøgning"
 
 #: og.module:43
 msgid "create group administrator"
@@ -90,7 +90,7 @@ msgstr "album"
 
 #: og.module:57
 msgid "subscriber management"
-msgstr "Abbonnemtsstyring"
+msgstr "Abonnemtsstyring"
 
 #: og.module:58
 msgid "list"
@@ -98,11 +98,11 @@ msgstr "liste"
 
 #: og.module:59
 msgid "add subscribers"
-msgstr "tilføj abbonnementer"
+msgstr "tilføj abonnementer"
 
 #: og.module:60
 msgid "manage subscription"
-msgstr "håndter abbonnementer"
+msgstr "håndter abonnementer"
 
 #: og.module:61
 msgid "send invitation"
@@ -138,7 +138,7 @@ msgstr ""
 "\n"
 "\n"
 "--------------------------------\n"
-"Denne besked blev sent af en administrator i '%group' gruppe fra %site. For at besøge gruppen, gå til %url1. For at opsige dit abbonnement på denne gruppe, besøg %url2"
+"Denne besked blev sent af en administrator i '%group' gruppe fra %site. For at besøge gruppen, gå til %url1. For at opsige dit abonnement på denne gruppe, besøg %url2"
 
 #: og.module:186
 msgid "%count emails sent."
@@ -170,7 +170,7 @@ msgstr "Send e-mail"
 
 #: og.module:216
 msgid "Subscription saved."
-msgstr "Abbonnement gemt."
+msgstr "Abonnement gemt."
 
 #: og.module:222
 msgid "Goodbye"
@@ -178,7 +178,7 @@ msgstr "Farvel"
 
 #: og.module:222
 msgid "Unsubscribe from this group"
-msgstr "Opsig abbonnement på denne gruppe"
+msgstr "Opsig abonnement på denne gruppe"
 
 #: og.module:224;1464
 msgid "disabled"
@@ -198,11 +198,11 @@ msgstr "Insend"
 
 #: og.module:236
 msgid "Subscription request approved."
-msgstr "Abbonnementansøgning godkendt"
+msgstr "Abonnementansøgning godkendt"
 
 #: og.module:238
 msgid "Subscription request approved for '%title'"
-msgstr "Abbonnementansøgning godkendt for '%title'"
+msgstr "Abonnementansøgning godkendt for '%title'"
 
 #: og.module:239
 msgid "You may now post messages in this group located at %url"
@@ -210,15 +210,15 @@ msgstr "Du kan nu skrive beskeder i gruppen her %url"
 
 #: og.module:255
 msgid "Subscription request denied."
-msgstr "Abbonnementansøgning afvist"
+msgstr "Abonnementansøgning afvist"
 
 #: og.module:256
 msgid "Subscription request denied for %title"
-msgstr "Abbonnementansøgning afvist for %title"
+msgstr "Abonnementansøgning afvist for %title"
 
 #: og.module:257
 msgid "Sorry, your subscription request was denied."
-msgstr "Desværre, din abbonnementansøgning blev afvist"
+msgstr "Desværre, din abonnementansøgning blev afvist"
 
 #: og.module:273
 msgid "User was promoted to <em> group administrator</em>"
@@ -262,7 +262,7 @@ msgstr ""
 
 #: og.module:351
 msgid "Subscribe: %url"
-msgstr "Abbonnér: %url"
+msgstr "Abonnér: %url"
 
 #: og.module:360
 msgid "%count invitations sent."
@@ -286,19 +286,19 @@ msgstr "Send invitation"
 
 #: og.module:392
 msgid "In order to subscribe to this group, you must login or register a new account. After you have successfully done so, you will need to follow the <em>subscribe</em> link again."
-msgstr "For at abbonnere på denne gruppe, må du først logge ind eller oprette en konto. Efter du har gjort det, kan du følge <em>abbonnér</em> linket igen. "
+msgstr "For at abonnere på denne gruppe, må du først logge ind eller oprette en konto. Efter du har gjort det, kan du følge <em>abonnér</em> linket igen. "
 
 #: og.module:405
 msgid "Subscription request awaits approval by an administrator."
-msgstr "Abbonnementansøgning venter på behandling fra en administrator."
+msgstr "Abonnementansøgning venter på behandling fra en administrator."
 
 #: og.module:408
 msgid "User subscribed to group,"
-msgstr "Bruger abbonnerede på gruppe,"
+msgstr "Bruger abonnerede på gruppe,"
 
 #: og.module:435
 msgid "Subscription request for '%group' from '%name'"
-msgstr "Abbonnementansøgning til '%group' fra '%name'"
+msgstr "Abonnementansøgning til '%group' fra '%name'"
 
 #: og.module:436
 msgid "You may approve or deny this request at %url"
@@ -306,7 +306,7 @@ msgstr "Du kan godkende eller afvise denne ansøgning ved %url"
 
 #: og.module:464
 msgid "User unsubscribed from group."
-msgstr "Bruger opsagt abbonnement på gruppe."
+msgstr "Bruger opsagt abonnement på gruppe."
 
 #: og.module:527
 msgid "%count added to the group"
@@ -342,7 +342,7 @@ msgstr "rediger gruppe"
 
 #: og.module:567
 msgid "unsubscribe"
-msgstr "opsig abbonnement"
+msgstr "opsig abonnement"
 
 #: og.module:569
 msgid "admin: remove"
@@ -366,7 +366,7 @@ msgstr "Hjem"
 
 #: og.module:589;602
 msgid "Subscribers"
-msgstr "Abbonnementer"
+msgstr "Abonnementer"
 
 #: og.module:602;1519
 msgid "Title"
@@ -394,19 +394,19 @@ msgstr "Valgbare"
 
 #: og.module:694
 msgid "open - subscription requests are accepted immediately"
-msgstr "åben - abbonnementansøgninger godkendes straks"
+msgstr "åben - abonnementansøgninger godkendes straks"
 
 #: og.module:694
 msgid "moderated - subscription requests must be approved."
-msgstr "modereret - abbonnemtansøgninger skal godkendes"
+msgstr "modereret - abonnemtansøgninger skal godkendes"
 
 #: og.module:694
 msgid "invite only - subscriptions must be created by an administrator."
-msgstr "invitation kræves - abbonnementer kan kun tilføjes af administrator"
+msgstr "invitation kræves - abonnementer kan kun tilføjes af administrator"
 
 #: og.module:694
 msgid "How subscription requests be handled in this group?"
-msgstr "Hvordan behandles abbonnementansøgninger i denne gruppe?"
+msgstr "Hvordan behandles abonnementansøgninger i denne gruppe?"
 
 #: og.module:695
 msgid "Register"
@@ -422,7 +422,7 @@ msgstr "ja"
 
 #: og.module:695
 msgid "Should this group be available for subscription during registration?. If checked, a corrosponding checkbox will be added to the registration form."
-msgstr "Skal denne gruppe være tilgængelig for abbonnement under registrering? Hvis afkrydset, vil en korresponderende afkrydsningsboks blive tilføjet registreringsblanketten."
+msgstr "Skal denne gruppe være tilgængelig for abonnement under registrering? Hvis afkrydset, vil en korresponderende afkrydsningsboks blive tilføjet registreringsblanketten."
 
 #: og.module:705
 msgid "Thumbnail"
@@ -462,15 +462,15 @@ msgstr "Du skal vælge et publikum for at kunne indsende."
 
 #: og.module:855
 msgid "%name must be a subscriber in order to post into %group"
-msgstr "%name skal være abbonnement for at kunne indsende til %group"
+msgstr "%name skal være abonnement for at kunne indsende til %group"
 
 #: og.module:906
 msgid "You must subscribe to a group before posting."
-msgstr "Du skal abbonnere på en gruppe før indsending."
+msgstr "Du skal abonnere på en gruppe før indsending."
 
 #: og.module:911
 msgid "Admins: If you want to assign this post to a group whose checkbox does not appear below, you must first change the %author. The author's subscriptions are always shown."
-msgstr "Admins: Hvis du vil tilføje dette indlæg til en gruppe hvis afkrydsningsfelt ikke findes nedenfor, må du først ændre %author. Forfatterens abbonnementer bliver altid vist."
+msgstr "Admins: Hvis du vil tilføje dette indlæg til en gruppe hvis afkrydsningsfelt ikke findes nedenfor, må du først ændre %author. Forfatterens abonnementer bliver altid vist."
 
 #: og.module:911;1519
 msgid "Author"
@@ -506,11 +506,11 @@ msgstr "HELT INDLÆG"
 
 #: og.module:971
 msgid "You are subscribed to the group '%group_name' at '%site'. To manage your subscription, visit %group_url"
-msgstr "Du abbonnerer på gruppen '%group_name' på '%site'. For at håndtere dit abbonnement, besøg %group_url "
+msgstr "Du abonnerer på gruppen '%group_name' på '%site'. For at håndtere dit abonnement, besøg %group_url "
 
 #: og.module:987
 msgid "Subscribe to %name"
-msgstr "Abbonnér på %name"
+msgstr "Abonnér på %name"
 
 #: og.module:990
 msgid "(approval needed)"
@@ -578,11 +578,11 @@ msgstr "mere"
 
 #: og.module:1356
 msgid "View all subscribers."
-msgstr "Se alle abbonnementer."
+msgstr "Se alle abonnementer."
 
 #: og.module:1359
 msgid "Recent subscribers"
-msgstr "Nylige abbonnementer"
+msgstr "Nylige abonnementer"
 
 #: og.module:1391
 msgid "invite friend"
@@ -598,11 +598,11 @@ msgstr "gruppe manager:"
 
 #: og.module:1404
 msgid "my subscription"
-msgstr "mit abbonnement"
+msgstr "mit abonnement"
 
 #: og.module:1407
 msgid "Your subscription request awaits approval."
-msgstr "Din abbonnementansøgning afventer godkendelse."
+msgstr "Din abonnementansøgning afventer godkendelse."
 
 #: og.module:1408
 msgid "delete request"
@@ -610,11 +610,11 @@ msgstr "slet forespørgsel"
 
 #: og.module:1412
 msgid "request subscription"
-msgstr "ansøg om abbonnement"
+msgstr "ansøg om abonnement"
 
 #: og.module:1415
 msgid "subscribe"
-msgstr "abbonnér"
+msgstr "abonnér"
 
 #: og.module:1436
 msgid "create %type"
@@ -678,7 +678,7 @@ msgstr "List modererede grupper"
 
 #: og.module:1488
 msgid "Moderated groups appear in the %s. Moderated groups require new subscription requests to be manually approved. Invite only groups never appear in the list."
-msgstr "Modererede grupper fremkommer i %s. Modererede grupper kræver at abbonnementansøgninger bliver manuelt godkendte. Invitationsgrupper vises aldrig på listen."
+msgstr "Modererede grupper fremkommer i %s. Modererede grupper kræver at abonnementansøgninger bliver manuelt godkendte. Invitationsgrupper vises aldrig på listen."
 
 #: og.module:1489
 msgid "Visible only within the targeted groups"
@@ -773,8 +773,8 @@ msgstr[1] "%count billeder"
 #: og.module:1393
 msgid "1 subscriber"
 msgid_plural "%count subscribers"
-msgstr[0] "1 abbonnent"
-msgstr[1] "%count abbonnenter"
+msgstr[0] "1 abonnent"
+msgstr[1] "%count abonnenter"
 
 #: og.module:80
 msgid "create groups"
