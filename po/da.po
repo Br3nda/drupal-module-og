@@ -1,7 +1,7 @@
 # Danish translation of Drupal (og.module)
 # Copyright 2005 Lennart Kiil <lennart@zensci.com>
 # Generated from file: og.module,v 1.53.2.14 2005/06/02 00:52:56 weitzman
-# $Id: da.po,v 1.1.2.2 2005/06/28 20:47:19 wulff Exp $
+# $Id: da.po,v 1.1.2.3 2005/07/06 19:10:35 wulff Exp $
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Opsig abonnement på gruppe"
 
 #: og.module:41
 msgid "approve subscription request"
-msgstr "Godkend abbonementsansøgning"
+msgstr "Godkend abonnementsansøgning"
 
 #: og.module:42
 msgid "deny subscription request"
@@ -194,7 +194,7 @@ msgstr "Vil du modtage en e-mail hver gang en besked skrives her i denne gruppe?
 
 #: og.module:225;535;1237
 msgid "Submit"
-msgstr "Insend"
+msgstr "Indsend"
 
 #: og.module:236
 msgid "Subscription request approved."
