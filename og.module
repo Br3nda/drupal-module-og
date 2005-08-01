@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.89 2005/07/22 03:16:36 weitzman Exp $
+// $Id: og.module,v 1.90 2005/08/01 04:05:50 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1033,7 +1033,7 @@ function og_mail_output(&$body, $html = 1, $format = FILTER_FORMAT_DEFAULT) {
       }
     }
 
-    $body = check_output($body, $format, FALSE);
+    $body = check_markup($body, $format, FALSE);
     $body = preg_replace('!</?blockquote>!i', '"', $body);
     $body = preg_replace('!</?(em|i)>!i', '/', $body);
     $body = preg_replace('!</?(b|strong)>!i', '*', $body);
