@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.92 2005/08/02 02:44:29 weitzman Exp $
+// $Id: og.module,v 1.93 2005/08/03 03:48:07 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -822,7 +822,7 @@ function og_load(&$node) {
   $result = db_query($sql, $node->nid);
   $node = (object) array_merge((array)$node, db_fetch_array($result));
   // module_invoke does not pass references and image_load() requires this
-  if ($node->og_image && function_exists('image_load')) {
+  if (function_exists('image_load')) {
     image_load($node);
   }
 }
