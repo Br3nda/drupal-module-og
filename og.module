@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.107 2005/12/07 22:01:42 weitzman Exp $
+// $Id: og.module,v 1.108 2005/12/07 22:02:16 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -985,7 +985,6 @@ function og_form_alter($form_id, &$form) {
   else {
     $node = $form['#node'];
   }
-  // dprint_r($node);die();
   
   $edit = $_REQUEST['edit'];
   // 'og/albums/form' is a special case. We want the audience selection and 'public' checkbox even if 'image' node type is omitted
