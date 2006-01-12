@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.113 2006/01/10 06:36:22 weitzman Exp $
+// $Id: og.module,v 1.114 2006/01/12 07:28:16 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -669,7 +669,7 @@ function og_get_home_nodes_sql($str_types = NULL) {
 function og_db_rewrite_sql($sql, $primary_table, $primary_field,  $args) {
   if (is_numeric($args['og_nid'])) {
     // we add this JOIN for node admins because db_rewrite_sql() adds it for everyone else
-    if (!strpos($sql, 'JOIN {node_access}')) {
+    if (user_access('administer nodes')) {
       $query['join'] = 'INNER JOIN {node_access} na ON n.nid = na.nid'; 
     }
     $query['where'] = 'na.gid = '. $args['og_nid']. " AND na.realm = 'og_group'";
