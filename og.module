@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.31 2006/01/17 14:50:16 weitzman Exp $
+// $Id: og.module,v 1.53.2.32 2006/01/19 06:15:42 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -111,14 +111,20 @@ function og_theme() {
     $group_node = og_set_theme(arg(2));
   }
   $_SESSION['og_last'] = $group_node;
-  // TODO: delete this once I'm sure I won't use it. Using above $_SESSION var instead
-  // og_set_group_context($group_node);
+  og_set_group_context($group_node);
 }
 
-// useful for determining if current page is in a group context
-// maintains the whole group node for page views that happen in a group context. Group context is set by og_theme()
-// analogous to drupal_set_breadcrumb
-/*function og_set_group_context($group_node = NULL) {
+/**
+ * API function for getting the group context (if any) for the current request. Used
+ * for things like setting current theme and breadcrumbs. This context is set during og_theme()
+ *
+ * @return $node object
+ */
+function og_get_group_context() {
+  return og_set_group_context();
+}
+
+function og_set_group_context($group_node = NULL) {
   static $stored_group_node;
 
   if (!is_null($group_node)) {
@@ -126,10 +132,6 @@ function og_theme() {
   }
   return $stored_group_node;
 }
-
-function og_get_group_context() {
-  return og_set_group_context();
-}*/
 
 function og_set_theme($nid) {
   global $custom_theme;
@@ -249,16 +251,12 @@ function og_manage($gid) {
  * @param $admin whether to make the user an admin
  */
 function og_create_subscription($gid, $uid, $approved = 1, $admin = 0){
-  /*$sql = "REPLACE INTO {node_access} (nid, gid, realm, grant_view, grant_update) VALUES (%d, %d, 'og_uid', %d, %d)";
-  db_query($sql, $gid, $uid, $approved, $admin);*/
   $sql = "REPLACE INTO {og_uid} (nid, uid, is_active, is_admin) VALUES (%d, %d, %d, %d)";
   db_query($sql, $gid, $uid, $approved, $admin);
   module_invoke_all('og', 'user create', $gid, $uid, $approved, $admin);
 }
 
 function og_delete_subscription($gid, $uid){
-  /*$sql = "DELETE FROM {node_access} WHERE nid = %d AND gid = %d AND realm = 'og_uid'";
-  db_query($sql, $gid, $uid);*/
   $sql = "DELETE FROM {og_uid} WHERE nid = %d AND uid = %d";
   db_query($sql, $gid, $uid);
   module_invoke_all('og', 'user delete', $gid, $uid);
@@ -921,9 +919,8 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
       // splice group info into breadcrumb
-      if ($_SESSION['og_last']->nid && $page && $node->og_groups) {
-        $gid = $_SESSION['og_last']->nid;
-        $group_node = node_load(array('nid' => $gid));
+      $group_node = og_get_group_context();
+		  if ($group_node && $page && $node->og_groups) {
         $bc = drupal_get_breadcrumb($newbc);
         unset($bc[0]);
         // get rid of link to all forums. it breaks you out of group world
@@ -1382,7 +1379,8 @@ function og_block_new() {
 
 function og_block_subscribers() {
   global $user;
-  if ($gid = $_SESSION['og_last']->nid) {
+  if ($group_node = og_get_group_context()) {
+	  $gid = $group_node->nid;
     if (in_array($gid, array_keys($user->og_groups))) {
       $max = variable_get('og_block_subscribers_cnt', 10);
       $sql = og_list_users_sql(0);
@@ -1417,8 +1415,7 @@ function og_block_subscribers() {
 function og_block_details() {
   global $user;
 
-  if ($gid = $_SESSION['og_last']->nid) {
-    $node = node_load(array('nid' => $gid));
+  if ($node = og_get_group_context()) {
     $result = db_query(og_list_users_sql(0), $node->nid);
     $cntall = db_num_rows($result);
     $cntpending = 0;
@@ -1480,8 +1477,7 @@ function og_block_details() {
 // $group is an object containing the group node
 function og_og_create_links($group) {
   foreach (node_list() as $type) {
-    // image is filtered out here because we expect images to be added from within albums
-    $exempt = array_merge(array('og', 'image'), variable_get('og_omitted', array()));
+    $exempt = array_merge(array('og'), variable_get('og_omitted', array()));
     if (!in_array($type, $exempt) && node_access('create', $type)) {
       $name = node_invoke($type, 'node_name', array());
       $links[] = l(t('create %type', array('%type' => $name)), "node/add/$type", array('title' => t('Add a new %s in this group.', array('%s' => $name))), "edit[og_groups][]=$group->nid");
@@ -1493,9 +1489,9 @@ function og_og_create_links($group) {
 function og_link($type, $node = 0, $main) {
   global $user;
 
-  if ($gid = $_SESSION['og_last']->nid) {
-    if ($type == 'node' && $node->type != 'og' && node_access('update', array('nid' => $gid, 'status' => 1))) {
-      $links[] = l(t('remove from group'), "og/remove_node/$gid/$node->nid", array(), "destination=node/$gid");
+  if ($group_node = og_get_group_context()) {
+    if ($type == 'node' && $node->type != 'og' && node_access('update', $group_node)) {
+      $links[] = l(t('remove from group'), "og/remove_node/$group_node->nid/$node->nid", array(), "destination=node/$group_node->nid");
     }
   }
   return $links ? $links : array();
@@ -1546,7 +1542,7 @@ function og_settings() {
   // TODO: move this to block config? Will be used elsewhere?
   $output .= form_group(t('Group home page'), $ghp);
   
-  $output .= form_checkbox( t('Show member pictures'), 'og_member_pics', 1, variable_get('og_member_pics', 1), t('Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user.', array('%user' => l(t('User configuration'), 'admin/user/configure'))));
+  $output .= form_checkbox( t('Show member pictures'), 'og_member_pics', 1, variable_get('og_member_pics', 1), t('Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user.', array('%user' => l(t('User configuration'), 'admin/settings/user'))));
   return $output;
 }
 
@@ -1577,5 +1573,3 @@ function theme_og_list_generic($gid, $type, $mode) {
   }
   return $rows ? form_group(node_invoke($type, 'node_name'), theme('table', $header, $rows)) : NULL;
 }
-
-?>
