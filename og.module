@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.32 2006/01/19 06:15:42 weitzman Exp $
+// $Id: og.module,v 1.53.2.33 2006/01/20 22:29:20 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -103,6 +103,10 @@ function og_theme() {
   elseif (arg(0) == 'node' && is_numeric(arg(1))) {
     $group_node = og_set_theme(arg(1));
   }
+  elseif (arg(0) == 'node' && arg(1) == 'add' && arg(2) == 'book' && arg(3) == 'parent') {
+    $group_node = og_set_theme(arg(4));
+    $_REQUEST['edit']['og_groups'][] = $group_node->nid; // checks the right box on node form
+  }
   elseif (arg(0) == 'node' && arg(1) == 'add' && $gid = $_REQUEST['edit']['og_groups'][0]) {
     $group_node = node_load(array('nid' => $gid));
     $custom_theme = $group_node->og_theme;
@@ -112,6 +116,19 @@ function og_theme() {
   }
   $_SESSION['og_last'] = $group_node;
   og_set_group_context($group_node);
+}
+
+// used by og_book to determine the public state of an autocreated node
+function og_get_visibility_default() {
+  $vis = variable_get('og_visibility', 0);
+  switch ($vis) {
+    case OG_VISIBLE_GROUPONLY:
+    case OG_VISIBLE_CHOOSE_PRIVATE:
+      return 0;
+    case OG_VISIBLE_BOTH:
+    case OG_VISIBLE_CHOOSE_PUBLIC:
+      return 1;
+  }
 }
 
 /**
