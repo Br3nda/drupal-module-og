@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.8 2006/01/20 22:24:29 weitzman Exp $
+// $Id: og.module,v 1.110.2.9 2006/01/24 02:15:09 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -974,7 +974,7 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
         }
       }
       break;
-    case 'execute':
+    case 'submit':
       // if a post isn't in any groups. it must be public. this assumption is the heart of the problem with
       // running multiple node permission modules at same time. ideally, all node permission modules could
       // communicate and only make the node public if no permission module objected (i.e. 'deny')
