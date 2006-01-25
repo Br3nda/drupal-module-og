@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.34 2006/01/24 15:52:25 weitzman Exp $
+// $Id: og.module,v 1.53.2.35 2006/01/25 01:34:38 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -968,11 +968,11 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
             form_set_error('og_groups', t('You must select an audience in order to post.'));
           }
           else {
-            if (is_array($node->og_groups)) {
-              foreach($node->og_groups as $gid) {
-                $author = user_load(array('uid' => $node->uid));
+						if (is_array($node->og_groups)) {
+							$author = user_load(array('uid' => $node->uid));
+							foreach ($node->og_groups as $gid) {
                 if (!in_array($gid, array_keys($author->og_groups))) {
-                  form_set_error('og_groups', t('%name must be a subscriber in order to post into %group', array('%name' => $node->name, '%group' => $$user->og_groups[$gid]['title'])));
+                  form_set_error('og_groups', t('%name must be a subscriber in order to post into %group', array('%name' => $node->name, '%group' => $author->og_groups[$gid]['title'])));
                 }
               }
             }
