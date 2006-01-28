@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.11 2006/01/28 01:04:18 killes Exp $
+// $Id: og.module,v 1.110.2.12 2006/01/28 02:59:15 killes Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1178,7 +1178,7 @@ function og_user($op, &$edit, &$account, $category = NULL) {
     case 'insert':
         $result = db_query(db_rewrite_sql("SELECT n.nid, n.title, o.* FROM {node} n INNER JOIN {og} o ON n.nid = o.nid WHERE n.type = 'og' AND n.status = 1 AND o.register = 1"));
         while ($group = db_fetch_object($result)) {
-          if (in_array($group->nid, array_keys((array) $edit['og_register']))) {
+          if ($edit['og_register'][$group->nid]) {
             og_subscribe_user($group->nid, $account);
           }
         }
