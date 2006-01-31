@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.12 2006/01/28 02:59:15 killes Exp $
+// $Id: og.module,v 1.110.2.13 2006/01/31 01:46:22 killes Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -286,6 +286,7 @@ function og_approve($gid, $uid) {
 
 function og_deny($gid, $uid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
+    $node = node_load($gid);
     og_delete_subscription($gid, $uid);
     drupal_set_message(t('Subscription request denied.'));
     $subj = t('Subscription request denied for %title', array('title' => $node->title));
