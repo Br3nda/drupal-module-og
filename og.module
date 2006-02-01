@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.41 2006/01/31 21:32:32 webchick Exp $
+// $Id: og.module,v 1.53.2.42 2006/02/01 03:49:22 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -510,8 +510,8 @@ function og_get_subscriptions($uid) {
       $subscriptions[$uid][$row['nid']] = $row;
     }
   
-  // TODO: this next block looks unneeded  
-  if (!$subscriptions[$uid]) {
+    // TODO: this next block looks unneeded  
+    if (!$subscriptions[$uid]) {
       $subscriptions[$uid] = array();
     }
   }
@@ -552,7 +552,7 @@ function og_add_users_page($gid) {
           $err = TRUE;
         }
       }
-      
+
       if (!$err && $accounts) {
         // safest option is to do a select, filter existing subscribers, then insert
         foreach ($accounts as $account) {
@@ -956,16 +956,16 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
             form_set_error('og_groups', t('You must select an audience in order to post.'));
           }
           else {
-						if (is_array($node->og_groups)) {
-							$author = user_load(array('uid' => $node->uid));
-							foreach ($node->og_groups as $gid) {
+            if (is_array($node->og_groups)) {
+              $author = user_load(array('uid' => $node->uid));
+              foreach ($node->og_groups as $gid) {
                 if (!in_array($gid, array_keys($author->og_groups))) {
                   form_set_error('og_groups', t('%name must be a subscriber in order to post into %group', array('%name' => $node->name, '%group' => $author->og_groups[$gid]['title'])));
                 }
               }
             }
           }
-      
+
           if (!user_access('administer organic groups')) {
             $vis = variable_get('og_visibility', 0);
             switch ($vis) {
@@ -1018,7 +1018,6 @@ function og_nodeapi_form($node) {
     if (!$options && $required && $_POST) {
       drupal_set_message(t('You must subscribe to a group before posting.'), 'error');
     }
-    
 
     if (user_access('administer organic groups')) {
       $vis = OG_VISIBLE_CHOOSE;
@@ -1053,7 +1052,6 @@ function og_nodeapi_form($node) {
     else {
       $groups = array();
     }
-    
 
     $output .= form_checkboxes(t('Audience'), 'og_groups', $groups, $options, t('Show this post in these groups.'), NULL, $required);
     return $output;
