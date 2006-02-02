@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.16 2006/02/02 17:49:45 killes Exp $
+// $Id: og.module,v 1.110.2.17 2006/02/02 17:56:26 killes Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1195,7 +1195,7 @@ function og_user($op, &$edit, &$account, $category = NULL) {
           foreach ($account->og_groups as $key => $val) {
             $links[] = l($val['title'], "node/$key") . theme('og_format_subscriber_status', $val);
           }
-          return array(t('Groups') => array('#value' => theme('item_list', $links), '#description' => t('your group subscriptions are here for your convenience. they do not appear on the public profile page.')));
+          return array(t('Groups') => array('#value' => theme('item_list', $links), '#description' => t('Your group subscriptions are here for your convenience. They do not appear on the public profile page.')));
         }
       }
       break;
