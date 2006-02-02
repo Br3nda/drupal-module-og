@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.43 2006/02/02 05:00:56 webchick Exp $
+// $Id: og.module,v 1.53.2.44 2006/02/02 05:02:59 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -877,6 +877,11 @@ function og_validate(&$node) {
   if (module_exist('image')) {
     image_validate($node, 'image');
   }
+
+  if (isset($node->og_description) && empty($node->og_description)) {
+    form_set_error('description', t('Description can not be empty'));
+  }
+
 }
 
 function og_node_name($node) {
