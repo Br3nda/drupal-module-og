@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.46 2006/02/05 14:07:48 killes Exp $
+// $Id: og.module,v 1.53.2.47 2006/02/08 00:18:30 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -528,7 +528,7 @@ function og_access($op, $node) {
     return user_access('create groups') && $user->uid;
   }
   
-  if ($op == 'update' && $node->uid == $user->uid) {
+  if (($op == 'update' || $op == 'delete') && $node->uid == $user->uid) {
     return TRUE;
   }
 }
@@ -1213,7 +1213,7 @@ function og_save_permissions(&$node) {
     // put the post into each selected group
     if (is_array($node->og_groups)) {
       foreach($node->og_groups as $gid) {
-        $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, %d, 'og_group', 1)";
+        $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 1)";
         db_query($sql, $node->nid, $gid);
       }
     }
@@ -1231,7 +1231,7 @@ function og_save_permissions(&$node) {
     db_query($sql, $node->nid);
     
     // we INSERT a broad grant here but only og_node_grants() only issues it selectively 
-    $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 1)";
+    $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 0)";
     db_query($sql, $node->nid, $node->nid);
 
     // make sure the node owner is a full powered subscriber
@@ -1239,8 +1239,8 @@ function og_save_permissions(&$node) {
   }
 }
 
+// delete all existing grants for this module
 function og_delete_grants(&$node) {
-  // delete all existing grants for this module
   $sql = "DELETE FROM {node_access} WHERE realm = '%s' AND nid = $node->nid";
   $realms = array('og_group');
   foreach ($realms as $realm) {
@@ -1401,8 +1401,9 @@ function og_block_subscribers() {
         else {
           $link = format_name($row);
         }
+        // TODO: define a default implementation for this and document themeability
         if (!$row->grant_view) {
-          $link .= theme_mark();
+          $link .= theme('mark', OG_ADMIN);
         }
         $links[] = $link;
       }
@@ -1440,7 +1441,7 @@ function og_block_details() {
         }
       }
     }
-    $output = "<div id=\"og-description\">". check_plain($node->og_description). "</div>";
+    // $output = "<div id=\"og-description\">". check_plain($node->og_description). "</div>";
     if ($subscription == 'active') {
       $links = module_invoke_all('og_create_links', $node);
       if ($node->og_selective < OG_INVITE_ONLY) {
@@ -1489,17 +1490,6 @@ function og_og_create_links($group) {
     if (!in_array($type, $exempt) && node_access('create', $type)) {
       $name = node_invoke($type, 'node_name', array());
       $links[] = l(t('create %type', array('%type' => $name)), "node/add/$type", array('title' => t('Add a new %s in this group.', array('%s' => $name))), "edit[og_groups][]=$group->nid");
-    }
-  }
-  return $links ? $links : array();
-}
-
-function og_link($type, $node = 0, $main) {
-  global $user;
-
-  if ($group_node = og_get_group_context()) {
-    if ($type == 'node' && $node->type != 'og' && node_access('update', $group_node)) {
-      $links[] = l(t('remove from group'), "og/remove_node/$group_node->nid/$node->nid", array(), "destination=node/$group_node->nid");
     }
   }
   return $links ? $links : array();
