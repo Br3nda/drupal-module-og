@@ -1,5 +1,5 @@
 <?php
-// $Id: update-og.php,v 1.1.4.3 2006/01/20 01:22:20 weitzman Exp $
+// $Id: update-og.php,v 1.1.4.4 2006/02/11 03:07:10 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 include_once 'includes/common.inc';
@@ -19,7 +19,7 @@ while ($object = db_fetch_object($result)) {
 $sql = "SELECT nid FROM {node} WHERE type = 'og'";
 $result = db_query($sql);
 while ($row = db_fetch_object($result)) {
-  $sql = "REPLACE INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 1)";
+  $sql = "REPLACE INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 0)";
   db_query($sql, $row->nid, $row->nid);
 }
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.47 2006/02/08 00:18:30 weitzman Exp $
+// $Id: og.module,v 1.53.2.48 2006/02/11 03:07:10 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -735,6 +735,9 @@ function theme_og_view(&$node, $teaser = FALSE, $page = FALSE) {
     }
     $url = "og/feed/$node->nid";
     $icon = theme('xml_icon', $url);
+    if ($node->body) {
+      $node->body = '<div id="mission">'. $node->body. '</div>';
+    }
     $node->body .= $output. $icon;
   }
   return $node;

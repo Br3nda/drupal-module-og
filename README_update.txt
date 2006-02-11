@@ -1,9 +1,11 @@
+// $Id: README_update.txt,v 1.1.4.4 2006/02/11 03:07:10 weitzman Exp $
+
 If upgrading from before 2005-10-19
 - run update.og.php script
 - run og-update-20060206.php 
 
 If upgrading from before 2006-02-06 and after 2005-10-19
-- run og-update-20060116.php
+- only run og-update-20060116.php
 
 Note:
 - the 20060206 script outputs all its queries to the screen just for debugging. these are not errors. this is a safe update script and you can even run it many times if you were concerned that it did not run properly.
