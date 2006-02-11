@@ -1,12 +1,24 @@
 <?php
-// $Id: og-update-20060206.php,v 1.1.4.2 2006/02/11 03:07:10 weitzman Exp $
+// $Id: og-update-20060211.php,v 1.1.2.1 2006/02/11 23:40:28 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 include_once 'includes/common.inc';
 
-$sql = "DELETE FROM {node_access} WHERE realm = 'og_uid'";
-db_query($sql);
+// backport of changes in HEAD that landed on 2005-10-19
+db_queryd("ALTER TABLE `og_uid` ADD `og_role` int(1) NOT NULL default '0'");
+db_queryd("ALTER TABLE `og_uid` ADD `is_active` int(1) default '0'");
+db_queryd("ALTER TABLE `og_uid` ADD `is_admin` int(1) default '0'");
 
+// migrate subscriptions to og_uid table
+$result = db_query("SELECT * FROM {node_access} WHERE realm = 'og_uid'");
+while ($object = db_fetch_object($result)) {
+  $sql = "REPLACE INTO {og_uid} (nid, uid, og_role, is_active, is_admin) VALUES (%d, %d, %d, %d, %d)";
+  db_queryd($sql, $object->nid, $object->gid, ($object->grant_view + $object->grant_update), $object->grant_view, $object->grant_update);
+}
+$sql = "DELETE FROM {node_access} WHERE realm = 'og_uid'";
+db_queryd($sql);
+
+// feb 2006
 $sql = "SELECT DISTINCT(n.nid) FROM {node} n INNER JOIN {node_access} na ON n.nid = na.nid WHERE type != 'og' AND na.realm = 'og_group'";
 $result = db_queryd($sql);
 while ($row = db_fetch_object($result)) {

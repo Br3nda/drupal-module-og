@@ -1,4 +1,6 @@
-// $Id: README_update.txt,v 1.1.4.5 2006/02/11 23:39:30 weitzman Exp $
+// $Id: README_update.txt,v 1.1.4.6 2006/02/11 23:40:28 weitzman Exp $
+
+Reminder: please backup our node_access table before running this update.
 
 This script is safe to run from any 4.6 og prior feb 11.2006. if you ran an update script before, you might see errors on the ALTER TABLE statements. 
 Those can be safely skipped.
