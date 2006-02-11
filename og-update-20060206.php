@@ -1,8 +1,8 @@
 <?php
-// $Id: og-update-20060206.php,v 1.1.2.2 2006/02/08 00:22:08 weitzman Exp $
+// $Id: og-update-20060206.php,v 1.1.2.3 2006/02/11 03:38:24 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
-include_once "includes/common.inc";
+drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
 
 $sql = "DELETE FROM {node_access} WHERE realm = 'og_uid'";
 db_query($sql);
