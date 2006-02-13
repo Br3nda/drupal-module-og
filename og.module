@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.48 2006/02/11 03:07:10 weitzman Exp $
+// $Id: og.module,v 1.53.2.49 2006/02/13 15:23:50 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1535,7 +1535,7 @@ function og_settings() {
   }
   unset($options['og']);
   $authoring .= form_select(t('Omitted content types'), 'og_omitted', variable_get('og_omitted', array()), $options, t('Select any node types which should <em>not</em> participate in the Audience targetting system.'), 0, TRUE);
-  $output = form_group(t('Node authoring form'), $authoring);
+  $output .= form_group(t('Node authoring form'), $authoring);
   
   $options = array('ron' => t('River of News'), 'gbct' => t('Group by content type'));
   $ghp .= form_radios(t('Presentation style'), 'og_home_page_presentation', variable_get('og_home_page_presentation', 'gbct'), $options, t('If neither of these presentations suits you, you may override in the theme layer.'));
