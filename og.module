@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.49 2006/02/13 15:23:50 weitzman Exp $
+// $Id: og.module,v 1.53.2.50 2006/02/20 06:22:31 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -341,7 +341,7 @@ function og_remove_node($gid, $nid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
     $node = node_load(array('nid' => $nid));
     if ($_POST['op']['og_confirm']) {
-      $sql = "DELETE FROM {node_access} WHERE nid=%d AND gid=%d AND realm='og_group'";
+      $sql = "DELETE FROM {node_access} WHERE nid=%d AND gid=%d AND realm IN ('og_subscriber', 'og_public')";
       db_query($sql, $nid, $gid);
       drupal_set_message(t('Post removed from group.'));
       drupal_goto("node/$gid");
@@ -647,7 +647,7 @@ function og_list_groups_page() {
   print theme('page', $output);
 }
 
-// str_types is a list of types which should be selected. if not provided, we return all but a couple
+// str_types is a list of types which should be selected. if not provided, we return all but og nodes
 // filtering for a given gid is done by passign a a special $arg to db_rewrite_sql()
 function og_get_home_nodes_sql($str_types = NULL) {
   if ($str_types) {
@@ -655,7 +655,7 @@ function og_get_home_nodes_sql($str_types = NULL) {
     $where = " n.type IN ('$str_types')";
   }
   else {
-    $where = "n.type NOT IN ('og', 'image')";
+    $where = "n.type NOT IN ('og')";
   }
 
   // we LEFT JOIN to node_comment_stats in case comment.module is disabled.
@@ -675,7 +675,9 @@ function og_db_rewrite_sql($sql, $primary_table, $primary_field,  $args) {
     if (user_access('administer nodes') || node_access_view_all_nodes()) {
       $query['join'] = 'INNER JOIN {node_access} na ON n.nid = na.nid'; 
     }
-    $query['where'] = 'na.gid = '. $args['og_nid']. " AND na.realm = 'og_group'";
+    $where[] = '(na.gid = '. $args['og_nid']. " AND na.realm = 'og_subscriber')"; // private nodes
+    $where[] = '(na.grant_view = '. $args['og_nid']. " AND na.realm = 'og_public')"; // public nodes
+    $query['where'] =  implode(' OR ', $where);
     return $query;
   }
 }
@@ -838,9 +840,9 @@ function og_form(&$node, &$param) {
   return $output;
 }
 
-// set og_public property for given node
+// get og_public property for given node
 function og_node_load_public($node) {
-  $sql = "SELECT grant_view FROM {node_access} WHERE nid = %d AND gid=0 AND realm='og_group'";
+  $sql = "SELECT grant_view FROM {node_access} WHERE nid = %d AND gid=0 AND realm='og_all'";
   $gv = db_result(db_query($sql, $node->nid));
   $node->og_public = $gv;
   return $node;
@@ -849,7 +851,7 @@ function og_node_load_public($node) {
 // returns all the group affiliations for a given node.
 function og_get_node_groups($node) {
   if ($node->type != 'og') {
-    $sql = "SELECT na.gid, n.title FROM {node_access} na INNER JOIN {node} n ON na.gid = n.nid WHERE na.nid = %d AND na.realm='og_group' AND na.gid != 0";
+    $sql = "SELECT na.gid, n.title FROM {node_access} na INNER JOIN {node} n ON na.gid = n.nid WHERE na.nid = %d AND na.realm='og_subscriber' AND na.gid != 0";
     $result = db_query($sql, $node->nid);
     while ($row = db_fetch_object($result)) {
       $groups[$row->gid] = $row->title;
@@ -986,7 +988,7 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
             }
           }
 
-          // if a post isn't in any groups. it must be public
+          // if a post isn't in any groups. it must be public. this is the core reason why multiple node_access modules collide
           if (empty($node->og_groups)) {
             $node->og_public = 1;
           }
@@ -1184,24 +1186,26 @@ function og_user($op, &$edit, &$account, $category = NULL) {
 }
 
 /**
- * In the 'og_group' realm, the gid is ausually the nid of a group. This is used
+ * In the 'og_subscriber' realm, the gid is usually the nid of a group. This is used
  * to store which nodes should show up in which groups. When applied to an og node, grant_view is
  * always 1 but you can set it to 0 in order to have a completely private group homepage.
+ * In the og_public realm, the gid is always 0 but the grant_view column holds the parent group. This is needed so
+ * that public nodes appear on the group home page for non subscribers
 **/
 function og_node_grants($account, $op) {
-  // everyone can see a public group home page
   if ($op == 'view') {
-    $grants['og_group'][] = 0;
+    $grants['og_public'][] = 0; // everyone can see a public node
+    $grants['og_all'][] = 0;   // everyone can see a group home page
   }
 
   // get subscriptions
   if ($subscriptions = og_get_subscriptions($account->uid)) {
     foreach ($subscriptions as $key => $val) {
       if ($op == 'view' && $val['is_active']) {
-        $grants['og_group'][] = $key;
+        $grants['og_subscriber'][] = $key;
       }
       if (($op == 'update' || $op == 'delete') && $val['is_admin']) {
-        $grants['og_group'][] = $key;
+        $grants['og_subscriber'][] = $key;
       }
     }
   }
@@ -1209,32 +1213,38 @@ function og_node_grants($account, $op) {
 }
 
 function og_save_permissions(&$node) {
-  $sql = "DELETE FROM {node_access} WHERE realm = 'og_group' AND nid = %d";
-  db_query($sql, $node->nid);
+  $sql = "DELETE FROM {node_access} WHERE realm LIKE '%s' AND nid = %d";
+  db_query($sql, 'og_%', $node->nid);
 
   if ($node->type != 'og') {
-    // put the post into each selected group
+    // put the post into each selected group. we need a separate row for public and private nodes.
+    // for public nodes, the grant_view column indicates which group the node belongs to. The gid=0 always. Needed to get 
+    // public nodes to display on the home page for non subscribers
     if (is_array($node->og_groups)) {
-      foreach($node->og_groups as $gid) {
-        $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 1)";
+      foreach ($node->og_groups as $gid) {
+        $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_subscriber', 1, 1, 1)";
         db_query($sql, $node->nid, $gid);
+        if ($node->og_public) {
+          $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_public', %d)";
+          db_query($sql, $node->nid, $gid);  
+        }
       }
     }
 
     // if the public checkbox was selected, give a universal grant for this node
     if ($node->og_public) {
-      $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_group', 1)";
+      $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_all', 1)";
       db_query($sql, $node->nid);
     }
   }
   else {
     // all group homepages are publically accessible, although their posts may not be
     // if you really want a hidden group (i.e. inaccessible group homepage), you should go to node_access table and delete the record which is inserted here.
-    $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_group', 1)";
+    $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_all', 1)";
     db_query($sql, $node->nid);
     
     // we INSERT a broad grant here but only og_node_grants() only issues it selectively 
-    $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 0)";
+    $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_subscriber', 1, 1, 0)";
     db_query($sql, $node->nid, $node->nid);
 
     // make sure the node owner is a full powered subscriber
@@ -1245,7 +1255,7 @@ function og_save_permissions(&$node) {
 // delete all existing grants for this module
 function og_delete_grants(&$node) {
   $sql = "DELETE FROM {node_access} WHERE realm = '%s' AND nid = $node->nid";
-  $realms = array('og_group');
+  $realms = array('og_public', 'og_subscriber'. 'og_all');
   foreach ($realms as $realm) {
     db_query($sql, $realm);
   }
@@ -1288,7 +1298,7 @@ function _og_update_db($enable) {
     // Assign universal grant to all non-group nodes which don't already have any grants from this module
     $result = db_query("SELECT n.nid FROM {node} n LEFT JOIN {node_access} na ON n.nid = na.nid AND realm LIKE '%og%' WHERE n.type != 'og' AND ISNULL(na.gid)");
     while ($row = db_fetch_object($result)) {
-      $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_group', 1)";
+      $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_all', 1)";
       db_query($sql, $row->nid);
     }
     drupal_set_message(t('Organic groups access control enabled.'));
