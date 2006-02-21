@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.50 2006/02/20 06:22:31 weitzman Exp $
+// $Id: og.module,v 1.53.2.51 2006/02/21 02:09:20 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -381,7 +381,6 @@ function og_invite($gid) {
         }
       }
       if (!$err) {
-        $node = node_load(array('nid' => $gid));
         $subj = t('Invitation to join the group "%group" at %site', array('%group' => $node->title, '%site' => variable_get('site_name', 'drupal')));
         $body = t("Hi. I'm a member of '%group' and I welcome you to join this group as well. Please see the link and message below.\n\n", array('%group' => $node->title));
         $body .= $node->title. "\n";
