@@ -1,13 +1,13 @@
 <?php
-// $Id: og-update-20060211.php,v 1.1.2.2 2006/02/20 06:22:31 weitzman Exp $
+// $Id: og-update-20060211.php,v 1.1.2.3 2006/02/22 21:24:38 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 include_once 'includes/common.inc';
 
 // backport of changes in HEAD that landed on 2005-10-19
-db_queryd("ALTER TABLE `og_uid` ADD `og_role` int(1) NOT NULL default '0'");
-db_queryd("ALTER TABLE `og_uid` ADD `is_active` int(1) default '0'");
-db_queryd("ALTER TABLE `og_uid` ADD `is_admin` int(1) default '0'");
+// db_queryd("ALTER TABLE `og_uid` ADD `og_role` int(1) NOT NULL default '0'");
+// db_queryd("ALTER TABLE `og_uid` ADD `is_active` int(1) default '0'");
+// db_queryd("ALTER TABLE `og_uid` ADD `is_admin` int(1) default '0'");
 
 // migrate subscriptions to og_uid table
 $result = db_query("SELECT * FROM {node_access} WHERE realm = 'og_uid'");
@@ -43,7 +43,7 @@ while ($row = db_fetch_object($result)) {
   $sql = "SELECT gid FROM {node_access} WHERE nid = %d AND realm = 'og_group' AND gid != 0" ;
   $result2 = db_queryd($sql, $row->nid);
   while ($row2 = db_fetch_object($result2)) {  
-    $sql = "REPLACE INTO {node_access} (nid, realm, gid, grant_view) VALUE (%d, 'og_public', 0, %d)";
+    $sql = "REPLACE INTO {node_access} (nid, realm, gid, grant_view) VALUES (%d, 'og_public', 0, %d)";
     db_queryd($sql, $row->nid, $row2->gid); 
   }
 }
