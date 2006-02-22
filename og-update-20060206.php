@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060206.php,v 1.1.2.4 2006/02/20 06:23:17 weitzman Exp $
+// $Id: og-update-20060206.php,v 1.1.2.5 2006/02/22 22:02:28 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
@@ -29,7 +29,7 @@ while ($row = db_fetch_object($result)) {
   $sql = "SELECT gid FROM {node_access} WHERE nid = %d AND realm = 'og_group' AND gid != 0" ;
   $result2 = db_queryd($sql, $row->nid);
   while ($row2 = db_fetch_object($result2)) {  
-    $sql = "REPLACE INTO {node_access} (nid, realm, gid, grant_view) VALUE (%d, 'og_public', 0, %d)";
+    $sql = "REPLACE INTO {node_access} (nid, realm, gid, grant_view) VALUES (%d, 'og_public', 0, %d)";
     db_queryd($sql, $row->nid, $row2->gid); 
   }
 }
