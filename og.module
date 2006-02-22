@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.51 2006/02/21 02:09:20 webchick Exp $
+// $Id: og.module,v 1.53.2.52 2006/02/22 21:54:48 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1013,9 +1013,7 @@ function og_nodeapi_form($node) {
   global $user;
   
   $edit = $_REQUEST['edit'];
-  // 'og/albums/form' is a special case. We want the audience selection and 'public' checkbox even if 'image' node type is omitted
-  // Used for album module galleries
-  if ( substr_count($_GET['q'], 'og/albums/form') == 0 && ( $node->type == 'og' || ( in_array($node->type, variable_get('og_omitted', array()))))) {
+  if (( $node->type == 'og' || (in_array($node->type, variable_get('og_omitted', array()))))) {
     return form_hidden('og_public', 1);
   }
   else {
