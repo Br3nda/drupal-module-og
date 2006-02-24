@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.52 2006/02/22 21:54:48 weitzman Exp $
+// $Id: og.module,v 1.53.2.53 2006/02/24 05:06:34 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -370,13 +370,24 @@ function og_invite($gid) {
         $err = TRUE;
       }
       else {
+        $valid_emails = array();
+        $bad = array();
         foreach ($emails as $email) {
-          if (!valid_email_address(trim($email))) {
-            $bad[] = $email;
+          if (valid_email_address(trim($email))) {
+            $valid_emails[] = $email;
+          }
+          else {
+            $user = user_load(array('name' => check_plain($email)));
+            if ($user->mail) {
+              $valid_emails[] = $user->mail;
+            }
+            else {
+              $bad[] = $email;
+            }
           }
         }
-        if ($bad) {
-          form_set_error('mails', t('invalid email address: '). implode(' ', $bad));
+        if (count($bad)) {
+          form_set_error('mails', t('invalid email address or user name: '). implode(' ', $bad));
           $err = TRUE;
         }
       }
@@ -390,7 +401,7 @@ function og_invite($gid) {
         global $user;
         $from = $user->mail;
         $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from";
-        foreach ($emails as $mail) {
+        foreach ($valid_emails as $mail) {
           user_mail(trim($mail), $subj, $body, $headers);
         }
         drupal_set_message(t('%count invitations sent.', array('%count' => count($emails))));
@@ -412,7 +423,7 @@ function og_invite($gid) {
 function og_invite_form($gid) {
   $edit = $_POST['edit'];
   $max = variable_get('og_email_max', 10);
-  $form .= form_textfield(t('Email addresses'), 'mails', $edit['mails'], 90, 250, t("Enter up to %max email addresses. Separate multiple addresses by commas. Each will receive an invitation message from you.", array('%max' => $max)), NULL, TRUE);
+  $form .= form_textfield(t('Email addresses or user names'), 'mails', $edit['mails'], 90, 250, t("Enter up to %max email addresses or usernames. Separate multiple entries by commas. Each will receive an invitation message from you.", array('%max' => $max)), NULL, TRUE);
   $form .= form_textarea(t('Personal message'), 'pmessage', $edit['pmessage'], 90, 5, t('Optional. Enter a message which will become part of the invitation email'));
   $form .= form_button(t('Send invitation'));
   return form($form);
