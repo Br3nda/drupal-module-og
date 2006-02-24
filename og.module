@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.54 2006/02/24 05:13:04 webchick Exp $
+// $Id: og.module,v 1.53.2.55 2006/02/24 05:19:32 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -366,7 +366,7 @@ function og_invite($gid) {
     if ($edit = $_POST['edit']) {
       $emails = explode(',', $edit['mails']);
       if (count($emails) > $max) {
-        form_set_error('mails', t("You may not specify more than %max email addresses.", array('%max' => $max)));
+        form_set_error('mails', t("You may not specify more than %max email addresses or usernames.", array('%max' => $max)));
         $err = TRUE;
       }
       else {
