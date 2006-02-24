@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.53 2006/02/24 05:06:34 webchick Exp $
+// $Id: og.module,v 1.53.2.54 2006/02/24 05:13:04 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -387,7 +387,7 @@ function og_invite($gid) {
           }
         }
         if (count($bad)) {
-          form_set_error('mails', t('invalid email address or user name: '). implode(' ', $bad));
+          form_set_error('mails', t('invalid email address or username: '). implode(' ', $bad));
           $err = TRUE;
         }
       }
@@ -423,7 +423,7 @@ function og_invite($gid) {
 function og_invite_form($gid) {
   $edit = $_POST['edit'];
   $max = variable_get('og_email_max', 10);
-  $form .= form_textfield(t('Email addresses or user names'), 'mails', $edit['mails'], 90, 250, t("Enter up to %max email addresses or usernames. Separate multiple entries by commas. Each will receive an invitation message from you.", array('%max' => $max)), NULL, TRUE);
+  $form .= form_textfield(t('Email addresses or usernames'), 'mails', $edit['mails'], 90, 250, t("Enter up to %max email addresses or usernames. Separate multiple entries by commas. Each will receive an invitation message from you.", array('%max' => $max)), NULL, TRUE);
   $form .= form_textarea(t('Personal message'), 'pmessage', $edit['pmessage'], 90, 5, t('Optional. Enter a message which will become part of the invitation email'));
   $form .= form_button(t('Send invitation'));
   return form($form);
