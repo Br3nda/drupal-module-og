@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.56 2006/02/24 17:52:50 webchick Exp $
+// $Id: og.module,v 1.53.2.57 2006/02/25 22:48:54 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -751,7 +751,7 @@ function theme_og_view(&$node, $teaser = FALSE, $page = FALSE) {
     if (!$output) {
       drupal_set_message(t('No posts in this group.'));
     }
-    $url = "og/feed/$node->nid";
+    $url = url("og/feed/$node->nid");
     $icon = theme('xml_icon', $url);
     if ($node->body) {
       $node->body = '<div id="mission">'. $node->body. '</div>';
