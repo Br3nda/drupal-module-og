@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.26 2006/02/24 18:10:09 webchick Exp $
+// $Id: og.module,v 1.110.2.27 2006/02/25 23:51:13 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -735,9 +735,13 @@ function theme_og_view(&$node, $teaser = FALSE, $page = FALSE) {
     }
     else {
       $mode = 'all';
-      if (!$types[] = $_GET['ntype']) {
+      $ntype = $_GET['ntype'];
+      if (!isset($ntype)) {
         $types = node_get_types();
         $mode = 'brief';
+      }
+      else {
+        $types[$ntype] = $ntype;
       }
       foreach ($types as $type => $val) {
         $exempt = array_merge(array('og'), variable_get('og_omitted', array()));
@@ -1046,6 +1050,7 @@ function og_form_alter($form_id, &$form) {
     foreach ($subs as $key => $val) {
       $options[$key] = $val['title'];
     }
+    // TODO: move to form validate?
     if (!$options && $required && $_POST) {
       drupal_set_message(t('You must subscribe to a group before posting.'), 'error');
     }
