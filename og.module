@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.58 2006/03/01 17:16:21 webchick Exp $
+// $Id: og.module,v 1.53.2.59 2006/03/04 19:09:48 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -241,9 +241,7 @@ function og_manage($gid) {
   global $user;
 
   if ($edit = $_POST['edit']) {
-    $sql = "UPDATE {og_uid} SET mail_type = %d WHERE nid = %d AND uid = %d";
-    db_query($sql, $edit['mail_type'], $gid, $user->uid);
-    drupal_set_message(t('Subscription saved.'));
+    og_save_subscription($gid, $user->uid, array('mail_type' => $edit['mail_type']));
   }
 
   $group = node_load(array('nid' => $gid));
@@ -260,42 +258,37 @@ function og_manage($gid) {
 }
 
 /**
- * API functions for managing subscriptions
+ * API functions for managing subscriptions. No acess control. Is up to the caller.
  *
  * @param $gid node ID of a group
  * @param $uid user ID of user
- * @param $approved if the user is an approved member
- * @param $admin whether to make the user an admin
+ * @param $args an array with details of this subscription. Possible array keys are:
+ *   is_active, is_admin, mail_type
  */
-function og_create_subscription($gid, $uid, $approved = 1, $admin = 0){
-  $sql = "REPLACE INTO {og_uid} (nid, uid, is_active, is_admin) VALUES (%d, %d, %d, %d)";
-  db_query($sql, $gid, $uid, $approved, $admin);
-  module_invoke_all('og', 'user create', $gid, $uid, $approved, $admin);
-}
-
-function og_delete_subscription($gid, $uid){
-  $sql = "DELETE FROM {og_uid} WHERE nid = %d AND uid = %d";
-  db_query($sql, $gid, $uid);
-  module_invoke_all('og', 'user delete', $gid, $uid);
-}
-
-function og_approve($gid, $uid) {
-  if (node_access('update', array('nid' => $gid, 'status' => 1))) {
-    og_create_subscription($gid, $uid);
-    drupal_set_message(t('Subscription request approved.'));
-    $node = node_load(array('nid' => $gid));
-    $subj = t("Subscription request approved for '%title'", array('%title' => $node->title));
-    $body = t('You may now post messages in this group located at %url', array('%url' => url("node/$node->nid", NULL, NULL, TRUE)));
-    $from = variable_get('site_mail', ini_get('sendmail_from'));
-    $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from\nErrors-to: $from";
-    $account = user_load(array('uid' => $uid));
-    user_mail($account->mail, $subj, $body, $headers);
-    drupal_goto("node/$gid");
+function og_save_subscription($gid, $uid, $args = array()) {
+  $sql = "SELECT COUNT(*) FROM {og_uid} WHERE nid = %d AND uid = %d";
+  $cnt = db_result(db_query($sql, $gid, $uid));
+  if ($cnt == 0) {
+    // this pattern borrowed from user_save()
+    $fields = array('nid', 'uid');
+    $values = array($gid, $uid);
+    foreach ($args as $key => $value) {
+      $fields[] = db_escape_string($key);
+      $values[] = $value;
+      $s[] = "'%s'";
+    }
+    db_query('INSERT INTO {og_uid} ('. implode(', ', $fields). ') VALUES (%d, %d, '. implode(', ', $s). ')', $values);
+    module_invoke_all('og', 'user insert', $gid, $uid, $args);
   }
   else {
-    drupal_access_denied();
+    foreach ($args as $key => $value) {
+      $cond[] = db_escape_string($key)." = '". db_escape_string($value). "'";
+    }
+    $cond = implode(', ', $cond);
+    db_query("UPDATE {og_uid} SET $cond WHERE nid = %d AND uid = %d", $gid, $uid);
+    module_invoke_all('og', 'user update', $gid, $uid, $args);
   }
-}
+ }
 
 function og_deny($gid, $uid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
@@ -317,7 +310,7 @@ function og_deny($gid, $uid) {
 
 function og_create_admin($gid, $uid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
-    og_create_subscription($gid, $uid, 1, 1);
+    og_save_subscription($gid, $uid, array('is_active' => 1, 'is_admin' => 1));
     drupal_set_message(t('User was promoted to %ga', array('%ga' => theme('placeholder', t('group administrator')))));
     drupal_goto("node/$gid");
   }
@@ -328,7 +321,7 @@ function og_create_admin($gid, $uid) {
 
 function og_delete_admin($gid, $uid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
-    og_create_subscription($gid, $uid, 1, 0);
+    og_save_subscription($gid, $uid, array('is_active' => 1, 'is_admin' => 0));
     drupal_set_message(t('User is no longer a group administrator'));
     drupal_goto("node/$gid");
   }
@@ -475,7 +468,7 @@ function og_subscribe_user($gid, $account) {
   // if you can edit, you are an admin
   $node = node_load(array('nid' => $gid));
   if ($node->og_selective) {
-    og_create_subscription($gid, $account->uid, 0);
+    og_save_subscription($gid, $account->uid, array('is_active' => 0));
     $sql = og_list_users_sql(1, 1);
     $res = db_query($sql, $node->nid);
     while ($row = db_fetch_object($res)) {
@@ -490,7 +483,7 @@ function og_subscribe_user($gid, $account) {
     $return_value = 'approval';
   }
   else {
-    og_create_subscription($gid, $account->uid);
+    og_save_subscription($gid, $account->uid, array('is_active' => 1));
     $return_value = 'subscribed';
   }
 
@@ -572,7 +565,7 @@ function og_add_users_page($gid) {
       if (!$err && $accounts) {
         // safest option is to do a select, filter existing subscribers, then insert
         foreach ($accounts as $account) {
-          og_create_subscription($gid, $account->uid);
+          og_save_subscription($gid, $uid, array('is_active' => 1));
         }
         drupal_set_message(t('%count added to the group', array('%count' => format_plural(count($accounts), '1 user', '%count users'))));
       }
@@ -1262,7 +1255,7 @@ function og_save_permissions(&$node) {
     db_query($sql, $node->nid, $node->nid);
 
     // make sure the node owner is a full powered subscriber
-    og_create_subscription($node->nid, $node->uid, 1, 1);
+    og_save_subscription($node->nid, $node->uid, array('is_active' => 1, 'is_admin' => 1));
   }
 }
 
