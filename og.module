@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.28 2006/03/04 17:41:33 weitzman Exp $
+// $Id: og.module,v 1.110.2.29 2006/03/04 19:12:24 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -248,7 +248,7 @@ function og_manage_form_submit($form_id, $form_values) {
  * @param $gid node ID of a group
  * @param $uid user ID of user
  * @param $args an array with details of this subscription. Possible array keys are:
-     is_approved, is_admin, mail_type
+     is_active, is_admin, mail_type
  */
 function og_save_subscription($gid, $uid, $args = array()) {
   $sql = "SELECT COUNT(*) FROM {og_uid} WHERE nid = %d AND uid = %d";
