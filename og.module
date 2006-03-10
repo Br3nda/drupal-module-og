@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.59 2006/03/04 19:09:48 weitzman Exp $
+// $Id: og.module,v 1.53.2.60 2006/03/10 05:49:11 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -257,6 +257,24 @@ function og_manage($gid) {
   print theme('page', $output);
 }
 
+function og_approve($gid, $uid) {
+  if (node_access('update', array('nid' => $gid, 'status' => 1))) {
+    og_save_subscription($gid, $uid, array('is_active' => 1));
+    drupal_set_message(t('Subscription request approved.'));
+    $node = node_load(array('nid' => $gid));
+    $subj = t("Subscription request approved for '%title'", array('%title' => $node->title));
+    $body = t('You may now post messages in this group located at %url', array('%url' => url("node/$node->nid", NULL, NULL, TRUE)));
+    $from = variable_get('site_mail', ini_get('sendmail_from'));
+    $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from\nErrors-to: $from";
+    $account = user_load(array('uid' => $uid));
+    user_mail($account->mail, $subj, $body, $headers);
+    drupal_goto("node/$gid");
+  }
+  else {
+    drupal_access_denied();
+  }
+}
+
 /**
  * API functions for managing subscriptions. No acess control. Is up to the caller.
  *
@@ -288,7 +306,14 @@ function og_save_subscription($gid, $uid, $args = array()) {
     db_query("UPDATE {og_uid} SET $cond WHERE nid = %d AND uid = %d", $gid, $uid);
     module_invoke_all('og', 'user update', $gid, $uid, $args);
   }
- }
+}
+
+function og_delete_subscription($gid, $uid){
+  $sql = "DELETE FROM {og_uid} WHERE nid = %d AND uid = %d";
+  db_query($sql, $gid, $uid);
+  module_invoke_all('og', 'user delete', $gid, $uid);
+}
+
 
 function og_deny($gid, $uid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
@@ -549,6 +574,7 @@ function og_list_users_sql($min_is_active = 1, $min_is_admin = 0) {
 function og_add_users_page($gid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
     if ($edit = $_POST['edit']) {
+      // TODO: this could be done with validate handler and #ref form property
       $names = explode(',', $edit['og_names']);
       foreach ($names as $name) {
         $account = user_load(array('name' => trim($name)));
@@ -560,12 +586,12 @@ function og_add_users_page($gid) {
           $bad[] = $name;
           $err = TRUE;
         }
-      }
+      };
 
       if (!$err && $accounts) {
         // safest option is to do a select, filter existing subscribers, then insert
         foreach ($accounts as $account) {
-          og_save_subscription($gid, $uid, array('is_active' => 1));
+          og_save_subscription($gid, $account->uid, array('is_active' => 1));
         }
         drupal_set_message(t('%count added to the group', array('%count' => format_plural(count($accounts), '1 user', '%count users'))));
       }
