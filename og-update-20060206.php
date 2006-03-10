@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060206.php,v 1.1.2.5 2006/02/22 22:02:28 weitzman Exp $
+// $Id: og-update-20060206.php,v 1.1.2.6 2006/03/10 04:12:19 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
@@ -20,6 +20,10 @@ while ($row = db_fetch_object($result)) {
   $sql = "REPLACE INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_group', 1, 1, 0)";
   db_queryd($sql, $row->nid, $row->nid);
 }
+
+// mar 9,2006. the following update and og.module require changing index on on node_access table. it is believed to be harmless.
+$sql = "ALTER TABLE `node_access` DROP PRIMARY KEY, ADD INDEX `nid_gid_realm` ( `nid` , `gid` , `realm`)";
+db_query($sql);
 
 // feb 19, 2006
 // add a row for each combination of public node and group. needed to make public nodes show up in group homepage for non subscribers
