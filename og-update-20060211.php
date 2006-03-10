@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060211.php,v 1.1.2.3 2006/02/22 21:24:38 weitzman Exp $
+// $Id: og-update-20060211.php,v 1.1.2.4 2006/03/10 05:53:59 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 include_once 'includes/common.inc';
@@ -34,6 +34,10 @@ while ($row = db_fetch_object($result)) {
 }
 
 // end feb 11, 2006
+
+// mar 10, 2006. need to change this index in order for query below to succeed and for proper saving of nodes
+$sql = "ALTER TABLE `node_access` DROP PRIMARY KEY, ADD INDEX `nid_gid_realm` ( `nid` , `gid` , `realm`)";
+db_query($sql);
 
 // feb 19, 2006 - show public posts on group home page
 // add a row for each combination of public node and group. needed to make public nodes show up in group homepage for non subscribers
