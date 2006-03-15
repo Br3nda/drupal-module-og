@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060206.php,v 1.1.2.6 2006/03/10 04:12:19 weitzman Exp $
+// $Id: og-update-20060206.php,v 1.1.2.7 2006/03/15 19:43:13 webchick Exp $
 
 include_once "includes/bootstrap.inc";
 drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
@@ -48,4 +48,8 @@ db_queryd($sql);
 
 // these records are no longer used. we've migrated them to new grant scheme
 $sql = "DELETE FROM {node_access} WHERE realm = 'og_group'";
+db_queryd($sql);
+
+// Add external link field
+$sql = "ALTER TABLE {og} ADD website varchar(255) NOT NULL default ''";
 db_queryd($sql);
