@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.60 2006/03/10 05:49:11 weitzman Exp $
+// $Id: og.module,v 1.53.2.61 2006/03/15 18:34:21 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -757,8 +757,8 @@ function theme_og_view(&$node, $teaser = FALSE, $page = FALSE) {
         $types = node_list();
         $mode = 'brief';
       }
+      $exempt = array_merge(array('og'), variable_get('og_omitted', array()));
       foreach ($types as $type) {
-        $exempt = array_merge(array('og'), variable_get('og_omitted', array()));
         if (!in_array($type, $exempt)) {
           if ($table = og_list_og($node->nid, $type, $mode)) {
             $output .= $table;
