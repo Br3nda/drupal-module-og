@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.61 2006/03/15 18:34:21 webchick Exp $
+// $Id: og.module,v 1.53.2.62 2006/03/15 19:44:16 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -785,9 +785,11 @@ function og_form(&$node, &$param) {
   if (function_exists('taxonomy_node_form')) {
     $output .= implode('', taxonomy_node_form('og', $node));
   }
+  $output .= form_textfield(t('Description'), 'og_description', $node->og_description, 70, 150, '', NULL, TRUE);
   $output .= form_textarea(t('Welcome message'), 'body', $node->body, 70, 5, t('This message is shown by default at the top of the group home page.'));
   $output .= filter_form('format', $node->format);
-  $output .= form_textfield(t('Description'), 'og_description', $node->og_description, 70, 150, '', NULL, TRUE);
+  $output .= form_textfield(t('Group website'), 'og_website', $node->og_website, 60, 255, t('If your group has its own website, enter the address here.'));
+
   if (isset($edit['og_selective'])) {
     $selective = $edit['og_selective'];
   }
@@ -914,6 +916,13 @@ function og_validate(&$node) {
     $node->og_theme = NULL;
   }
 
+  // Ensure valid URL was entered for website
+  if (isset($node->og_website) && !empty($node->og_website)) {
+    if (!valid_url($node->og_website, TRUE)) {
+      form_set_error('og_website', t('Please enter a valid URL for group website, such as http://www.example.com/'));
+    }
+  }
+
   if (module_exist('image')) {
     image_validate($node, 'image');
   }
@@ -929,7 +938,7 @@ function og_node_name($node) {
 }
 
 function og_load(&$node) {
-  $sql = 'SELECT selective AS og_selective, description AS og_description, theme AS og_theme, register AS og_register, directory AS og_directory FROM {og} WHERE nid = %d';
+  $sql = 'SELECT selective AS og_selective, description AS og_description, theme AS og_theme, website AS og_website, register AS og_register, directory AS og_directory FROM {og} WHERE nid = %d';
   $result = db_query($sql, $node->nid);
   $node = (object) array_merge((array)$node, db_fetch_array($result));
   $node->comment=0; // we don't use comments on og nodes
@@ -940,8 +949,8 @@ function og_load(&$node) {
 }
 
 function og_insert($node) {
-  $sql = "INSERT INTO {og} (nid, theme, selective, description, register, directory) VALUES (%d, '%s', %d, '%s', %d, %d)";
-  db_query($sql, $node->nid, $node->og_theme, $node->og_selective, $node->og_description, $node->og_register, $node->og_directory);
+  $sql = "INSERT INTO {og} (nid, theme, selective, description, website, register, directory) VALUES (%d, '%s', %d, '%s', '%s', %d, %d)";
+  db_query($sql, $node->nid, $node->og_theme, $node->og_selective, $node->og_description, $node->og_website, $node->og_register, $node->og_directory);
 }
 
 function og_update($node) {
@@ -957,8 +966,8 @@ function og_update($node) {
     }
   }
 
-  $sql = "UPDATE {og} SET theme = '%s', selective = %d, register = %d, description = '%s', directory = %d WHERE nid = %d";
-  db_query($sql, $node->og_theme, $node->og_selective, $node->og_register, $node->og_description, $node->og_directory, $node->nid);
+  $sql = "UPDATE {og} SET theme = '%s', selective = %d, register = %d, description = '%s', website = '%s', directory = %d WHERE nid = %d";
+  db_query($sql, $node->og_theme, $node->og_selective, $node->og_register, $node->og_description, $node->og_website, $node->og_directory, $node->nid);
 }
 
 /**
@@ -1505,6 +1514,9 @@ function og_block_details() {
        $links[] =  t('group manager: '). format_name($node);
       }
       $links[] = l(t('my subscription'), "og/manage/$node->nid");
+      if (isset($node->og_website) && !empty($node->og_website)) {
+        $links[] = l(t('website'), $node->og_website);
+      }
     }
     elseif ($subscription == 'requested') {
       $links[] = t('Your subscription request awaits approval.');

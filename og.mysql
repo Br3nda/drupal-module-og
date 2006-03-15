@@ -24,4 +24,5 @@ ALTER TABLE `og_uid` ADD `is_admin` int(1) default '0';
 
 ALTER TABLE `node_access` DROP PRIMARY KEY, ADD INDEX `nid_gid_realm` ( `nid` , `gid` , `realm`);
 
-
+-- add website field 
+ALTER TABLE `og` ADD website varchar(255) NOT NULL default '';

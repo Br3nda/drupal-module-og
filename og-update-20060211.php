@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060211.php,v 1.1.2.4 2006/03/10 05:53:59 weitzman Exp $
+// $Id: og-update-20060211.php,v 1.1.2.5 2006/03/15 19:44:16 webchick Exp $
 
 include_once "includes/bootstrap.inc";
 include_once 'includes/common.inc';
@@ -66,4 +66,6 @@ db_queryd($sql);
 
 // end feb 19
 
-?>
+// Add website field
+$sql = "ALTER TABLE {og} ADD website varchar(255) NOT NULL default ''";
+db_queryd($sql);
