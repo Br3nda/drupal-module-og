@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060206.php,v 1.6 2006/03/15 19:41:23 webchick Exp $
+// $Id: og-update-20060206.php,v 1.7 2006/03/16 01:42:24 webchick Exp $
 
 include_once "includes/bootstrap.inc";
 drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
@@ -51,5 +51,5 @@ $sql = "DELETE FROM {node_access} WHERE realm = 'og_group'";
 db_queryd($sql);
 
 // Add external link field
-$sql = "ALTER TABLE {og} ADD website varchar(255) NOT NULL default ''";
+$sql = "ALTER TABLE {og} ADD website varchar(255) NULL";
 db_queryd($sql);
