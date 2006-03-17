@@ -1,0 +1,16 @@
+Index: modules/node.module
+===================================================================
+RCS file: /cvs/drupal/drupal/modules/node.module,v
+retrieving revision 1.485.2.14
+diff -F^f -u -r1.485.2.14 node.module
+--- modules/node.module	9 Sep 2005 06:14:24 -0000	1.485.2.14
++++ modules/node.module	17 Mar 2006 05:14:29 -0000
+@@ -1911,7 +1911,7 @@ function _node_access_where_sql($op = 'v
+     return;
+   }
+ 
+-  $sql = $node_access_alias .'.grant_'. $op .' = 1 AND CONCAT('. $node_access_alias .'.realm, '. $node_access_alias .'.gid) IN (';
++  $sql = $node_access_alias .'.grant_'. $op .' >= 1 AND CONCAT('. $node_access_alias .'.realm, '. $node_access_alias .'.gid) IN (';
+   $grants = array();
+   foreach (node_access_grants($op, $uid) as $realm => $gids) {
+     foreach ($gids as $gid) {

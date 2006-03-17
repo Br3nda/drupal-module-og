@@ -7,6 +7,7 @@ Support for group photo albums is available. Groups may choose their own theme. 
 
 INSTALLATION
 ---------------
+- You must apply the enclosed node_access.patch to your site. Since the patch changes only 1 character, you might be more comfortable applying it by hand. See the end of the node_access() function in node.module. This patch adds a '>' in just the right spot. No patch is needed for 4.7 Drupal.
 - Activate the module as usual
 - Run the SQL setup script as usual
 - Visit the admin/settings/og page and click the button to enable access control.
