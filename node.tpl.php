@@ -1,4 +1,4 @@
-<?php // $Id: node.tpl.php,v 1.1.2.3 2005/05/31 11:24:49 weitzman Exp $
+<?php // $Id: node.tpl.php,v 1.1.2.4 2006/03/23 22:02:35 weitzman Exp $
 ?>
 
 <div class="node<?php print ($sticky) ? " sticky" : ""; ?>">
@@ -14,7 +14,7 @@
 
   <?php if ($node->og_groups) {
           for ($ind=0; $ind < count($node->og_groups); $ind++) {
-            $og_links[] = l($node->og_groups_names[$ind], 'node/', $node->og_groups[$ind]);
+            $og_links[] = l($node->og_groups_names[$ind], 'node/'. $node->og_groups[$ind]);
           }
           $og_links = theme('links', $og_links);
           print '<div class="groups">';
