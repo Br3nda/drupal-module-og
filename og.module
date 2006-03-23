@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.63 2006/03/23 17:07:13 weitzman Exp $
+// $Id: og.module,v 1.53.2.64 2006/03/23 17:44:15 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1071,10 +1071,11 @@ function og_nodeapi_form($node) {
     foreach ($subs as $key => $val) {
       $options[$key] = $val['title'];
     }
+    
+    // TODO: move this to prepare stage
     if (!$options && $required && $_POST) {
       drupal_set_message(t('You must subscribe to a group before posting.'), 'error');
     }
-
     if (user_access('administer organic groups')) {
       $vis = OG_VISIBLE_CHOOSE_PRIVATE;
       if ($node->nid && $node->uid != $user->uid) {
@@ -1087,25 +1088,27 @@ function og_nodeapi_form($node) {
     switch ($vis) {
       case OG_VISIBLE_CHOOSE_PRIVATE: 
       case OG_VISIBLE_CHOOSE_PUBLIC:
-         //user decides how public the post is. therefore, we will show a checkbox. get value of checkbox.
-        if (isset($edit['og_public'])) {
-          // just honor what was just POSTed
-          $public = $edit['og_public'];
+        if (count($subs)) { // if user has no subscriptions post must be public. validate handles this
+          //user decides how public the post is. therefore, we will show a checkbox. get value of checkbox.
+         if (isset($edit['og_public'])) {
+           // just honor what was just POSTed
+           $public = $edit['og_public'];
+         }
+         elseif ($node->nid) {
+           // get value from the saved node
+           $public = $node->og_public;
+         }
+         else {
+           // adding a node. get admin's choice
+           if ($vis == OG_VISIBLE_CHOOSE_PRIVATE) {
+             $public =  0;
+           }
+           else {
+             $public =  1;
+           }
+         }
+         $output .= form_checkbox(t('Public'), 'og_public', 1, $public, t('Show this post to everyone or only to members of the audience(s) selected below.'));
         }
-        elseif ($node->nid) {
-          // get value from the saved node
-          $public = $node->og_public;
-        }
-        else {
-          // adding a node. get admin's choice
-          if ($vis == OG_VISIBLE_CHOOSE_PRIVATE) {
-            $public =  0;
-          }
-          else {
-            $public =  1;
-          }
-        }
-        $output .= form_checkbox(t('Public'), 'og_public', 1, $public, t('Show this post to everyone or only to members of the audience(s) selected below.'));
         break;
     }
 
