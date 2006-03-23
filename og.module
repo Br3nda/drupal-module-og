@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.31 2006/03/15 19:43:13 webchick Exp $
+// $Id: og.module,v 1.110.2.32 2006/03/23 17:17:54 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
