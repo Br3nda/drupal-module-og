@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.65 2006/03/23 21:52:51 weitzman Exp $
+// $Id: og.module,v 1.53.2.66 2006/03/28 03:43:02 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -93,7 +93,7 @@ function og_theme() {
   $group_node = NULL; // a node object containing the 'active' group for this request
 
   $pages = array('users', 'albums', 'feed', 'invite', 'remove_node', 'manage', 'all');
-  if (arg(0) == 'og' && arg(1) == 'albums' && arg(2) == 'form' && $gid = $_REQUEST['edit']['og_groups'][0]) {
+  if (arg(0) == 'og' && arg(1) == 'albums' && arg(2) == 'form' && $gid = intval($_REQUEST['edit']['og_groups'][0])) {
     $group_node = node_load(array('nid' => $gid));
     $custom_theme = $group_node->og_theme;
   }
@@ -152,7 +152,7 @@ function og_set_group_context($group_node = NULL) {
 
 function og_set_theme($nid) {
   global $custom_theme;
-  $node = node_load(array('nid' => $nid));
+  $node = node_load(array('nid' => intval($nid)));
   if ($node->type == 'og') {
     $custom_theme = $node->og_theme;
     return $node;
