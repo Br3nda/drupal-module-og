@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.66 2006/03/28 03:43:02 weitzman Exp $
+// $Id: og.module,v 1.53.2.67 2006/03/31 15:06:31 thomasilsche Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -347,7 +347,7 @@ function og_create_admin($gid, $uid) {
 function og_delete_admin($gid, $uid) {
   if (node_access('update', array('nid' => $gid, 'status' => 1))) {
     og_save_subscription($gid, $uid, array('is_active' => 1, 'is_admin' => 0));
-    drupal_set_message(t('User is no longer a group administrator'));
+    drupal_set_message(t('User is no longer a %ga', array('%ga' => theme('placeholder', t('group administrator')))));
     drupal_goto("node/$gid");
   }
   else {
@@ -562,7 +562,7 @@ function og_access($op, $node) {
     return user_access('create groups') && $user->uid;
   }
   
-  if (($op == 'update' || $op == 'delete') && $node->uid == $user->uid) {
+  if (($op == 'update' || $op == 'delete') && $user->uid && $node->uid == $user->uid) {
     return TRUE;
   }
 }
