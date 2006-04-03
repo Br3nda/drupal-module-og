@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.68 2006/04/01 00:27:44 thomasilsche Exp $
+// $Id: og.module,v 1.53.2.69 2006/04/03 17:27:14 thomasilsche Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -316,7 +316,7 @@ function og_delete_subscription($gid, $uid){
 
 
 function og_deny($gid, $uid) {
-  $node = node_load($gid);
+  $node = node_load(array('nid' => $gid));
   if (node_access('update', $node)) {
     og_delete_subscription($gid, $uid);
     drupal_set_message(t('Subscription request denied.'));
@@ -334,7 +334,7 @@ function og_deny($gid, $uid) {
 }
 
 function og_create_admin($gid, $uid) {
-  $node = node_load($gid);
+  $node = node_load(array('nid' => $gid));
   if (node_access('update', $node)) {
     og_save_subscription($gid, $uid, array('is_active' => 1, 'is_admin' => 1));
     drupal_set_message(t('User was promoted to %ga', array('%ga' => theme('placeholder', t('group administrator')))));
@@ -346,7 +346,7 @@ function og_create_admin($gid, $uid) {
 }
 
 function og_delete_admin($gid, $uid) {
-  $node = node_load($gid);
+  $node = node_load(array('nid' => $gid));
   if (node_access('update', $node)) {
     og_save_subscription($gid, $uid, array('is_active' => 1, 'is_admin' => 0));
     drupal_set_message(t('User is no longer a %ga', array('%ga' => theme('placeholder', t('group administrator')))));
@@ -358,8 +358,10 @@ function og_delete_admin($gid, $uid) {
 }
 
 function og_remove_node($gid, $nid) {
-  if (node_access('update', node_load($gid))) {
-    $node = node_load(array('nid' => $nid));
+  $node = node_load(array('nid' => $nid));
+  $group = node_load(array('nid' => $gid));
+  if (node_access('update',   $group))
+  {
     if ($_POST['op']['og_confirm']) {
       $sql = "DELETE FROM {node_access} WHERE nid=%d AND gid=%d AND realm IN ('og_subscriber', 'og_public')";
       db_query($sql, $nid, $gid);
@@ -367,7 +369,6 @@ function og_remove_node($gid, $nid) {
       drupal_goto("node/$gid");
     }
     else {
-      $group = node_load(array('nid' => $gid));
       $output = form_item(t('Confirmation'), t('Remove %title from group %group.', array('%group' => theme('placeholder', $group->title), '%title' => '<em>'. $node->title. '</em>')));
       $output .= form_hidden('og_confirm', 1);
       $output .= form_button(t('Remove'));
@@ -469,7 +470,7 @@ function og_subscribe($gid, $uid = NULL) {
   else {
     $account = user_load(array('uid' => $uid));
   }
-  $node = node_load($nid);
+  $node = node_load(array('nid' => $gid));
   if ($account->uid != $user->uid && !node_access('update', $node)) {
     // only admins can subscribe another person
     drupal_access_denied();
@@ -523,7 +524,8 @@ function og_unsubscribe($gid, $uid = NULL) {
   if (is_null($uid)) {
     $uid = $user->uid;
   }
-  if ($uid != $user->uid && !node_access('update', array('nid' => $gid, 'status' => 1))) {
+  $node = node_load(array('nid' => $gid));
+  if ($uid != $user->uid && !node_access('update', $node)) {
     // only admins can unsubscribe another person
     drupal_access_denied();
   }
@@ -616,13 +618,12 @@ function og_add_users_page($gid) {
 function og_list_users_page($gid) {
 
   $header[] = t("Name");
-  $node = node_load($gid);
+  $node = node_load(array('nid' => $gid));
   $access = node_access('update', $node);
   if ($access) {
     $header[] = array('data' => t('Operations'), 'colspan' => 2);
   }
   // prepend the group owner
-  $node = node_load(array('nid' => $gid));
   $i=0;
   $rows[$i][] = format_name($node). '&nbsp;<em>'. t('manager'). '</em>';
   if ($access) {
@@ -1381,7 +1382,7 @@ function _og_update_db($enable) {
  * Menu callback
  */
 function og_feed($gid) {
-  $group = node_load($gid);
+  $group = node_load(array('nid' => $gid));
   if (node_access('view', $group)) {
     $sql = og_get_home_nodes_sql();
     $sql = db_rewrite_sql($sql, 'n', 'nid', array('og_nid' => $gid));
