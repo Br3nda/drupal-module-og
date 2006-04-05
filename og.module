@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.70 2006/04/05 03:19:47 webchick Exp $
+// $Id: og.module,v 1.53.2.71 2006/04/05 03:52:46 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -82,7 +82,7 @@ function og_perm() {
  * override theme based on what group is being displayed (if any).
  * be smart about selecting the 'active' group for ambigous urls like node/$nid
  * sets a $_SESSION variable for current group
- * 
+ *
  * @param
  *   none
  * @return
@@ -548,8 +548,8 @@ function og_get_subscriptions($uid) {
     while ($row = db_fetch_array($result)) {
       $subscriptions[$uid][$row['nid']] = $row;
     }
-  
-    // TODO: this next block looks unneeded  
+
+    // TODO: this next block looks unneeded
     if (!$subscriptions[$uid]) {
       $subscriptions[$uid] = array();
     }
@@ -566,7 +566,7 @@ function og_access($op, $node) {
   if ($op == 'create') {
     return user_access('create groups') && $user->uid;
   }
-  
+
   if (($op == 'update' || $op == 'delete') && $user->uid && $node->uid == $user->uid) {
     return TRUE;
   }
@@ -631,7 +631,7 @@ function og_list_users_page($gid) {
     $rows[$i][] = '&nbsp;';
   }
   $i++;
-  
+
   $sql = og_list_users_sql(0);
   $result = pager_query($sql, 500, 0, NULL, $gid);
   while ($account = db_fetch_object($result)) {
@@ -713,16 +713,16 @@ function og_get_home_nodes_sql($str_types = NULL) {
 
 /**
  * Implementation of hook_db_rewrite_sql
- * 
+ *
  * You must pass $args with element 'og_nid' => $nid in order to have your query filtered by this function
- * 
- * @return array 
+ *
+ * @return array
  */
 function og_db_rewrite_sql($sql, $primary_table, $primary_field,  $args) {
   if (is_numeric($args['og_nid'])) {
     // we add this JOIN for node admins and when node access is disabled because node_rewrite_sql() adds it for everyone else
     if (user_access('administer nodes') || node_access_view_all_nodes()) {
-      $query['join'] = 'INNER JOIN {node_access} na ON n.nid = na.nid'; 
+      $query['join'] = 'INNER JOIN {node_access} na ON n.nid = na.nid';
     }
     $where[] = '(na.gid = '. $args['og_nid']. " AND na.realm = 'og_subscriber')"; // private nodes
     $where[] = '(na.grant_view = '. $args['og_nid']. " AND na.realm = 'og_public')"; // public nodes
@@ -1050,7 +1050,7 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
           if (empty($node->og_groups)) {
             $node->og_public = 1;
           }
-        }     
+        }
       }
       break;
     case 'delete':
@@ -1074,7 +1074,7 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 
 function og_nodeapi_form($node) {
   global $user;
-  
+
   $edit = $_REQUEST['edit'];
   if (( $node->type == 'og' || (in_array($node->type, variable_get('og_omitted', array()))))) {
     return form_hidden('og_public', 1);
@@ -1085,7 +1085,7 @@ function og_nodeapi_form($node) {
     foreach ($subs as $key => $val) {
       $options[$key] = $val['title'];
     }
-    
+
     // TODO: move this to prepare stage
     if (!$options && $required && $_POST) {
       drupal_set_message(t('You must subscribe to a group before posting.'), 'error');
@@ -1100,7 +1100,7 @@ function og_nodeapi_form($node) {
       $vis = variable_get('og_visibility', 0);
     }
     switch ($vis) {
-      case OG_VISIBLE_CHOOSE_PRIVATE: 
+      case OG_VISIBLE_CHOOSE_PRIVATE:
       case OG_VISIBLE_CHOOSE_PUBLIC:
         if (count($subs)) { // if user has no subscriptions post must be public. validate handles this
           //user decides how public the post is. therefore, we will show a checkbox. get value of checkbox.
@@ -1291,7 +1291,7 @@ function og_save_permissions(&$node) {
 
   if ($node->type != 'og') {
     // put the post into each selected group. we need a separate row for public and private nodes.
-    // for public nodes, the grant_view column indicates which group the node belongs to. The gid=0 always. Needed to get 
+    // for public nodes, the grant_view column indicates which group the node belongs to. The gid=0 always. Needed to get
     // public nodes to display on the home page for non subscribers
     if (is_array($node->og_groups)) {
       foreach ($node->og_groups as $gid) {
@@ -1299,7 +1299,7 @@ function og_save_permissions(&$node) {
         db_query($sql, $node->nid, $gid);
         if ($node->og_public) {
           $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_public', %d)";
-          db_query($sql, $node->nid, $gid);  
+          db_query($sql, $node->nid, $gid);
         }
       }
     }
@@ -1315,8 +1315,8 @@ function og_save_permissions(&$node) {
     // if you really want a hidden group (i.e. inaccessible group homepage), you should go to node_access table and delete the record which is inserted here.
     $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view) VALUES (%d, 0, 'og_all', 1)";
     db_query($sql, $node->nid);
-    
-    // we INSERT a broad grant here but only og_node_grants() only issues it selectively 
+
+    // we INSERT a broad grant here but only og_node_grants() only issues it selectively
     $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_subscriber', 1, 1, 0)";
     db_query($sql, $node->nid, $node->nid);
 
@@ -1620,11 +1620,11 @@ function og_settings() {
      variable_set('og_enabled', 0);
     drupal_goto('admin/settings/og');
   }
-  
+
 
   $authoring .= form_textarea(t('Explanation or submission guidelines'), 'og_help', variable_get('og_help', ''), 70, 5, t('This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users.'));
 
-  $options = array(t('Visible only within the targeted groups'), t('Visible within the targeted groups and on other pages'), t('Visibility chosen by author/editor using a checkbox on the posting form. '). t('Checkbox defaults to %pub.', array('%pub' => theme('placeholder', t('Public')))), t('Visibility chosen by author/editor using a checkbox on the posting form. '). t('Checkbox defaults to %pri.', array('%pri' => theme('placeholder', t('Private')))));  
+  $options = array(t('Visible only within the targeted groups'), t('Visible within the targeted groups and on other pages'), t('Visibility chosen by author/editor using a checkbox on the posting form. '). t('Checkbox defaults to %pub.', array('%pub' => theme('placeholder', t('Public')))), t('Visibility chosen by author/editor using a checkbox on the posting form. '). t('Checkbox defaults to %pri.', array('%pri' => theme('placeholder', t('Private')))));
   $authoring .= form_radios(t('Visibility of posts'), 'og_visibility', variable_get('og_visibility', 0), $options, t('Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.', array('%pub' => theme('placeholder', t('Public')))));
   $options = array(t('optional'), t('required'));
   $authoring .= form_radios(t('Audience required'), 'og_audience_required', variable_get('og_audience_required', 0), $options, t('Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting has affect existing posts when they are edited.'));
@@ -1635,13 +1635,13 @@ function og_settings() {
   unset($options['og']);
   $authoring .= form_select(t('Omitted content types'), 'og_omitted', variable_get('og_omitted', array()), $options, t('Select any node types which should <em>not</em> participate in the Audience targetting system.'), 0, TRUE);
   $output .= form_group(t('Node authoring form'), $authoring);
-  
+
   $options = array('ron' => t('River of News'), 'gbct' => t('Group by content type'));
   $ghp .= form_radios(t('Presentation style'), 'og_home_page_presentation', variable_get('og_home_page_presentation', 'gbct'), $options, t('If neither of these presentations suits you, you may override in the theme layer.'));
   $ghp .= form_textfield(t('Maximum posts on group home page'),'og_max_posts',variable_get('og_max_posts', 10), 3, 2, t("If using River of News display, indicate the number of posts on home page. If grouping posts by content type, indicate number of posts per type."));
   // TODO: move this to block config? Will be used elsewhere?
   $output .= form_group(t('Group home page'), $ghp);
-  
+
   $output .= form_checkbox( t('Show member pictures'), 'og_member_pics', 1, variable_get('og_member_pics', 1), t('Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user.', array('%user' => l(t('User configuration'), 'admin/settings/user'))));
   return $output;
 }
