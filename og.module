@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.71 2006/04/05 03:52:46 webchick Exp $
+// $Id: og.module,v 1.53.2.72 2006/04/05 15:28:59 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -512,6 +512,7 @@ function og_subscribe_user($gid, $account) {
     $return_value = 'approval';
   }
   else {
+    drupal_set_message(t('Subscribed to the %group group', array('%group' => theme('placeholder', $node->title))));
     og_save_subscription($gid, $account->uid, array('is_active' => 1));
     $return_value = 'subscribed';
   }
@@ -577,7 +578,7 @@ function og_list_users_sql($min_is_active = 1, $min_is_admin = 0) {
 }
 
 function og_add_users_page($gid) {
-  if (node_access('update', node_load($gid))) {
+  if (node_access('update', node_load(array('nid' => $gid)))) {
     if ($edit = $_POST['edit']) {
       // TODO: this could be done with validate handler and #ref form property
       $names = explode(',', $edit['og_names']);
@@ -1236,7 +1237,7 @@ function og_user($op, &$edit, &$account, $category = NULL) {
     case 'insert':
       $result = db_query(db_rewrite_sql("SELECT n.nid, n.title, o.* FROM {node} n INNER JOIN {og} o ON n.nid = o.nid WHERE n.type = 'og' AND n.status = 1 AND o.register = 1"));
       while ($group = db_fetch_object($result)) {
-        if (in_array($group->nid, array_keys((array) $edit['og_register']))) {
+        if (in_array($group->nid, (array) $edit['og_register'])) {
           og_subscribe_user($group->nid, $account);
         }
       }
