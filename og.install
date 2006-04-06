@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.7 2006/03/27 05:49:00 weitzman Exp $
+// $Id: og.install,v 1.8 2006/04/06 02:43:35 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -28,6 +28,9 @@ function og_install() {
       ) TYPE=MyISAM /*!40100 DEFAULT CHARACTER SET utf8 */;");
 
       $sql = "ALTER TABLE {node_access} DROP PRIMARY KEY, ADD INDEX `nid_gid_realm` ( `nid` , `gid` , `realm`)";
+      db_query($sql);
+      
+      $sql = "ALTER TABLE {node_access} CHANGE grant_view grant_view int(11) unsigned NOT NULL default '0'";
       db_query($sql);
   }
 }
@@ -130,6 +133,16 @@ function og_update_6() {
     case 'mysql':
     case 'mysqli':
       $ret[] = update_sql('ALTER TABLE {og} ADD website varchar(255) NULL AFTER theme');
+  }
+  return $ret ? $ret : array();
+}
+
+// we store a nid in grant_view column in the og_public realm so we need high numbers
+function og_update_7() {
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("ALTER TABLE {node_access} CHANGE grant_view grant_view int(11) unsigned NOT NULL default '0'");
   }
   return $ret ? $ret : array();
 }
