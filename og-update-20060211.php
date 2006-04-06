@@ -1,5 +1,5 @@
 <?php
-// $Id: og-update-20060211.php,v 1.1.2.5 2006/03/15 19:44:16 webchick Exp $
+// $Id: og-update-20060211.php,v 1.1.2.6 2006/04/06 02:43:14 weitzman Exp $
 
 include_once "includes/bootstrap.inc";
 include_once 'includes/common.inc';
@@ -68,4 +68,8 @@ db_queryd($sql);
 
 // Add website field
 $sql = "ALTER TABLE {og} ADD website varchar(255) NOT NULL default ''";
+db_queryd($sql);
+
+// april 5, 2006. we need to store integers in grant_view column for og_oublic realm
+$sql = "ALTER TABLE {node_access} CHANGE grant_view grant_view int(11) unsigned NOT NULL default '0'";
 db_queryd($sql);
