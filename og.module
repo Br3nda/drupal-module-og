@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.163 2006/04/15 18:30:01 weitzman Exp $
+// $Id: og.module,v 1.164 2006/04/15 18:40:50 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -949,7 +949,7 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
         drupal_set_breadcrumb($bc);
       }
       if (in_array($node->type, variable_get('og_node_types', array('og')))) {
-        og_view_group($node, FALSE, TRUE);
+        og_view_group($node, $teaser, $page);
       }
       break;
     case 'load':
