@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.1.2.8 2006/04/06 02:44:37 weitzman Exp $
+// $Id: og.install,v 1.1.2.9 2006/04/15 18:21:27 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -31,6 +31,9 @@ function og_install() {
       db_query($sql);
       
       $sql = "ALTER TABLE {node_access} CHANGE grant_view grant_view int(11) unsigned NOT NULL default '0'";
+      db_query($sql);
+
+      $sql = "UPDATE {system} SET status = 1 WHERE name = 'og_basic'";
       db_query($sql);
   }
 }
@@ -150,4 +153,13 @@ function og_update_7() {
 
 //from now on, let's use update_sql() and db_add_column() and all the 4.7 goodness
 
+// Enable og_basic.module by default.
+function og_update_8() {
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("UPDATE {system} SET status = 1 WHERE name = 'og_basic'");
+  }
+  return $ret ? $ret : array();
+}
 
