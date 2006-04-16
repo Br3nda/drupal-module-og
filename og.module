@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.164 2006/04/15 18:40:50 weitzman Exp $
+// $Id: og.module,v 1.165 2006/04/16 15:11:21 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -437,7 +437,7 @@ function og_invite_form_validate($form_id, $form_values, $form) {
     }
     else {
       // Store valid e-mails so we don't have to go through that looping again on submit
-      $form['valid_emails']['#ref'] = $valid_emails;
+      form_set_value($form['valid_emails'], $valid_emails);
     }
   }
 }
