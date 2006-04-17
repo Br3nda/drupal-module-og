@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.74 2006/04/17 04:41:58 webchick Exp $
+// $Id: og.module,v 1.53.2.75 2006/04/17 04:54:47 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -163,7 +163,7 @@ function og_set_group_context($group_node = NULL) {
 }
 
 function og_set_theme($nid) {
-  global $custom_theme;
+  global $custom_theme, $user;
   $node = node_load(array('nid' => intval($nid)));
   if ($node->type == 'og') {
     $custom_theme = $node->og_theme;
@@ -176,14 +176,26 @@ function og_set_theme($nid) {
       case 1:
         $group_node = node_load(array('nid' => $node->og_groups[0]));
         $custom_theme = $group_node->og_theme;
+        break;
       default:
-        // node is in multiple groups. preference goes to the group we showed on the prior page view (if any)
+        // node is in multiple groups. preference goes to the group we showed on the prior page view (if any),
+        // then to a group the current user is subscribed to
         if (in_array($_SESSION['og_last']->nid, $node->og_groups)) {
           $group_node = node_load(array('nid' => $_SESSION['og_last']->nid));
           $custom_theme = $group_node->og_theme;
         }
         else {
-          $group_node = node_load(array('nid' => $node->og_groups[0]));
+          $groups = array();
+          // intersect the node's groups with the user's groups
+          if ($user->uid) {
+            $groups = array_intersect($node->og_groups, array_keys($user->og_groups));
+          }
+          // no user is logged in, or none of the node's groups are the user's groups
+          if (empty($groups)) {
+            $groups = $node->og_groups;
+          }
+          // use array_shift and not [0] because array_intersect preserves keys
+          $group_node = node_load(array('nid' => array_shift($groups)));
           $custom_theme = $group_node->og_theme;
         }
     }
