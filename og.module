@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.171 2006/04/19 07:48:58 weitzman Exp $
+// $Id: og.module,v 1.172 2006/04/19 18:21:01 killes Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1081,7 +1081,9 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
         og_insert_group($node);
       }
       og_save_permissions($node);
-      og_mail($node);
+      if (!module_exist('og2list')) {
+        og_mail($node);
+      }
       break;
     case 'update':
       if (in_array($node->type, variable_get('og_node_types', array('og')))) {
