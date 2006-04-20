@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.10 2006/04/19 03:49:33 weitzman Exp $
+// $Id: og.install,v 1.11 2006/04/20 04:40:30 gordon Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -162,7 +162,7 @@ function og_update_9() {
   switch ($GLOBALS['db_type']) {
     case 'mysql':
     case 'mysqli':
-      $ret = update_sql("ALTER TABLE {og} ADD language varchar(12) NOT NULL default ''");
+      $ret[] = update_sql("ALTER TABLE {og} ADD language varchar(12) NOT NULL default ''");
   }
   return $ret ? $ret : array();
 }
