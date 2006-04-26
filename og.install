@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.1.2.10 2006/04/19 04:20:13 weitzman Exp $
+// $Id: og.install,v 1.1.2.11 2006/04/26 22:25:52 webchick Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -14,8 +14,9 @@ function og_install() {
         website varchar(255) NULL,
         register int(1) NOT NULL default 0,
         directory int(1) NOT NULL default 0,
+        language varchar(12) NOT NULL default '',
         PRIMARY KEY  (nid)
-      ) TYPE=MyISAM /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
   
       db_query("CREATE TABLE {og_uid} (
         nid int(11) NOT NULL,
@@ -25,7 +26,7 @@ function og_install() {
         uid int(11) NOT NULL,
         mail_type int(11) NULL,
         PRIMARY KEY  (nid, uid)
-      ) TYPE=MyISAM /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
 
       $sql = "ALTER TABLE {node_access} DROP PRIMARY KEY, ADD INDEX `nid_gid_realm` ( `nid` , `gid` , `realm`)";
       db_query($sql);
@@ -162,7 +163,7 @@ function og_update_9() {
   switch ($GLOBALS['db_type']) {
     case 'mysql':
     case 'mysqli':
-      $ret = update_sql("ALTER TABLE {og} ADD language varchar(12) NOT NULL default ''");
+      $ret[] = update_sql("ALTER TABLE {og} ADD language varchar(12) NOT NULL default ''");
   }
   return $ret ? $ret : array();
 }
