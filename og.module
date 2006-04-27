@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.79 2006/04/24 15:28:42 webchick Exp $
+// $Id: og.module,v 1.53.2.80 2006/04/27 15:21:05 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -119,9 +119,8 @@ function i18n_get_lang() {
       return $group_node->og_language;
     }
   }
-  else {
-    return key($languages);
-  }
+  // no matches. return default language
+  return key($languages);
 }
 
 function og_perm() {
