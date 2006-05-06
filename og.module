@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.186 2006/05/06 01:58:34 weitzman Exp $
+// $Id: og.module,v 1.187 2006/05/06 04:13:28 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1058,7 +1058,6 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       $group_node = og_get_group_context();
       if ($group_node && $page && $node->og_groups) {
         $bc = drupal_get_breadcrumb($newbc);
-        dprint_r($bc);
         unset($bc[0]);
         // get rid of link to all forums. it breaks you out of group world
         if ($bc[1] == l(t('forums'), 'forum')) {
