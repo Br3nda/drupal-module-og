@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.72 2006/05/08 03:37:29 weitzman Exp $
+// $Id: og.module,v 1.110.2.73 2006/05/08 03:41:43 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -954,10 +954,10 @@ function og_node_form($node) {
   }
   $default = FALSE;
   switch ($visibility) {
-    case OG_DIRECTORY_NONE:
+    case OG_DIRECTORY_NEVER:
       $form['og_directory'] = array('#type' => 'value', '#value' => 0);
       break;
-    case OG_DIRECTORY_BOTH:
+    case OG_DIRECTORY_ALWAYS:
       $form['og_directory'] = array('#type' => 'value', '#value' => 1);
       break;
     case OG_DIRECTORY_CHOOSE_TRUE:
