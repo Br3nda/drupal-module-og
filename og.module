@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.71 2006/05/08 03:09:31 weitzman Exp $
+// $Id: og.module,v 1.110.2.72 2006/05/08 03:37:29 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -981,7 +981,7 @@ function og_node_form($node) {
     }
   }
   
-  $form['og_theme'] = system_theme_select_form(t('Selecting a different theme will change the look and feel of the group.'), $edit['theme'], 2);;
+  $form['og_theme'] = system_theme_select_form(t('Selecting a different theme will change the look and feel of the group.'), $edit['theme'] ? $edit['theme'] : $node->og_theme, 2);;
   return $form;
 }
 
