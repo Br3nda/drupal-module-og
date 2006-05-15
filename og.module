@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.79 2006/05/15 16:02:05 weitzman Exp $
+// $Id: og.module,v 1.110.2.80 2006/05/15 19:20:27 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1886,4 +1886,28 @@ function og_simpletest() {
   require_once($dir . DIRECTORY_SEPARATOR . 'og_testcase.php');
   $tests = file_scan_directory($dir, '\.test');
   return array_keys($tests);
+}
+
+/**
+ * Implementation of hook_xmlrpc().
+ */
+function og_xmlrpc() {
+  require_once drupal_get_path('module', 'og'). '/og_xmlrpc.inc';
+  return array(
+    array(
+      'og.subscribe_user',
+      'og_xmlrpc_subscribe_user',
+      array('struct', 'string', 'string', 'int', 'int'),
+      t('Subscribe a user to a group')),
+    array(
+      'og.getAllSubscribers',
+      'og_xmlrpc_get_all_subscribers',
+      array('array', 'string', 'string', 'int', 'int', 'int'),
+      t('All subscribers for a given group.')),
+    array(
+      'og.getUserGroups',
+      'og_xmlrpc_get_user_groups',
+      array('array', 'string', 'string', 'int'),
+      t('Retrieve the group subscriptions for a given user.')),
+    );
 }
