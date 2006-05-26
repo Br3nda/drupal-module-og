@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.80 2006/04/27 15:21:05 webchick Exp $
+// $Id: og.module,v 1.53.2.81 2006/05/26 06:23:44 dww Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1756,7 +1756,7 @@ function og_settings() {
   $authoring .= form_radios(t('Registration form control'), 'og_visibility_registration', variable_get('og_visibility_registration', OG_REGISTRATION_CHOOSE_FALSE), $options, t('OG admins always see the checkbox for adding a group to the %dir. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.', array('%dir' => theme('placeholder', t('registration form')))));
 
   $options = array(t('optional'), t('required'));
-  $authoring .= form_radios(t('Audience required'), 'og_audience_required', variable_get('og_audience_required', 0), $options, t('Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting has affect existing posts when they are edited.'));
+  $authoring .= form_radios(t('Audience required'), 'og_audience_required', variable_get('og_audience_required', 0), $options, t('Do you require that all posts be affiliated with a group? If so, new users will be unable to complete a post until they join a group. Note that changing this setting will affect existing posts when they are edited.'));
   unset($options);
   foreach (node_list() as   $type) {
     $options[$type] = module_invoke(node_get_module_name($type), 'node_name', array());
