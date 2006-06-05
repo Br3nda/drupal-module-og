@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.82 2006/06/05 16:33:22 webchick Exp $
+// $Id: og.module,v 1.53.2.83 2006/06/05 21:32:56 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -513,8 +513,8 @@ function og_invite($gid) {
 function og_invite_form($gid) {
   $edit = $_POST['edit'];
   $max = variable_get('og_email_max', 10);
-  $form .= form_textarea(t('Email addresses or usernames'), 'mails', $edit['mails'], 90, 5, t("Enter up to %max email addresses or usernames. Separate multiple addresses by commas or new lines. Each will receive an invitation message from you.", array('%max' => $max)), NULL, TRUE);
-  $form .= form_textarea(t('Personal message'), 'pmessage', $edit['pmessage'], 90, 5, t('Optional. Enter a message which will become part of the invitation email'));
+  $form .= form_textarea(t('Email addresses or usernames'), 'mails', $edit['mails'], 90, 5, t("Enter up to %max email addresses or usernames. Separate multiple addresses by commas or new lines. Each person will receive an invitation message from you.", array('%max' => $max)), NULL, TRUE);
+  $form .= form_textarea(t('Personal message'), 'pmessage', $edit['pmessage'], 90, 5, t('Optional. Enter a message which will become part of the invitation email.'));
   $form .= form_button(t('Send invitation'));
   return form($form);
 }
