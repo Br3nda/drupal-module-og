@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.208 2006/06/05 21:31:20 webchick Exp $
+// $Id: og.module,v 1.209 2006/06/07 17:24:44 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -953,7 +953,7 @@ function og_node_form($node) {
   else {
     $default = OG_OPEN;
   }
-  $form['og_selective'] = array('#type' => 'radios', '#title' => t('Subscription requests'), '#default_value' => $default, '#options' => array(t('open - subscription requests are accepted immediately.'), t('moderated - subscription requests must be approved.'), t('invite only - subscriptions must be created by an administrator.'), t('closed - subscriptions are fully administered by an administrator.')), '#description' => t('How should subscription requests be handled in this group? When you select <em>closed</em>, users will not be able to subscribe <strong>nor</strong> unsubscribe.'));
+  $form['og_selective'] = array('#type' => 'radios', '#title' => t('Subscription requests'), '#default_value' => $default, '#options' => array(t('open - subscription requests are accepted immediately.'), t('moderated - subscription requests must be approved.'), t('invite only - subscriptions must be created by an administrator.'), t('closed - subscriptions are fully administered by an administrator.')), '#description' => t('How should subscription requests be handled in this group? When you select <em>closed</em>, users will not be able to subscribe <strong>or</strong> unsubscribe.'));
 
   // registration checkbox
   if (user_access('administer nodes')) {
