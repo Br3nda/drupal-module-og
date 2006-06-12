@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.209 2006/06/07 17:24:44 webchick Exp $
+// $Id: og.module,v 1.210 2006/06/12 01:05:57 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -944,7 +944,7 @@ function og_node_form($node) {
   
   $edit = $_POST['edit'];
 
-  $form['og_description'] = array('#type' => 'textfield', '#title' => t('Description'), '#default_value' => $node->og_description, '#size' => 70, '#maxlength' => 150, '#required' => true, '#description' => t('A brief description for the group details block and the group directory.'));
+  $form['og_description'] = array('#type' => 'textfield', '#title' => t('Description'), '#default_value' => $node->og_description, '#size' => 70, '#maxlength' => 150, '#required' => true, '#description' => t('A brief description for the group details block and the group directory.'), '#weight' => -4);
   $form['og_website'] = array('#type' => 'textfield', '#title' => t('Group website'), '#default_value' => $node->og_website, '#description' => t('If your group has its own website, enter the address here.'));
 
   if ($node->nid) {
