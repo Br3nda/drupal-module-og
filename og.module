@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.94 2006/06/15 02:29:44 weitzman Exp $
+// $Id: og.module,v 1.110.2.95 2006/06/15 03:36:03 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -635,7 +635,7 @@ function og_get_subscriptions($uid, $min_is_active = 1) {
   static $subscriptions = array();
 
   if (!isset($subscriptions[$uid])) {
-    $sql = "SELECT n.title, ou.* FROM {og_uid} ou INNER JOIN {node} n ON ou.nid = n.nid WHERE ou.uid = %d AND ou.is_active >= %d ORDER BY n.title";
+    $sql = "SELECT n.title, n.type, n.status, ou.* FROM {og_uid} ou INNER JOIN {node} n ON ou.nid = n.nid WHERE ou.uid = %d AND ou.is_active >= %d ORDER BY n.title";
     $result = db_query($sql, $uid, $min_is_active);
     while ($row = db_fetch_array($result)) {
       $subscriptions[$uid][$row['nid']] = $row;
