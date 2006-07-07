@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.83 2006/06/05 21:32:56 webchick Exp $
+// $Id: og.module,v 1.53.2.84 2006/07/07 13:38:46 webchick Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1072,6 +1072,13 @@ function og_load(&$node) {
 function og_insert($node) {
   $sql = "INSERT INTO {og} (nid, theme, selective, description, website, register, directory, language) VALUES (%d, '%s', %d, '%s', '%s', %d, %d, '%s')";
   db_query($sql, $node->nid, $node->og_theme, $node->og_selective, $node->og_description, $node->og_website, $node->og_register, $node->og_directory, $node->og_language);
+
+  if ($node->images) {
+    foreach ($node->images as $label => $image) {
+      // this is a new image.
+      _image_insert($node->nid, $label, file_create_path($image));
+    }
+  }
 }
 
 function og_update($node) {
