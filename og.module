@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.105 2006/07/26 19:10:58 dww Exp $
+// $Id: og.module,v 1.110.2.106 2006/07/28 11:33:00 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -168,8 +168,7 @@ function og_theme() {
   global $custom_theme;
   $group_node = NULL; // a node object containing the 'active' group for this request
 
-  $pages = array('users', 'albums', 'feed', 'invite', 'remove_node', 'manage', 'all');
-  if (arg(0) == 'og' && in_array(arg(1), $pages)) {
+  if (arg(0) == 'og' && is_numeric(arg(2))) {
     $group_node = og_set_theme(arg(2));
   }
   elseif (arg(0) == 'node' && is_numeric(arg(1))) {
