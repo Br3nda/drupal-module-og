@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.53.2.85 2006/07/11 17:57:18 webchick Exp $
+// $Id: og.module,v 1.53.2.86 2006/08/11 14:31:58 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1199,7 +1199,9 @@ function og_nodeapi_form($node) {
     $required = variable_get('og_audience_required', 0);
     $subs = og_get_subscriptions($node->uid);
     foreach ($subs as $key => $val) {
-      $options[$key] = $val['title'];
+      if ($val['is_active']) {
+        $options[$key] = $val['title'];
+      }
     }
 
     // TODO: move this to prepare stage
