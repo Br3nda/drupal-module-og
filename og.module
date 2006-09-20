@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.109 2006/09/20 13:33:02 weitzman Exp $
+// $Id: og.module,v 1.110.2.110 2006/09/20 15:19:44 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -987,10 +987,10 @@ function og_node_form($node) {
   }
   $default = FALSE;
   switch ($visibility) {
-    case OG_REGISTRATION_NONE:
+    case OG_REGISTRATION_NEVER:
       $form['og_register'] = array('#type' => 'value', '#value' => 0);
       break;
-    case OG_REGISTRATION_BOTH:
+    case OG_REGISTRATION_ALWAYS:
       $form['og_register'] = array('#type' => 'value', '#value' => 1);
       break;
     case OG_REGISTRATION_CHOOSE_TRUE:
