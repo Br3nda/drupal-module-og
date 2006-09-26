@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.114 2006/09/20 18:31:34 weitzman Exp $
+// $Id: og.module,v 1.110.2.115 2006/09/26 17:52:52 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -25,11 +25,10 @@ define('OG_DIRECTORY_ALWAYS', 1);
 define('OG_DIRECTORY_CHOOSE_TRUE', 2);
 define('OG_DIRECTORY_CHOOSE_FALSE', 3);
 
-// site admin chooses in og_settings() whether group creator can default user's group notification flag
+// site admin chooses in og_settings() whether new registrants receive group email notifications by default
 define('OG_NOTIFICATION_NEVER', 0);
 define('OG_NOTIFICATION_ALWAYS', 1);
-define('OG_NOTIFICATION_CHOOSE_TRUE', 2);
-define('OG_NOTIFICATION_CHOOSE_FALSE', 3);
+define('OG_NOTIFICATION_SELECTIVE', 2);
 
 function og_help($section) {
   switch ($section) {
@@ -73,7 +72,7 @@ function og_menu($may_cache) {
       $items[] = array('path' => "og/users/$key", 'callback' => 'og_list_users_page', 'title' => t('subscriber management'), 'callback arguments' => array($key), 'type' => MENU_CALLBACK, 'access' => TRUE);
       $items[] = array('path' => "og/users/$key/list", 'callback' => 'og_list_users_page', 'title' => t('list'), 'callback arguments' => array($key), 'type' => MENU_DEFAULT_LOCAL_TASK, 'access' => TRUE);
       $items[] = array('path' => "og/manage/$key", 'callback' => 'og_manage', 'title' => t('manage subscription'), 'callback arguments' => array($key), 'type' => MENU_CALLBACK, 'access' => user_access('access content'));
-      $items[] = array('path' => "og/invite/$key", 'callback' => 'og_invite', 'title' => t('send invitation'), 'callback arguments' => array($key), 'type' => MENU_CALLBACK, 'access' => user_access('access content'));
+      $items[] = array('path' => "og/invite/$key", 'callback' => 'og_invite_page', 'title' => t('send invitation'), 'callback arguments' => array($key), 'type' => MENU_CALLBACK, 'access' => user_access('access content'));
       // group admin only
       $items[] = array('path' => "og/users/$key/add", 'callback' => 'og_add_users_page', 'title' => t('add subscribers'), 'callback arguments' => array($key), 'type' => MENU_LOCAL_TASK, 'access' => node_access('update', array('nid' => $key, 'status' => 1)), 'weight' => 5);
 
@@ -268,7 +267,7 @@ function og_email($gid) {
 
 function og_email_form($gid) {
   $result = db_query(og_list_users_sql(1), $gid);
-  $txt = format_plural(db_num_rows($result), '1 subscriber', 'all %count subscribers');
+  $txt = format_plural(db_num_rows($result), 'the sole subscriber', 'all %count subscribers');
   drupal_set_message(t('Your email will be sent to %count in this group. Please use this feature sparingly.', array('%count' => l($txt, "og/users/$gid"))));
 
   $form['subject'] = array('#type' => 'textfield', '#title' => t('Subject'), '#size' => 70, '#maxlength' => 250, '#description' => t("Enter a subject for your email."), '#required' => true);
@@ -322,8 +321,22 @@ function og_manage($gid) {
     }
   }
 
-  $form['mail_type'] = array('#type' => 'radios', '#title' => t('Email notification'), '#default_value' => $user->og_groups[$gid]['mail_type'], '#options' => array(1 => t('enabled'), 0 => t('disabled')), '#description' => t('Do you want to receive an email each time a message is posted to this group?'));
-  $form['op'] = array('#type' => 'submit', '#value' => t('Submit'));
+  switch ($user->og_email) {
+    case OG_NOTIFICATION_SELECTIVE:
+      $form['mail_type'] = array('#type' => 'radios', '#title' => t('Email notification'), '#default_value' => $user->og_groups[$group->nid]['mail_type'], '#options' => array(1 => t('enabled'), 0 => t('disabled')), '#description' => t('Do you want to receive an email each time a message is posted to this group?'));
+      $submit = TRUE;
+      break;
+    case OG_NOTIFICATION_ALWAYS:
+      $form['mail_type'] = array('#type' => 'item', '#title' => t('Email notification'), '#value' => t('Your !prof is configured to: <em>Always receive email notifications</em>.', array('!prof' => l('personal profile', "user/$user->uid/edit")))); 
+      break;
+    case OG_NOTIFICATION_NEVER:
+      $form['mail_type'] = array('#type' => 'item', '#title' => t('Email notification'), '#value' => t('Your !prof is configured to: <em>Never receive email notifications</em>.', array('!prof' => l('personal profile', "user/$user->uid/edit")))); 
+      break;
+  }
+  
+  if ($submit) {
+    $form['op'] = array('#type' => 'submit', '#value' => t('Submit'));
+  }
   $form['gid'] = array('#type' => 'value', '#value' => $gid);
   $output = drupal_get_form('og_manage_form', $form);
   $bc = array(l(t('home'), ''), l(t('groups'), 'og'), l($group->title, "node/$gid"));
@@ -353,17 +366,16 @@ function og_save_subscription($gid, $uid, $args = array()) {
   $time = time();
   if ($cnt == 0) {
     // this pattern borrowed from user_save()
-    $fields = array('nid', 'uid', 'created', 'mail_type', 'changed');
+    $fields = array('nid', 'uid', 'created', 'changed');
     $group = node_load($gid);
-    $mail_type = $args['mail_type'] ? $args['mail_type'] : ($group->og_notification == OG_NOTIFICATION_ALWAYS || $group->og_notification == OG_NOTIFICATION_CHOOSE_TRUE) ? 1 : 0;
-    $values = array($gid, $uid, $args['created'] ? $args['created'] : $time, $mail_type, $time);
+    $values = array($gid, $uid, $args['created'] ? $args['created'] : $time, $time);
     unset($args['created']);
     foreach ($args as $key => $value) {
       $fields[] = db_escape_string($key);
       $values[] = $value;
       $s[] = "'%s'";
     }
-    db_query('INSERT INTO {og_uid} ('. implode(', ', $fields). ') VALUES (%d, %d, %d, %d, %d, '. implode(', ', $s). ')', $values);
+    db_query('INSERT INTO {og_uid} ('. implode(', ', $fields). ') VALUES (%d, %d, %d, %d, '. implode(', ', $s). ')', $values);
     module_invoke_all('og', 'user insert', $gid, $uid, $args);
   }
   else {
@@ -468,7 +480,7 @@ function og_remove_node_submit($form_id, $form_values) {
   }
 }
 
-function og_invite($gid) {
+function og_invite_page($gid) {
   $node = node_load($gid);
   if ($node->og_selective < OG_INVITE_ONLY || node_access('update', $node)) {
     $max = variable_get('og_email_max', 10);
@@ -1092,7 +1104,9 @@ function og_get_node_groups($node) {
   }
 }
 
-function og_validate_group(&$node) {
+function og_validate_group($node) {
+  global $user;
+  
   // Ensure valid URL was entered for website
   if (isset($node->og_website) && !empty($node->og_website)) {
     if (!valid_url($node->og_website, TRUE)) {
@@ -1179,6 +1193,14 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       if (og_is_group_type($node->type)) {
         og_validate_group($node);
       }
+      else {
+        // Ensure that a group is selected if groups are required. needed when author has no groups. In other cases, fapi does the validation
+        if (variable_get('og_audience_required', FALSE) && !user_access('admnister organic groups')) {
+          if (!isset($node->og_groups)) {
+            form_set_error('title', t('You must %join before posting on this web site.', array('%join' => l(t('join a group'), 'og'))));
+          }
+        }
+      }
       break;
     case 'submit':
         og_submit_group($node);
@@ -1198,8 +1220,11 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
     case 'insert':
       if (og_is_group_type($node->type)) {
         og_insert_group($node);
+        // make sure the node owner is a full powered subscriber
+        og_save_subscription($node->nid, $node->uid, array('is_active' => 1, 'is_admin' => 1));
       }
-      if (variable_get('og_enabled', 0)) {
+      
+      if (variable_get('og_enabled', FALSE)) {
         og_save_permissions($node);
       }
       if (!module_exist('og2list')) {
@@ -1212,8 +1237,11 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
     case 'update':
       if (og_is_group_type($node->type)) {
         og_update_group($node);
+        // make sure the node owner is a full powered subscriber
+        og_save_subscription($node->nid, $node->uid, array('is_active' => 1, 'is_admin' => 1));
       }
-      if (variable_get('og_enabled', 0)) {
+      
+      if (variable_get('og_enabled', FALSE)) {
         og_save_permissions($node);
       }
       break;
@@ -1264,12 +1292,12 @@ function og_form_alter($form_id, &$form) {
 
 /**
  * Helper method to add OG audience fields to a given form. This is
- * lives in a separate method from og_form_alter() so it can be shared
+ * lives in a separate function from og_form_alter() so it can be shared
  * by other OG contrib modules.
  */
 function og_form_add_og_audience($form_id, &$form) {
   global $user;
-  $edit = $_REQUEST['edit'];
+  $edit = $_GET['edit'];
   $node = $form['#node'];
 
   if (og_is_group_type($node->type)) {
@@ -1280,12 +1308,6 @@ function og_form_add_og_audience($form_id, &$form) {
     $subs = og_get_subscriptions($node->uid);
     foreach ($subs as $key => $val) {
       $options[$key] = $val['title'];
-    }
-    
-    // TODO: this behavior is not ideal in some curcumstances. We might disable those checkboxes where admin is not a subscriber
-    if ($node->nid && $node->uid != $user->uid && !og_is_group_type($node->type)) {
-          // i think this is displaying during unwanted times
-          // drupal_set_message(t('Admins: If you want to assign this post to a group whose checkbox does not appear below, you must first change the %author. The author\'s subscriptions are shown in the audience field.', array('%author' => theme('placeholder', t('Author')))));
     }
 
     // get the visibility for normal users
@@ -1317,9 +1339,22 @@ function og_form_add_og_audience($form_id, &$form) {
         break;
     }
 
+    // show read only item if we are non-admin, and in simple mode (i.e. non-checkboxes) and at least one group is in querystring
+    $simple = !user_access('administer organic groups') && !variable_get('og_audience_checkboxes', TRUE) && isset($edit['og_groups']);
+    
+    // determine value of audience checkboxes
     if (isset($edit['og_groups'])) {
       // populate field from the querystring if sent
       $groups = $edit['og_groups'];
+      // filter out any groups where author is not a member. we cannot rely on fapi to do this when in simple mode. 
+      $groups = array_intersect($edit['og_groups'], array_keys($subs));
+    }
+    elseif (count($subs) == 1 && $required) {
+      $gids = array_keys($subs);
+      $gid = $gids[0];
+      $groups = array($gid);
+      // also show read only mode if user has 1 subscription and we are in required mode
+      $simple = TRUE;
     }
     elseif ($node->nid) {
       $groups = $node->og_groups;
@@ -1328,8 +1363,20 @@ function og_form_add_og_audience($form_id, &$form) {
       $groups = array();
     }
 
-    if (count($subs)) {
-      $form['og_nodeapi']['visible']['og_groups'] = array('#type' => 'checkboxes', '#title' => t('Audience'), '#options' => $options, '#required' => $required, '#description' => t('Show this post in these groups.'), '#default_value' => $groups);
+    if ($simple) {
+      // 'simple' mode. no checkboxes.
+      if (count($groups)) {
+        foreach ($groups as $gid) {
+          $titles[] = $subs[$gid]['title'];
+          $item_value = implode(', ', $titles);
+        }
+        $form['og_nodeapi']['visible']['og_groups'] = array('#type' => 'item', '#title' => t('Audience'), '#value' => $item_value);
+        $form['og_nodeapi']['invisible']['og_groups'] = array('#type' => 'value', '#value' => $groups);
+      }
+    }
+    elseif (count($subs)) {
+      // show checkboxes
+      $form['og_nodeapi']['visible']['og_groups'] = array('#type' => 'checkboxes', '#title' => t('Audience'), '#options' => $options, '#required' => $required, '#description' => format_plural(count($options), 'Show this post in this group.', 'Show this post in these groups.'), '#default_value' => $groups);
     }
 
     if (count($form['og_nodeapi']['visible']) > 1) {
@@ -1411,13 +1458,15 @@ function og_mail($type, $obj) {
     if ($obj->in_reply_to) {
       $headers .= "\nIn-Reply-To: <$obj->in_reply_to>";
     }
-    //get email subscribers
+    $node = node_load($obj->nid);
+    
+    //send email to selective subscribers and global subscribers
     $groups = implode(', ', $obj->og_groups);
-    $sql = "SELECT DISTINCT(u.mail) as mail, ou.nid AS gid, n.title AS group_name, n.uid AS group_uid, u.name AS group_owner FROM {og_uid} ou INNER JOIN {users} u ON ou.uid=u.uid INNER JOIN {node} n ON ou.nid=n.nid WHERE ou.nid IN ($groups) AND ou.mail_type=1";
-    $result = db_query($sql);
+    $sql = "SELECT DISTINCT(u.mail) as mail, ou.nid AS gid, n.title AS group_name, n.uid AS group_uid, u.name AS group_owner FROM {og_uid} ou INNER JOIN {users} u ON ou.uid=u.uid INNER JOIN {og_uid_global} oug ON ou.uid=oug.uid INNER JOIN {node} n ON ou.nid=n.nid WHERE ou.nid IN ($groups) AND oug.og_email != %d AND (ou.mail_type=1 OR oug.og_email=%d)";
+    $result = db_query($sql, OG_NOTIFICATION_NEVER, OG_NOTIFICATION_ALWAYS);
     while ($row = db_fetch_object($result)) {
       // see http://www.ietf.org/rfc/rfc2369.txt. UTF8 OK? $headers .= "\nX-List_ID: "; 
-      $subj = "[$row->group_name: $type] ". t('%author added \'%title\' at %site', array('%author' => $obj->name, '%title' => $obj->title, '%site' => variable_get('site_name', drupal)));
+      $subj = "[$row->group_name: $type] ". t('%title at %site', array('%title' => $node->title, '%site' => variable_get('site_name', drupal)));
       $txt = "'$obj->title' by $obj->name\n";
       $txt .= t('View original: '). $originalurl. "\n";
       $txt .= t('Post reply: '). $replyurl. "\n";
@@ -1485,20 +1534,38 @@ function og_user($op, $edit, &$account, $category = NULL) {
   switch ($op) {
     case 'register':
       $options = array();
-      $values = array();
       $result = db_query(db_rewrite_sql('SELECT n.nid, n.title, o.* FROM {node} n INNER JOIN {og} o ON n.nid = o.nid WHERE n.type IN ('. str_pad('', count(variable_get('og_node_types', array('og'))) * 5 - 1, "'%s',") .') AND o.register = 1 ORDER BY n.title'), variable_get('og_node_types', array('og')));
       while ($group = db_fetch_object($result)) {
         $options[$group->nid] = '<span class="og-registration-'.$group->nid.'">'.t('Subscribe to %name.', array('%name' => theme('placeholder', $group->title))).'<span>';
-        $values[$group->nid] = in_array($group->nid, (array) $edit['og_register']) ? $group->nid : 0;
         if ($group->selective) {
           $options[$group->nid] .= ' '. theme('placeholder', t('(approval needed)'));
         }
       }
       if (count($options)) {
         $form['og_register'] = array('#type' => 'fieldset', '#title' => t('Groups'));
-        $form['og_register']['og_register'] = array('#type' => 'checkboxes', '#options' => $options, '#default_value' => $values);
+        $form['og_register']['og_register'] = array('#type' => 'checkboxes', '#options' => $options);
         return $form;
         }
+      break;
+    case 'form':
+      if ($category == 'account') {
+        $form['og_settings'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Organic groups settings'),
+          '#collapsible' => TRUE,
+          '#weight' => 4);
+        $options = array(OG_NOTIFICATION_NEVER => t('Never send email notifications. Useful when tracking activity via RSS feed instead.'),
+                         OG_NOTIFICATION_ALWAYS =>  t('Always send email notifications'),
+                         OG_NOTIFICATION_SELECTIVE => t('Selectively send email notification based on the checkbox for each of my group\'s <em>My Subscription</em> page'),
+                          );
+        $form['og_settings']['og_email'] = array('#type' => 'radios', 
+                                            '#title' => t('Email notifications'), 
+                                            '#options' => $options, 
+                                            '#default_value' => isset($account->og_email) ? $account->og_email : 2,
+                                            '#description' => t('When posts are submitted into your subscribed groups, you may be notified via email.'),
+                                            );
+        return $form;
+      }
       break;
     case 'insert':
       if (is_array($edit['og_register'])) {
@@ -1509,9 +1576,28 @@ function og_user($op, $edit, &$account, $category = NULL) {
           }
         }  
       }
+      
+      $sql = 'INSERT INTO {og_uid_global} (uid, og_email) VALUES (%d, %d)';
+      db_query($sql, $account->uid, variable_get('og_notification', OG_NOTIFICATION_ALWAYS));
+      $account->og_email = NULL;      
+      break;
+    case 'update':
+      $sql = 'UPDATE {og_uid_global} SET og_email=%d WHERE uid=%d';
+      db_query($sql, $edit['og_email'], $account->uid);
+      $account->og_email = NULL;
+      break;
+    case 'delete':
+      $sql = 'DELETE FROM {og_uid_global} WHERE uid=%d';
+      db_query($sql, $account->uid);
+      
+      $sql = 'DELETE FROM {og_uid} WHERE uid=%d';
+      db_query($sql, $account->uid);
       break;
     case 'load':
-        $account->og_groups = og_get_subscriptions($account->uid);
+      $account->og_groups = og_get_subscriptions($account->uid);
+      
+      $result = db_query("SELECT og_email FROM {og_uid_global} WHERE uid = %d", $account->uid);
+      return db_fetch_array($result);
       break;
     case 'view':
       // only show to self and admins
@@ -1560,7 +1646,7 @@ function og_save_permissions(&$node) {
 
   if (!og_is_group_type($node->type)) {
     // put the post into each selected group. we need a separate row for public and private nodes.
-    // for public nodes, the grant_view column indicaOGtes which group the node belongs to. The gid=0 always. Needed to get
+    // for public nodes, the grant_view column indicates which group the node belongs to. The gid=0 always. Needed to get
     // public nodes to display on the home page for non subscribers
     // we INSERT a broad grant here but og_node_grants() only issues it selectively for a given operation
     if (is_array($node->og_groups)) {
@@ -1590,9 +1676,6 @@ function og_save_permissions(&$node) {
     // we INSERT a broad grant here but only og_node_grants() only issues it selectively. Enabes all group admins to edit the og node
     $sql = "INSERT INTO {node_access} (nid, gid, realm, grant_view, grant_update, grant_delete) VALUES (%d, %d, 'og_subscriber', 1, 1, 0)";
     db_query($sql, $node->nid, $node->nid);
-
-    // make sure the node owner is a full powered subscriber
-    og_save_subscription($node->nid, $node->uid, array('is_active' => 1, 'is_admin' => 1));
   }
 }
 
@@ -1737,18 +1820,23 @@ function og_block($op = 'list', $delta = 0, $edit = array()) {
 }
 
 function og_block_notifications() {
+  global $user;
+  
   if ($groupnode = og_get_group_context()) {
-    $content = t('This group offers a %groupfeed and an %email.', array('%groupfeed' => l(t('RSS feed'), 'og/feed/'. $groupnode->nid), '%email' => l(t('email subscription'), 'og/manage/'. $groupnode->nid)));
-    if (module_exist('views')) {
-      $content .= t(' Or subscribe to these personalized, sitewide feeds:');
-      $links[] = t('my unread: '). theme('links', array(l('feed', 'group/myunread/feed'), l('page', 'group/og_unread')));
-      $links[] = t('my groups: '). theme('links', array(l('feed', 'group/mytracker/feed'), l('page', 'group/og_tracker')));
-      $links[] = t('all posts: '). theme('links', array(l('feed', 'group/tracker/feed'), l('page', 'groups/tracker')));
-      $content .= theme('item_list', $links);
+    // only members can see this block
+    if (in_array($groupnode->nid, array_keys($user->og_groups))) {
+      $content = t('This group offers a %groupfeed and an %email.', array('%groupfeed' => l(t('RSS feed'), 'og/feed/'. $groupnode->nid), '%email' => l(t('email subscription'), 'og/manage/'. $groupnode->nid)));
+      if (module_exist('views') && module_exist('views_rss')) {
+        $content .= t(' Or subscribe to these personalized, sitewide feeds:');
+        $links[] = t('my unread: '). theme('links', array(l('feed', 'group/myunread/feed'), l('page', 'group/og_unread')));
+        $links[] = t('my groups: '). theme('links', array(l('feed', 'group/mytracker/feed'), l('page', 'group/og_tracker')));
+        $links[] = t('all posts: '). theme('links', array(l('feed', 'group/tracker/feed'), l('page', 'groups/tracker')));
+        $content .= theme('item_list', $links);
+      }
+      $block['content'] = $content;
+      $block['subject'] = t('Group notifications');
+      return $block;
     }
-    $block['content'] = $content;
-    $block['subject'] = t('Group notifications');
-    return $block;
   }
 }
 
@@ -1958,18 +2046,17 @@ function og_settings() {
               t('Group creator chooses whether her group appears on the registration form. Defaults to %in.', array('%in' => theme('placeholder', t('on form')))),
               t('Group creator chooses whether her group appears on the registration form. Defaults to %out.', array('%out' => theme('placeholder', t('not on form')))),
             );
-    $form['og_settings']['group_details']['og_visibility_registration'] = array('#type' => 'radios', '#title' => t('Registration form control'), '#default_value' => variable_get('og_visibility_registration', OG_REGISTRATION_CHOOSE_FALSE), '#description' =>t('OG admins always see the checkbox for adding a group to the %dir. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.', array('%dir' => theme('placeholder', t('registration form')))), '#options' => $options);
+  $form['og_settings']['group_details']['og_visibility_registration'] = array('#type' => 'radios', '#title' => t('Registration form control'), '#default_value' => variable_get('og_visibility_registration', OG_REGISTRATION_CHOOSE_FALSE), '#description' =>t('OG admins always see the checkbox for adding a group to the %dir. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.', array('%dir' => theme('placeholder', t('registration form')))), '#options' => $options);
     
-    // email subscriptions visibility
-  $options = array(t('New group members are never subscribed to email notifications by default. Users may choose to enable this for themselves on their my subscription page.'),
-              t('New group members are always subscribed to email notifications by default.'),
-              t('Group creator chooses whether her members are automatically subscribed to email notifications. Defaults to %in.', array('%in' => theme('placeholder', t('yes notification')))),
-              t('Group creator chooses whether her members are automatically subscribed to email notifications. Defaults to %out.', array('%out' => theme('placeholder', t('no notification')))),
+  // email notifications default
+  $options = array(OG_NOTIFICATIONS_SELECTIVE => t('New registrants are not subscribed to group email notifications by default. A user may choose to enable this from her profile page or her my subscriptions page.'),
+              OG_NOTIFICATIONS_ALWAYS => t('New registrants are subscribed to group email notifications by default. A user may choose to disable this from her profile page.'),
             );
-  $form['og_settings']['group_details']['og_visibility_notification'] = array('#type' => 'radios', '#title' => t('Group email notifications'), '#default_value' => variable_get('og_visibility_notification', OG_NOTIFICATION_NEVER), '#description' =>t('Should new subscribers to a group automatically be notified via email when new content is posted to the group? Note that changing this setting has no effect on existing subscriptions.', array('%dir' => theme('placeholder', t('groups directory')))), '#options' => $options);
+  $form['og_settings']['group_details']['og_notification'] = array('#type' => 'radios', '#title' => t('Group email notifications'), '#default_value' => variable_get('og_notification', OG_NOTIFICATION_ALWAYS), '#description' =>t('Should new registrants automatically be notified via email when new content is posted to their subscribed group? Note that changing this setting has no effect on existing subscriptions.', array('%dir' => theme('placeholder', t('groups directory')))), '#options' => $options);
   
   $form['og_settings']['node_form'] = array('#type' => 'fieldset', '#title' => t('Node authoring form'));
   $form['og_settings']['node_form']['og_help'] = array('#type' => 'textarea', '#default_value' => variable_get('og_help', ''), '#cols' => 70, '#rows' =>5, '#title' => t('Explanation or submission guidelines'), '#description' => t('This text will be displayed at the top of the group submission form.  It is useful for helping or instructing your users.'));
+  $form['og_settings']['node_form']['og_audience_checkboxes'] = array('#type' => 'checkbox', '#title' => t('Audience checkboxes'), '#default_value' => variable_get('og_audience_checkboxes', TRUE), '#description' => t('Show each subscribed group as a checkbox in the Audience section. This enables user to place her post into multiple groups. If unchecked, simplify the user interface by omitting the checkboxes and assuming user wants to post into the current group. Group administrators always see checkboxes.'));
   $options = array(t('Visible only within the targeted groups'), t('Visible within the targeted groups and on other pages'), t('Visibility chosen by author/editor using a checkbox on the posting form. '). t('Checkbox defaults to %pub.', array('%pub' => theme('placeholder', t('Public')))), t('Visibility chosen by author/editor using a checkbox on the posting form. '). t('Checkbox defaults to %pri.', array('%pri' => theme('placeholder', t('Private')))));
   $form['og_settings']['node_form']['og_visibility'] = array('#type' => 'radios', '#title' => t('Visibility of posts'), '#default_value' => variable_get('og_visibility', 0), '#description' =>t('Determine how broadly available a given post should be when it is affiliated with a group. OG admins always see the checkbox for making a post %pub. Note that changing this setting has no effect on existing posts. Re-save those posts to acquire this new setting.', array('%pub' => theme('placeholder', t('Public')))), '#options' => $options);  
 
@@ -1990,7 +2077,7 @@ function og_settings() {
   $options = array('ron' => t('River of News'), 'gbct' => t('Group by content type'));
   $form['og_settings']['home']['og_home_page_presentation'] = array('#type' => 'radios', '#title' => t('Presentation style'), '#options' => $options, '#default_value' => variable_get('og_home_page_presentation', 'gbct'), '#description' => t('If neither of these presentations suits you, you may override in the theme layer.'));
   $form['og_settings']['home']['og_max_posts'] = array('#type' => 'textfield', '#title' => t('Maximum posts on group home page'), '#size' => 3, '#maxlength' => 2, '#default_value' => variable_get('og_max_posts', 10), '#description' => t("If using River of News display, indicate the number of posts on home page. If grouping posts by content type, indicate number of posts per type."), );
-  $form['og_settings']['home']['og_node_types'] = array('#type' => 'select', '#title' => t('Group home page node types'), '#default_value' => variable_get('og_node_types', array('og')), '#options' => $og_node_type_options, '#description' => t("Select the node types which act as group home pages. Usually %group is the best choice.", array('%group' => theme('placeholder', 'group'))), '#multiple' => TRUE);
+  $form['og_settings']['home']['og_node_types'] = array('#type' => 'select', '#title' => t('Group home page node types'), '#default_value' => variable_get('og_node_types', array('og')), '#options' => $og_node_type_options, '#description' => t("Select the node types which act as group home pages. Usually %group is the best choice.", array('%group' => theme('placeholder', t('group')))), '#multiple' => TRUE);
   // TODO: move this to block config? Will be used elsewhere?
   $form['og_settings']['og_member_pics'] = array('#type' => 'checkbox', '#title' => t('Member pictures'), '#value' => 1, '#default_value' => variable_get('og_member_pics', TRUE), '#description' => t('Should member pictures be shown in the group subscribers and group details blocks? You must also enable pictures in %user.', array('%user' => l(t('User configuration'), 'admin/settings/user'))));
   return $form;

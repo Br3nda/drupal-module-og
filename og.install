@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.1.2.15 2006/08/01 23:40:26 dww Exp $
+// $Id: og.install,v 1.1.2.16 2006/09/26 17:52:52 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -29,6 +29,12 @@ function og_install() {
 	created int(11) NULL DEFAULT 0,
 	changed int(11) NULL DEFAULT 0,
         PRIMARY KEY  (nid, uid)
+      ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      
+      db_query("CREATE TABLE {og_uid_global} (
+        uid int(11) NOT NULL,
+        og_email int(11) NOT NULL DEFAULT 2,
+        PRIMARY KEY  (uid)
       ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
 
       $sql = "ALTER TABLE {node_access} DROP PRIMARY KEY, ADD INDEX `nid_gid_realm` ( `nid` , `gid` , `realm`)";
@@ -66,6 +72,12 @@ function og_install() {
 	changed numeric(11) NULL DEFAULT 0,
         PRIMARY KEY  (nid, uid)
       );");
+      
+      db_query("CREATE TABLE {og_uid_global} (
+        uid numeric(11) NOT NULL,
+        og_email numeric(11) NULL DEFAULT 2,
+        PRIMARY KEY  (uid)
+      );");
 
       $sql = "ALTER TABLE {node_access} ".
         "DROP CONSTRAINT {node_access}_pkey;";
@@ -82,9 +94,11 @@ function og_install() {
 
       $sql = "UPDATE {system} SET status = 1 WHERE name = 'og_basic'";
       db_query($sql);
-
+      
       break;
   }
+  _block_rehash(); // enable standard og blocks
+  drupal_set_message(t('Organic groups module enabled. Please see the included readme.txt file for further installation instructions.'));
 }
 
 // 2006-05-31 PFM: deletes row if present in the table.  The first parameter
@@ -290,4 +304,42 @@ function og_update_11() {
     break;
   } 
   return $ret ? $ret : array();
+}
+
+// remove crufty image field. we now use image_attach.module fom image.module package instead.
+function og_update_12() {
+    // works for mysql and postgres
+  $ret[] = update_sql("ALTER TABLE {og} DROP image");
+  return $ret;
+}
+
+// populate the og_uid_global table. we have to choose selective here for backward compatibility. 
+// to set everyone up for 'always' notifications, run this after the update: UPDATE {og_uid_global} SET og_email=1
+function og_update_13() {
+  switch ($GLOBALS['db_type']) { 
+    case 'mysql': 
+    case 'mysqli': 
+      db_query("CREATE TABLE {og_uid_global} (
+        uid int(11) NOT NULL,
+        og_email int(11) NOT NULL DEFAULT 2,
+        PRIMARY KEY  (uid)
+      ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+    break;
+    case 'pgsql':
+      db_query("CREATE TABLE {og_uid_global} (
+        uid numeric(11) NOT NULL,
+        og_email numeric(11) NULL DEFAULT 2,
+        PRIMARY KEY (uid)
+      );");
+      break;
+  }
+  
+  // works for mysql and postgres
+  $sql = 'SELECT uid FROM {users} WHERE uid > 0';
+  $result = db_query($sql);
+  while ($row = db_fetch_object($result)) {
+    $sql = "INSERT INTO {og_uid_global} (uid, og_email) VALUES (%d, %d)";
+    db_query($sql, $row->uid, OG_NOTIFICATION_SELECTIVE);
+  }
+  return array();
 }
