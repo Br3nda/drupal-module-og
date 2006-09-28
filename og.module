@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.115 2006/09/26 17:52:52 weitzman Exp $
+// $Id: og.module,v 1.110.2.116 2006/09/28 00:16:56 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1423,6 +1423,7 @@ function og_comment($comment, $op) {
   }  
 }
 
+
 /**
  * Send this node/comment via email to all email subscribers. Called from og_nodeapi() and og_comment()
  *
@@ -1449,6 +1450,8 @@ function og_mail($type, $obj) {
       $account = user_load(array('uid' => $obj->uid));
       $obj->name = $account->name;
       $obj = node_prepare($obj, FALSE);
+      // fills body with CCK fields instead of "n/a"
+      $obj->body = og_node_view($obj);
       $replyurl = url("comment/reply/$obj->nid", NULL, 'comment-form', TRUE);
       $originalurl = url("node/$obj->nid", NULL, NULL, TRUE);
     }
@@ -1485,7 +1488,36 @@ function og_mail($type, $obj) {
   }
 }
 
-// 2 functions ripped from mail.inc in project.module package
+/**
+ * Same as node_view but without calling theme('node')
+ * This is needed to get the proper teaser for nodes (e.g., CCK node types)
+ */
+function og_node_view($node) {
+  $node = (object)$node;
+
+  // Remove the delimiter (if any) that separates the teaser from the body.
+  // TODO: this strips legitimate uses of '<!--break-->' also.
+  $node->body = str_replace('<!--break-->', '', $node->body);
+
+  if ($node->log != '' && !$teaser && $node->moderate) {
+    $node->body .= '<div class="log"><div class="title">'. t('Log') .':</div>'. filter_xss($node->log) .'</div>';
+  }
+
+  // The 'view' hook can be implemented to overwrite the default function
+  // to display nodes.
+  if (node_hook($node, 'view')) {
+    node_invoke($node, 'view', $teaser, $page);
+  }
+  else {
+    $node = node_prepare($node, $teaser);
+  }
+  // Allow modules to change $node->body before viewing.
+  node_invoke_nodeapi($node, 'view', $teaser, $page);
+  
+  return $node->teaser;
+}
+
+// 2 functions enhanced from mail.inc in project.module package
 function og_mail_urls($url = 0) {
   static $urls = array();
   if ($url) {
@@ -1515,9 +1547,17 @@ function og_mail_output($body, $html = TRUE) {
     $body = preg_replace('!</?(em|i)>!i', '/', $body);
     $body = preg_replace('!</?(b|strong)>!i', '*', $body);
     $body = preg_replace("@<br />(?!\n)@i", "\n", $body);
-    $body = preg_replace("@</p>(?!\n\n)@i", "\n\n", $body);
-    $body = preg_replace("@<li>@i", "* ", $body);
-    $body = preg_replace("@</li>\n?@i", "\n", $body);
+    $body = preg_replace("@</p.*>(?!\n\n)@i", "\n\n", $body);
+    $body = preg_replace("@</h1>(?!\n\n)@i", " #\n", $body);
+    $body = preg_replace("@</h2>(?!\n\n)@i", " ##\n", $body);
+    $body = preg_replace("@</h3>(?!\n\n)@i", " ###\n", $body);
+    $body = preg_replace("@</h4>(?!\n\n)@i", " ####\n", $body);
+    $body = preg_replace("@<h1.*>@i", "\n\n# ", $body);
+    $body = preg_replace("@<h2.*>@i", "\n\n## ", $body);
+    $body = preg_replace("@<h3.*>@i", "\n\n### ", $body);
+    $body = preg_replace("@<h4.*>@i", "\n\n#### ", $body);
+    $body = preg_replace("@<li.*>@i", "* ", $body);
+    $body = preg_replace("@</(li|dd)>\n?@i", "\n", $body);
     $body = strip_tags($body);
     $body = decode_entities($body);
     $body = wordwrap($body, 72);
