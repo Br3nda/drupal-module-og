@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.117 2006/10/01 00:40:57 weitzman Exp $
+// $Id: og.module,v 1.110.2.118 2006/10/01 02:58:45 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -177,14 +177,15 @@ function og_theme() {
     $group_node = og_set_theme(arg(4));
     $_REQUEST['edit']['og_groups'][] = $group_node->nid; // checks the right box on node form
   }
-  elseif (arg(0) == 'node' && arg(1) == 'add' && $gid = intval($_REQUEST['edit']['og_groups'][0])) {
+  elseif (arg(0) == 'node' && arg(1) == 'add' && isset($_REQUEST['edit']['og_groups'])) {
+    $gid = intval(current($_REQUEST['edit']['og_groups']));
     $group_node = node_load($gid);
     $custom_theme = $group_node->og_theme;
   }
   elseif (arg(0) == 'comment' && is_numeric(arg(2))) {
     $group_node = og_set_theme(arg(2));
   }
-  
+
   og_set_group_context($group_node);
 }
 
