@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.118 2006/10/01 02:58:45 weitzman Exp $
+// $Id: og.module,v 1.110.2.119 2006/10/02 17:44:51 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -199,7 +199,13 @@ function og_get_group_context() {
   return og_set_group_context();
 }
 
-function og_set_group_context($group_node = NULL) {
+/**
+ * API function for setting the group context (if any) for the current request. Used
+ * for things like setting current theme and breadcrumbs. This context is often set during og_theme()
+ *
+ * @return $node object
+ */
+ function og_set_group_context($group_node = NULL) {
   static $stored_group_node;
 
   if (!is_null($group_node)) {
