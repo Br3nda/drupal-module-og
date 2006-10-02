@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.123 2006/10/02 18:30:07 weitzman Exp $
+// $Id: og.module,v 1.110.2.124 2006/10/02 19:35:55 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -411,21 +411,28 @@ function og_delete_subscription($gid, $uid){
 }
 
 function og_approve($gid, $uid) {
-  $node = node_load($gid);
-    if (node_access('update', $node)) {
-    og_save_subscription($gid, $uid, array('is_active' => 1));
-    drupal_set_message(t('Subscription request approved.'));
-    
-    $variables = array(
-      '%title' => $node->title,
-      '%group_url'=> url("node/$node->nid", NULL, NULL, TRUE)
-    );
-    
-    $from = variable_get('site_mail', ini_get('sendmail_from'));
-    $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from\nErrors-to: $from";
-    $account = user_load(array('uid' => $uid));
-    user_mail($account->mail, _og_user_mail_text('og_approve_user_subject', $variables), _og_user_mail_text('og_approve_user_body', $variables), $headers);
-    drupal_goto("node/$gid");
+  $node = node_load((int)$gid);
+  if (node_access('update', $node)) {
+    $account = user_load(array('uid' => (int)$uid));
+    if (in_array($gid, array_keys($account->og_groups))) {
+      drupal_set_message(t("%name already approved to group '%group'", array('%name' => theme('username', $account), '%group' => $node->title)), 'error');
+      return '';
+    }
+    else {
+      og_save_subscription($gid, $uid, array('is_active' => 1));
+      drupal_set_message(t('Subscription request approved.'));
+
+      $variables = array(
+        '%title' => $node->title,
+        '%group_url'=> url("node/$node->nid", NULL, NULL, TRUE)
+      );
+
+      $from = variable_get('site_mail', ini_get('sendmail_from'));
+      $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from\nErrors-to: $from";
+      $account = user_load(array('uid' => $uid));
+      user_mail($account->mail, _og_user_mail_text('og_approve_user_subject', $variables), _og_user_mail_text('og_approve_user_body', $variables), $headers);
+      drupal_goto("node/$gid");
+    }
   }
   else {
     drupal_access_denied();
