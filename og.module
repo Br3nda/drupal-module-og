@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.125 2006/10/04 04:04:59 weitzman Exp $
+// $Id: og.module,v 1.110.2.126 2006/10/05 17:33:26 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1728,7 +1728,9 @@ function og_user($op, $edit, &$account, $category = NULL) {
       $account->og_groups = og_get_subscriptions($account->uid);
       
       $result = db_query("SELECT og_email FROM {og_uid_global} WHERE uid = %d", $account->uid);
-      return db_fetch_array($result);
+      if (db_num_rows($result)) {
+        $account->og_email = db_result($result);
+      }
       break;
     case 'view':
       // only show to self and admins
