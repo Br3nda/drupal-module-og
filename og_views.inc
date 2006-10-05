@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.4 2006/10/01 01:42:27 weitzman Exp $
+// $Id: og_views.inc,v 1.5 2006/10/05 17:32:15 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -78,6 +78,30 @@ function og_views_tables() {
           'name' => 'Og: Public',
           'handler' => 'og_handler_field_yesempty',
           'help' => t('Displays <em>yes</em> if post is public according to OG.'),
+        ),
+        // 'group_nid' => array(
+//           'name' => 'Og: Group',
+//           'handler' => 'og_handler_field_yesempty',
+//           'help' => t('Displays <em>yes</em> if post is public according to OG.'),
+//         ),  
+      ),
+    // ),
+    // 'og_ancestry_group' => array(
+    //   'name' => 'og_ancestry',
+    //   'join' => array(
+    //     'left' => array(
+    //       'table' => 'node',
+    //       'field' => 'nid',
+    //     ),
+    //     'right' => array(
+    //       'field' => 'group_nid',
+    //     ),
+    //   ),
+      'fields' => array(  
+        'is_public' => array(
+          'name' => 'Og: Public',
+          'handler' => 'og_handler_field_yesempty',
+          'help' => t('Displays <em>yes</em> if post is public according to OG.'),
         )  
       ),
     ),
@@ -150,8 +174,8 @@ function og_views_tables() {
       'name' => 'og_uid',
       'join' => array(
         'left' => array(
-          'table' => 'og_node',
-          'field' => 'gid',
+          'table' => 'og_node_data',
+          'field' => 'nid',
         ),
         'right' => array(
           'field' => 'nid',
