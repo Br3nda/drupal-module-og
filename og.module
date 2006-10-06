@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.128 2006/10/06 18:36:17 weitzman Exp $
+// $Id: og.module,v 1.110.2.129 2006/10/06 18:50:35 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1973,7 +1973,7 @@ function og_block_notifications() {
         $content .= t(' Or subscribe to these personalized, sitewide feeds:');
         $links[] = t('my unread: '). theme('links', array(l('feed', 'group/myunread/feed'), l('page', 'group/og_unread')));
         $links[] = t('my groups: '). theme('links', array(l('feed', 'group/mytracker/feed'), l('page', 'group/og_tracker')));
-        $links[] = t('all posts: '). theme('links', array(l('feed', 'group/tracker/feed'), l('page', 'groups/tracker')));
+        $links[] = t('all posts: '). theme('links', array(l('feed', 'group/tracker/feed'), l('page', 'group/tracker')));
         $content .= theme('item_list', $links);
       }
       $block['content'] = $content;
