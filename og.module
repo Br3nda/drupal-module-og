@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.132 2006/10/15 16:42:43 weitzman Exp $
+// $Id: og.module,v 1.110.2.133 2006/10/17 19:39:09 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -364,7 +364,7 @@ function og_manage($gid) {
 function og_manage_form_submit($form_id, $form_values) {
   global $user;
   $passed_values = $form_values;
-  unset($passed_values['gid'], $passed_values['op'], $passed_values['form_id']);
+  unset($passed_values['gid'], $passed_values['op'], $passed_values['form_id'], $passed_values['form_token']);
   og_save_subscription($form_values['gid'], $user->uid, $passed_values);
   drupal_set_message(t('Subscription saved.'));
 }
