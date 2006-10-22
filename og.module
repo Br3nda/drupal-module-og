@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.133 2006/10/17 19:39:09 weitzman Exp $
+// $Id: og.module,v 1.110.2.134 2006/10/22 13:46:49 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -987,7 +987,7 @@ function theme_og_view($node, $teaser = FALSE, $page = FALSE) {
       }
     }
     $url = url("og/feed/$node->nid");
-    $node->og_xml_icon = theme('xml_icon', $url);
+    $node->og_feed_icon = theme('feed_icon', $url);
     
     if (!$output) {
       global $user;
@@ -1006,7 +1006,7 @@ function theme_og_view($node, $teaser = FALSE, $page = FALSE) {
     // save the mission in an array element for use by themes if desired
     $node->og_mission = theme('og_mission', $node);
   }
-  $node->body = $node->og_mission. $output. $node->og_xml_icon;
+  $node->body = $node->og_mission. $output. $node->og_feed_icon;
   return $node;
 }
 
