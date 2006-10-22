@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.135 2006/10/22 15:05:37 weitzman Exp $
+// $Id: og.module,v 1.110.2.136 2006/10/22 18:43:36 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -621,12 +621,27 @@ function og_subscribe($gid, $uid = NULL) {
     // only admins can subscribe another person
     drupal_access_denied();
   }
-  $return = og_subscribe_user($gid, $account);
+  else {
+    $form['gid'] = array('#type' => 'value', '#value' => $gid);
+    $form['account'] = array('#type' => 'value', '#value' => $account);
+    return confirm_form('og_subscribe_confirm', $form, 
+                   t('Are you sure you want to join the group %title?', array('%title' => theme('placeholder', $node->title))),
+                   "node/$gid", ' ', t('Subscribe'), t('Cancel'));
+  }
+}
+
+
+/**
+ * Confirm og subscription form
+ */
+function og_subscribe_confirm_submit($form_id, $form_values) {
+  $return = og_subscribe_user($form_values['gid'], $form_values['account']);
   if (!empty($return['message'])) {
       drupal_set_message($return['message']);
   }
-  drupal_goto("node/$gid");
-}
+  return "node/$gid";
+} 
+
 
 /**
  * subscribe given user to given group. no access control since this is an API function
@@ -694,10 +709,24 @@ function og_unsubscribe($gid, $uid = NULL) {
     // Group manager may never unsubscribe (TODO: fix), such a link should never be generated
     drupal_access_denied();
   }
-  og_delete_subscription($gid, $uid);
-  drupal_set_message(t('User unsubscribed from group.'));
-  drupal_goto("node/$gid");
+  else {
+    $form['gid'] = array('#type' => 'value', '#value' => $gid);
+    $form['uid'] = array('#type' => 'value', '#value' => $uid);
+    return confirm_form('og_unsubscribe_confirm', $form, 
+                   t('Are you sure you want to unsubscribe from the group %title?', array('%title' => theme('placeholder', $node->title))),
+                   "node/$gid", ' ', t('Unsubscribe'), t('Cancel'));
+  }
 }
+
+/**
+ * Confirm og unsubscription form
+ */
+function og_unsubscribe_confirm_submit($form_id, $form_values) {
+  og_delete_subscription($form_values['gid'], $form_values['uid']);
+  drupal_set_message(t('User unsubscribed from group.'));
+  return "node/$gid";
+}
+
 
 // since a user's subscriptions are loaded into $user object, this function is only occassionally useful to get group subs for users other than the current user
 // even then, it often makes sense to call user_load() instead of this function.
@@ -996,6 +1025,7 @@ function theme_og_view($node, $teaser = FALSE, $page = FALSE) {
         drupal_set_message(t('No posts in this group.'));
       }
       else {
+        // TODO: output other msg if user has requested subscription
         drupal_set_message(t('No public posts in this group. Consider subscribing to this group in order to view its posts.'));
       }
     }
