@@ -1,0 +1,110 @@
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  node.tpl.php,v 1.4.2.2 2006/01/04 23:03:33 weitzman
+#  og.module,v 1.110.2.135 2006/10/22 15:05:37 weitzman
+#  og_views.inc,v 1.1.2.3 2006/06/30 16:54:37 weitzman
+#  og_basic.module,v 1.1.2.3 2006/06/12 01:07:43 webchick
+#  og.install,v 1.1.2.16 2006/09/26 17:52:52 weitzman
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2006-10-22 11:19-0400\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: node.tpl.php:21 og.module:54;359;819;951;1214
+msgid "groups"
+msgstr ""
+
+#: og_views.inc:266 og.module:847;2261
+msgid "Title"
+msgstr ""
+
+#: og_views.inc:273 og.module:2261
+msgid "Author"
+msgstr ""
+
+#: og_views.inc:279 og.module:2261
+msgid "Replies"
+msgstr ""
+
+#: og_views.inc:459 og.module:612;2126
+msgid "subscribe"
+msgstr ""
+
+#: og_views.inc:469 og.module:2109
+msgid "my subscription"
+msgstr ""
+
+#: og.module:355;733 tests/og_testcase.php:20;22
+msgid "Submit"
+msgstr ""
+
+#: og.module:773 og_basic.module:62
+msgid "Name"
+msgstr ""
+
+#: og.module:2226 og_basic.module:22;34
+msgid "group"
+msgstr ""
+
+#: node.tpl.php:25
+msgid "categories"
+msgstr ""
+
+#: og_xmlrpc.inc:13
+msgid "unrecognized user ID: %uid"
+msgstr ""
+
+#: og_xmlrpc.inc:17;37;52
+msgid "Wrong username or password."
+msgstr ""
+
+#: og_xmlrpc.inc:33
+msgid "User is not a member of the specified group"
+msgstr ""
+
+#: og_xmlrpc.inc:48
+msgid "User is not allowed to retrieve subscriptions for another user."
+msgstr ""
+
+#: og_basic.module:9
+msgid "A group provides a home page for like minded users. There they post articles about their shared interest."
+msgstr ""
+
+#: og_basic.module:11
+msgid "Basic group node for Organic groups"
+msgstr ""
+
+#: og_basic.module:63
+msgid "Welcome message"
+msgstr ""
+
+#: og_basic.module:63
+msgid "This message is shown by default at the top of the group home page."
+msgstr ""
+
+#: og_basic.module:55
+msgid "create groups"
+msgstr ""
+
+#: og_basic.module:0
+msgid "og_basic"
+msgstr ""
+
+#: og.install:101
+msgid "Organic groups module enabled. Please see the included readme.txt file for further installation instructions."
+msgstr ""
+
+#: tests/og_testcase.php:25
+msgid "Your %post was created."
+msgstr ""
+
