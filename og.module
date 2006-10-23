@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.262 2006/10/23 00:58:10 weitzman Exp $
+// $Id: og.module,v 1.263 2006/10/23 01:03:00 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1675,7 +1675,6 @@ function og_user($op, $edit, &$account, $category = NULL) {
         $form['og_register'] = array('#type' => 'fieldset', '#title' => t('Groups'));
         $form['og_register']['og_register'] = array('#type' => 'checkboxes', '#options' => $options);
       }
-      $form['og_email'] = array('#type' => 'value', '#value' => variable_get('og_notification', OG_NOTIFICATION_ALWAYS));
       return $form;
     case 'form':
       if ($category == 'account') {
@@ -1709,7 +1708,7 @@ function og_user($op, $edit, &$account, $category = NULL) {
       }
       
       $sql = 'INSERT INTO {og_uid_global} (uid, og_email) VALUES (%d, %d)';
-      db_query($sql, $account->uid, $edit['og_email']);
+      db_query($sql, $account->uid, variable_get('og_notification', OG_NOTIFICATION_ALWAYS));
       $account->og_email = NULL;
       break;
     case 'update':
