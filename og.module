@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.137 2006/10/23 01:02:30 weitzman Exp $
+// $Id: og.module,v 1.110.2.138 2006/10/23 03:04:18 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1022,12 +1022,16 @@ function theme_og_view($node, $teaser = FALSE, $page = FALSE) {
     if (!$output) {
       global $user;
       if (in_array($node->nid, array_keys($user->og_groups))) {
-        drupal_set_message(t('No posts in this group.'));
+        $msg = t('No posts in this group.');
       }
       else {
-        // TODO: output other msg if user has requested subscription
-        drupal_set_message(t('No public posts in this group. Consider subscribing to this group in order to view its posts.'));
+        $msg = t('No public posts in this group.');
+        // TOOD: hide this from pending subscribers too
+        if ($node->og_selective < OG_INVITE_ONLY) {
+          $msg .= ' '. t('Consider subscribing to this group in order to view its posts.');
+        }
       }
+      drupal_set_message($msg);
     }
   }
   // save the homepage nodes in an array element for use by themes if desired
