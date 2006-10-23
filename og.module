@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.138 2006/10/23 03:04:18 weitzman Exp $
+// $Id: og.module,v 1.110.2.139 2006/10/23 14:51:08 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -60,7 +60,6 @@ function og_menu($may_cache) {
     $items[] = array('path' => 'og/deny', 'type' => MENU_CALLBACK, 'callback' => 'og_deny', 'access' => $access, 'title' => t('deny subscription request'));
     $items[] = array('path' => 'og/create_admin', 'type' => MENU_CALLBACK, 'callback' => 'og_create_admin', 'access' => $access, 'title' => t('create group administrator'));
     $items[] = array('path' => 'og/delete_admin', 'type' => MENU_CALLBACK, 'callback' => 'og_delete_admin', 'access' => $access, 'title' => t('delete group administrator'));
-    $items[] = array('path' => 'og/remove_node', 'type' => MENU_CALLBACK, 'callback' => 'og_remove_node', 'access' => $access, 'title' => t('remove post from group'));
     $items[] = array('path' => 'og/feed', 'callback' => 'og_feed', 'title' => t('group feed'), 'type' => MENU_CALLBACK, 'access' => user_access('access content'));
   }
   else {
@@ -76,8 +75,6 @@ function og_menu($may_cache) {
       // group admin only
       $items[] = array('path' => "og/users/$key/add", 'callback' => 'og_add_users_page', 'title' => t('add subscribers'), 'callback arguments' => array($key), 'type' => MENU_LOCAL_TASK, 'access' => node_access('update', array('nid' => $key, 'status' => 1)), 'weight' => 5);
 
-      // silly page that just redirects to the group page
-      $items[] = array('path' => "og/view/$key", 'callback' => 'og_nodeview', 'title' => $sub['title'], 'callback arguments' => array($key), 'access' => TRUE, 'type' => MENU_CALLBACK);
     }
 
     // email tab on group node
@@ -253,10 +250,6 @@ function og_set_theme($nid) {
     }
     return $group_node;
   }
-}
-
-function og_nodeview($gid) {
-  drupal_goto("node/$gid");
 }
 
 /**
@@ -484,31 +477,6 @@ function og_delete_admin($gid, $uid) {
   }
   else {
     drupal_access_denied();
-  }
-}
-
-function og_remove_node($gid, $nid) {
-  if (node_access('update', node_load($gid))) {
-    $node = node_load($nid);
-    $form['confirm'] = array('#type' => 'markup', '#title' => t('Confirmation'), '#value' => t('Remove %title from this group.', array('%title' => theme('placeholder', $node->title))));
-    $form['og_confirm'] = array('#type' => 'value', '#value' => 1);
-    $form['op'] = array('#type' => 'submit', '#value' => t('Remove'));
-    $form['nid'] = array('#type' => 'value', '#value' => $nid);
-    $form['gid'] = array('#type' => 'value', '#value' => $gid);
-    return drupal_get_form('og_remove_node', $form);
-  }
-  else {
-    drupal_access_denied();
-  }
-}
-
-function og_remove_node_submit($form_id, $form_values) {
-  $node = node_load($form_values['nid']);
-  if ($form_values['og_confirm']) {
-    $sql = "DELETE FROM {node_access} WHERE nid=%d AND gid=%d AND realm IN ('og_subscriber', 'og_public')";
-    db_query($sql, $form_values['nid'], $form_values['gid']);
-    drupal_set_message(t('%title removed from group.', array('%title' => theme('placeholder', $node->title))));
-    drupal_goto("node/{$form_values['gid']}");
   }
 }
 
