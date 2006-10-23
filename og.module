@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.136 2006/10/22 18:43:36 weitzman Exp $
+// $Id: og.module,v 1.110.2.137 2006/10/23 01:02:30 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1717,9 +1717,8 @@ function og_user($op, $edit, &$account, $category = NULL) {
       if (count($options)) {
         $form['og_register'] = array('#type' => 'fieldset', '#title' => t('Groups'));
         $form['og_register']['og_register'] = array('#type' => 'checkboxes', '#options' => $options);
-        return $form;
-        }
-      break;
+      }
+      return $form;
     case 'form':
       if ($category == 'account') {
         $form['og_settings'] = array(
