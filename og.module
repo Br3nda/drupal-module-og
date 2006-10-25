@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.139 2006/10/23 14:51:08 weitzman Exp $
+// $Id: og.module,v 1.110.2.140 2006/10/25 19:20:21 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1421,8 +1421,11 @@ function og_form_add_og_audience($form_id, &$form) {
     }
     elseif (count($subs)) {
       // show checkboxes
-      $form['og_nodeapi']['visible']['og_groups'] = array('#type' => 'checkboxes', '#title' => t('Audience'), '#options' => $options, '#required' => $required, '#description' => format_plural(count($options), 'Show this post in this group.', 'Show this post in these groups.'), '#default_value' => $groups);
+      $form['og_nodeapi']['visible']['og_groups'] = array('#type' => 'checkboxes', '#title' => t('Audience'), '#options' => $options, '#required' => $required, '#description' =>  format_plural(count($options), 'Show this post in this group.', 'Show this post in these groups.'), '#default_value' => $groups, '#required' => $required);
     }
+    else if ($required) {
+      form_set_error('title', t('You must %join before posting a %type.', array('%join' => l(t('join a group'), 'og'), '%type' => node_get_name($node->type))));
+     }
 
     if (count($form['og_nodeapi']['visible']) > 1) {
       $form['og_nodeapi']['#type'] = 'fieldset';
@@ -2174,7 +2177,7 @@ function og_settings() {
     $btn_text = t('Enable');
     $description = t('You usually want to enable access control with this module. The button below will delete one record in your node_access table and thus enable node permissions on your site. You may revert by clicking the same button again.');
   }
-  $form['og_settings']['og_module_status'] = array('#type' => 'fieldset', '#title' => t('Module status'), '#description' => $description, '#collapsible' => TRUE, '#collapsed' => TRUE);
+  $form['og_settings']['og_module_status'] = array('#type' => 'fieldset', '#title' => t('Access control'), '#description' => $description, '#collapsible' => TRUE, '#collapsed' => TRUE);
   $form['og_settings']['og_module_status']['module_action'] = array('#type' => 'submit', '#value' => $btn_text, '#prefix' => '<p>'. t('Organic groups access control is currently') . ' ' . theme('placeholder', $status). '.</p>');
 
 
