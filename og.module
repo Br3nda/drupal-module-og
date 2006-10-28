@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.141 2006/10/26 00:43:08 weitzman Exp $
+// $Id: og.module,v 1.110.2.142 2006/10/28 17:43:28 m3avrck Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1622,12 +1622,12 @@ function og_mail_output($body, $html = TRUE) {
     $body = preg_replace("@</h2>(?!\n\n)@i", " ##\n", $body);
     $body = preg_replace("@</h3>(?!\n\n)@i", " ###\n", $body);
     $body = preg_replace("@</h4>(?!\n\n)@i", " ####\n", $body);
+    $body = preg_replace("@</(li|dd)>\n?@i", "\n", $body);
     $body = preg_replace("@<h1.*>@i", "\n\n# ", $body);
     $body = preg_replace("@<h2.*>@i", "\n\n## ", $body);
     $body = preg_replace("@<h3.*>@i", "\n\n### ", $body);
     $body = preg_replace("@<h4.*>@i", "\n\n#### ", $body);
     $body = preg_replace("@<li.*>@i", "* ", $body);
-    $body = preg_replace("@</(li|dd)>\n?@i", "\n", $body);
     $body = strip_tags($body);
     $body = decode_entities($body);
     $body = wordwrap($body, 72);
