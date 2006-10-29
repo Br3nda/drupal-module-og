@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.143 2006/10/28 18:02:10 m3avrck Exp $
+// $Id: og.module,v 1.110.2.144 2006/10/29 03:06:42 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -458,37 +458,65 @@ function og_deny($gid, $uid) {
 
 function og_create_admin($gid, $uid) {
   $node = node_load($gid);
-  if (node_access('update',$node)) {
+  if (node_access('update', $node)) {
     $account = user_load(array('uid' => $uid));
-    og_save_subscription($gid, $uid, array('is_admin' => 1));
-    drupal_set_message(t('%name was promoted to %ga', array('%name' => $account->name, '%ga' => theme('placeholder', t('group administrator')))));
-    
-    $variables = array(
-      '%group' => $node->title,
-      '%group_url' => url("node/$node->nid", NULL, NULL, TRUE),
-      '%username' => $account->name
-    );
-    
-    $from = variable_get('site_mail', ini_get('sendmail_from'));
-    $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from\nErrors-to: $from";
-    user_mail($account->mail, _og_user_mail_text('og_new_admin_subject', $variables), _og_user_mail_text('og_new_admin_body', $variables), $headers);
-    drupal_goto("node/$gid");
+    $form['node'] = array('#type' => 'value', '#value' => $node);
+    $form['account'] = array('#type' => 'value', '#value' => $account);
+    return confirm_form('og_create_admin_confirm', $form, 
+                   t('Are you sure you want to make %name a group administrator for the group %title?', array('%name' => theme('placeholder', $account->name), '%title' => theme('placeholder', $node->title))),
+                   "og/users/$gid", ' ', t('Confirm'), t('Cancel'));
   }
   else {
     drupal_access_denied();
   }
 }
 
+/**
+ * Confirm og create admin form
+ */
+function og_create_admin_confirm_submit($form_id, $form_values) {
+  $account = $form_values['account'];
+  $node = $form_values['node'];
+  
+  og_save_subscription($node->nid, $account->uid, array('is_admin' => 1));
+  drupal_set_message(t('%name was promoted to %ga', array('%name' => theme('placeholder', $account->name), '%ga' => theme('placeholder', t('group administrator')))));
+  
+  $variables = array(
+    '%group' => $node->title,
+    '%group_url' => url("node/$node->nid", NULL, NULL, TRUE),
+    '%username' => $account->name
+  );
+  
+  $from = variable_get('site_mail', ini_get('sendmail_from'));
+  $headers = "From: $from\nReply-to: $from\nX-Mailer: Drupal\nReturn-path: $from\nErrors-to: $from";
+  user_mail($account->mail, _og_user_mail_text('og_new_admin_subject', $variables), _og_user_mail_text('og_new_admin_body', $variables), $headers);
+  return "og/users/$node->nid";
+}
+
 function og_delete_admin($gid, $uid) {
   $node = node_load($gid);
   if (node_access('update', $node)) {
-    og_save_subscription($gid, $uid, array('is_admin' => 0));
-    drupal_set_message(t('User is no longer a %ga', array('%ga' => theme('placeholder', t('group administrator')))));
-    drupal_goto("node/$gid");
+    $account = user_load(array('uid' => $uid));
+    $form['gid'] = array('#type' => 'value', '#value' => $gid);
+    $form['account'] = array('#type' => 'value', '#value' => $account);
+    return confirm_form('og_remove_admin_confirm', $form, 
+                   t('Are you sure you want to remove %name as a group administrator for the group %title?', array('%name' => theme('placeholder', $account->name), '%title' => theme('placeholder', $node->title))),
+                   "og/users/$gid", ' ', t('Remove'), t('Cancel'));
   }
   else {
     drupal_access_denied();
   }
+}
+
+/**
+ * Confirm og remove admin form
+ */
+function og_remove_admin_confirm_submit($form_id, $form_values) {
+  $account = $form_values['account'];
+  $gid = $form_values['gid'];
+  og_save_subscription($gid, $account->uid, array('is_admin' => 0));
+  drupal_set_message(t('%name is no longer a %ga', array('%name' => theme('placeholder', $account->name), '%ga' => theme('placeholder', t('group administrator')))));
+  return "og/users/$gid";
 }
 
 function og_invite_page($gid) {
