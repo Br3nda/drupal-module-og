@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.277 2006/11/06 22:03:30 weitzman Exp $
+// $Id: og.module,v 1.278 2006/11/10 03:21:22 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1683,6 +1683,7 @@ function og_user($op, $edit, &$account, $category = NULL) {
       if (db_num_rows($result)) {
         $account->og_email = db_result($result);
       }
+      break;
     case 'view':
       // only show list of groups to self and admins
       if ($account->uid == $user->uid || user_access('administer organic groups')) {
