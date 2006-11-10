@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.279 2006/11/10 03:58:31 weitzman Exp $
+// $Id: og.module,v 1.280 2006/11/10 04:08:20 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -845,8 +845,14 @@ function og_list_users_page($gid) {
   return $output;
 }
 
+// TODO: use Views here
 function og_list_groups_page($uid = NULL, $format = 'html') {
   global $user;
+  
+  // workaround for the fact that anon users are served the 'og' manu item when they request a page like og/manage/x or og/user/x
+  if ($uid != NULL && !is_int($uid)) {
+    drupal_access_denied();
+  }
 
   if (!$uid) {
     // Retrieve all groups
