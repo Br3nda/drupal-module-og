@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.286 2006/11/15 04:05:44 weitzman Exp $
+// $Id: og.module,v 1.287 2006/11/15 04:22:49 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -337,7 +337,7 @@ function og_manage($gid) {
   }
   
   $group = node_load($gid);
-  $bc[] = array('path' => "og", 'title' => t('groups'));
+  $bc[] = array('path' => "og", 'title' => t('Groups'));
   $bc[] = array('path' => "node/$gid", 'title' => $group->title);
   $bc[]  = array('path' => "sd", 'title' => 'sdf'); // no idea why this is needed
   menu_set_location($bc);
