@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.148 2006/11/10 22:44:22 weitzman Exp $
+// $Id: og.module,v 1.110.2.149 2006/11/15 14:59:33 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1511,6 +1511,8 @@ function og_get_visibility_default() {
 
 function og_comment($comment, $op) {
   switch ($op) {
+    case 'publish':
+      $comment = (array) $comment;
     // would prefer that these are sent with some delay to prevent give author time to correct typos. where is my cron based send?
     case 'insert':
       if ($comment['status'] == COMMENT_PUBLISHED && !module_exist('og2list')) {
