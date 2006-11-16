@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.10 2006/11/15 04:23:10 weitzman Exp $
+// $Id: og_views.inc,v 1.11 2006/11/16 23:04:51 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -107,11 +107,11 @@ function og_views_tables() {
       ),
       'fields' => array(
         'title' => array(
-          'name' => t('Og: Group Name'),
+          'name' => t('Og: Group names'),
           'handler' => 'og_handler_field_nodelink',
           'sortable' => true,
           'addlfields' => array('nid'),
-          'help' => t('Display the title of the first group a node belongs to.'),
+          'help' => t('Display links to any groups that are affiliated with a post.'),
         ),
       ),
     ),
@@ -143,7 +143,7 @@ function og_views_tables() {
           'notafield' => TRUE,
         ),
         'is_admin' => array(
-          'name' => 'Og: is subscriber an admin in a group',
+          'name' => 'Og: Is subscriber an admin in a group',
           'handler' => 'og_handler_field_yesempty',
           'sortable' => FALSE,
         ),
@@ -779,7 +779,14 @@ function og_handler_field_subscribe($fieldinfo, $fielddata, $value, $data) {
 }
 
 function og_handler_field_nodelink($fieldinfo, $fielddata, $value, $data) {
-  return l($value, "node/$data->og_node_data_nid");
+  // we have to query to get all the groups into a single element
+  $result = og_get_node_groups_result($data->nid);
+  while ($row = db_fetch_object($result)) {
+    $links[] = l($row->title, $row->group_nid);
+  }
+  if ($links) {
+    return implode(', ', $links);
+  }
 }
 
 function og_handler_field_managelink($fieldinfo, $fielddata, $value, $data) {
