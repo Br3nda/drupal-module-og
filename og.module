@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.292 2006/11/16 23:04:51 weitzman Exp $
+// $Id: og.module,v 1.293 2006/11/17 16:01:39 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1095,7 +1095,8 @@ function og_get_node_groups($node) {
 // just the query for the get_node_groups function. is reused in og_views.inc
 function og_get_node_groups_result($nid) {
   $sql = "SELECT oga.group_nid, n.title FROM {og_ancestry} oga INNER JOIN {node} n ON oga.group_nid = n.nid WHERE oga.nid = %d";
-  return db_query($sql, $nid);
+  // we use rewrite_sql() in order to avoid disclosing completely private groups (once we support those properly)
+  return db_query(db_rewrite_sql($sql, 'oga', 'group_nid'), $nid);
 }
 
 function og_validate_group(&$node) {
