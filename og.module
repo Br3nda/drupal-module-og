@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.297 2006/11/19 05:23:53 weitzman Exp $
+// $Id: og.module,v 1.298 2006/11/19 05:33:38 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1197,6 +1197,8 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       }
       break;
     case 'delete':
+      $sql = "DELETE FROM {og} WHERE nid = %d";
+      db_query($sql, $node->nid);
       $sql = "DELETE FROM {og_ancestry} WHERE nid = %d";
       db_query($sql, $node->nid);
       $sql = "DELETE FROM {og_uid} WHERE nid = %d";
