@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.2 2006/11/19 13:14:01 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.3 2006/11/20 22:30:27 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -646,7 +646,7 @@ function og_views_default_views() {
   $view->use_pager = TRUE;
   $view->nodes_per_page = '90';
   $view->menu = TRUE;
-  $view->menu_title = 'groups';
+  $view->menu_title = 'Groups';
   $view->menu_tab = TRUE;
   $view->menu_tab_default = TRUE;
   $view->menu_tab_weight = '-5';
