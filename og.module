@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.151 2006/11/16 18:11:28 weitzman Exp $
+// $Id: og.module,v 1.110.2.152 2006/11/23 06:06:22 m3avrck Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -955,7 +955,14 @@ function og_get_home_nodes_sql($str_types = NULL, $group_by = NULL) {
   }
 
   // we LEFT JOIN to node_comment_stats in case comment.module is disabled.
-  return "SELECT n.nid, n.title, n.uid, u.name, u.picture, n.created, n.sticky, l.comment_count, l.last_comment_timestamp FROM {node} n LEFT JOIN {node_comment_statistics} l ON n.nid = l.nid INNER JOIN {users} u ON n.uid = u.uid WHERE n.status=1 AND $where $group_by ORDER BY n.sticky DESC, l.last_comment_timestamp DESC";
+  // order content by newest comments
+  if (variable_get('og_home_page_order', 1)) {
+    return "SELECT n.nid, n.title, n.uid, u.name, u.picture, n.created, n.sticky, l.comment_count, l.last_comment_timestamp FROM {node} n LEFT JOIN {node_comment_statistics} l ON n.nid = l.nid INNER JOIN {users} u ON n.uid = u.uid WHERE n.status=1 AND $where $group_by ORDER BY n.sticky DESC, l.last_comment_timestamp DESC";
+  }
+  // order content just in reverse chronological order
+  else {
+    return "SELECT n.nid, n.title, n.uid, u.name, u.picture, n.created, n.sticky, l.comment_count, l.last_comment_timestamp FROM {node} n LEFT JOIN {node_comment_statistics} l ON n.nid = l.nid INNER JOIN {users} u ON n.uid = u.uid WHERE n.status=1 AND $where $group_by ORDER BY n.sticky DESC, n.created DESC";
+  }
 }
 
 /**
@@ -2291,6 +2298,7 @@ function og_settings() {
   $form['og_settings']['home'] = array('#type' => 'fieldset', '#title' => t('Group home page'), '#collapsible' => TRUE, '#collapsed' => TRUE);
   $options = array('ron' => t('River of News'), 'gbct' => t('Group by content type'));
   $form['og_settings']['home']['og_home_page_presentation'] = array('#type' => 'radios', '#title' => t('Presentation style'), '#options' => $options, '#default_value' => variable_get('og_home_page_presentation', 'gbct'), '#description' => t('If neither of these presentations suits you, you may override in the theme layer.'));
+  $form['og_settings']['home']['og_home_page_order'] = array('#type' => 'checkbox', '#title' => t('Order content by newest comments?'), '#default_value' => variable_get('og_home_page_order', 1), '#description' => t('Should the content of a group be sorted by newest comments? Leave unchecked for normal reverse chronological order, regardless of new comments.')); 
   $form['og_settings']['home']['og_max_posts'] = array('#type' => 'textfield', '#title' => t('Maximum posts on group home page'), '#size' => 3, '#maxlength' => 2, '#default_value' => variable_get('og_max_posts', 10), '#description' => t("If using River of News display, indicate the number of posts on home page. If grouping posts by content type, indicate number of posts per type."), );
   $form['og_settings']['home']['og_node_types'] = array('#type' => 'select', '#title' => t('Group home page node types'), '#default_value' => variable_get('og_node_types', array('og')), '#options' => $og_node_type_options, '#description' => t("Select the node types which act as group home pages. Usually %group is the best choice.", array('%group' => theme('placeholder', t('group')))), '#multiple' => TRUE);
    
