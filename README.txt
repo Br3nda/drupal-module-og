@@ -14,6 +14,18 @@ INSTALLATION
 - Grant permissions as needed on the admin/access page
 - Begin creating groups, subscribing to those groups, and posting into those groups. The subscribe link appears in the Group block, for non invite-only groups.
 
+NOTES ON USING CCK NODES AS GROUPS
+----------
+Using CCK to define groups allows for a broader range of flexibility than the included og_basic module.
+
+Use these steps *in this order* for best results.
+
+1. Using CCK, create your node type.
+2. In admin/settings/og, in the Group home page fieldset, select the node type created in step 1 to be a "Group home page node type"
+3. Then, use the CCK node type to create your groups.
+
+For a complete explanation, see http://drupal.org/node/63288
+
 NOTES
 ----------------
 - This module now also supports designating any type of node to be a group, not just og_basic.This node type should be defined by a custom module or via Content Contruction Kit (CCK). Since all nodes of this type are treated as groups, you will usually not want to designate the standard page, story, or book node types as groups. The capacity to make custom node types groups means that you can have custom fields for your groups and even several different kinds of groups. Specify the group types at admin/settings/og and also remember to disable attachments and comments for each type.
