@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.110.2.156 2006/12/12 01:47:50 weitzman Exp $
+// $Id: og.module,v 1.110.2.157 2006/12/12 02:56:34 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1759,7 +1759,7 @@ function og_user($op, $edit, &$account, $category = NULL) {
   switch ($op) {
     case 'register':
       $options = array();
-      $result = db_query(db_rewrite_sql('SELECT n.nid, n.title, o.* FROM {node} n INNER JOIN {og} o ON n.nid = o.nid WHERE n.type IN ('. str_pad('', count(variable_get('og_node_types', array('og'))) * 5 - 1, "'%s',") .') AND o.register = 1 ORDER BY n.title'), variable_get('og_node_types', array('og')));
+      $result = db_query(db_rewrite_sql('SELECT n.nid, n.title, o.* FROM {node} n INNER JOIN {og} o ON n.nid = o.nid WHERE n.type IN ('. str_pad('', count(variable_get('og_node_types', array('og'))) * 5 - 1, "'%s',") .') AND n.status = 1 AND o.register = 1 ORDER BY n.title'), variable_get('og_node_types', array('og')));
       while ($group = db_fetch_object($result)) {
         $options[$group->nid] = '<span class="og-registration-'.$group->nid.'">'.t('Subscribe to %name.', array('%name' => theme('placeholder', $group->title))). "</span>\n";
         if ($group->selective) {
