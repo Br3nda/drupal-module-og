@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.4 2006/12/11 03:15:00 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.5 2006/12/12 02:33:01 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -881,7 +881,7 @@ function og_handler_field_nodelink($fieldinfo, $fielddata, $value, $data) {
   // we have to query to get all the groups into a single element
   $result = og_get_node_groups_result($data->nid);
   while ($row = db_fetch_object($result)) {
-    $links[] = l($row->title, $row->group_nid);
+    $links[] = l($row->title, "node/$row->group_nid");
   }
   if ($links) {
     return implode(', ', $links);
