@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.15 2006/12/12 02:32:47 weitzman Exp $
+// $Id: og_views.inc,v 1.16 2006/12/27 19:31:29 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -568,6 +568,14 @@ function og_views_default_views() {
     ),
   );
   $view->argument = array (
+    array (
+      'type' => 'rss_feed',
+      'argdefault' => '2',
+      'title' => '',
+      'options' => '',
+      'wildcard' => '',
+      'wildcard_substitution' => '',
+    ),
   );
   $view->field = array (
     array (
