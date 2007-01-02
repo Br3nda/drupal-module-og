@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.308 2007/01/01 20:28:35 weitzman Exp $
+// $Id: og.module,v 1.309 2007/01/02 03:34:19 weitzman Exp $
 
 require dirname(__FILE__). '/og_views.inc';
 
@@ -938,7 +938,7 @@ function theme_og_picture_grid($result) {
     $picture = theme('user_picture', $user);
     $name = theme('username', $user);
     $group_role = $user->is_admin ? t('admin') : '&nbsp;';
-    $content .= "<td class=\"og-picture-grid-item\">$picture<div class=\"clear name\">$name</div><div class=\"clear group-role\">$group_role</div></td>\n"; 
+    $content .= "<td class=\"og-picture-grid-item\">$picture<div class=\"og-name\">$name</div><div class=\"group-role\">$group_role</div></td>\n"; 
 
     $count++;
     if ($count % 5 == 0 || $count == $total) {
