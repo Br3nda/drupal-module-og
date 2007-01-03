@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.9 2007/01/03 05:10:00 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.10 2007/01/03 06:28:21 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -81,7 +81,7 @@ function og_views_tables() {
       'filters' => array(
         'gid' => array(
           'name' => 'Og: Post in specified group',
-          'operator' => array('=' => 'Equals'),
+          'operator' => 'views_handler_operator_eqneq',
           'field' => 'group_nid',
           'help' => t('Filter for a given organic group. <em>Value</em> should be a numeric nid.'),   
         ),
