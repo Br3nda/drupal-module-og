@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.23 2007/01/05 06:00:35 weitzman Exp $
+// $Id: og.module,v 1.298.2.24 2007/01/05 07:19:22 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1421,7 +1421,8 @@ function og_node_delete_confirm_submit($form_id, $form_values) {
         return 'node/'. $form_values['target']; 
       }
       else {
-        if (count($node->og_groups) < 2) {
+        // we use 1 here since the group node is already gone by now.
+        if (count($node->og_groups) < 1) {
           node_delete($item->nid); 
         }
       }
