@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.29 2007/02/11 01:34:09 weitzman Exp $
+// $Id: og.module,v 1.298.2.30 2007/02/11 01:44:27 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2150,7 +2150,9 @@ function og_block_details() {
       if (isset($node->og_website) && !empty($node->og_website)) {
         $links[] = l(t('website'), $node->og_website);
       }
-      $post = drupal_get_form('og_search_form', $node);
+      if (module_exists('search') && user_access('search content')) {
+        $post = drupal_get_form('og_search_form', $node);
+      }
     }
     elseif ($subscription == 'requested') {
       $links[] = t('Your subscription request awaits approval.');
