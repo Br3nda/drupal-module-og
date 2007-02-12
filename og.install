@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.24 2007/02/12 14:44:48 weitzman Exp $
+// $Id: og.install,v 1.25 2007/02/12 15:04:32 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -381,7 +381,7 @@ function og_migrate_type_basic_14() {
   if (og_is_group_type('og')) {
     $info = array('type' => 'og', 'name' => 'group', 'module' => 'node', 'has_title' => 1, 'title_label' => 'Group name', 'has_body' => 1, 'body_label' => 'Welcome message', 'description' => 'A group provides a home page for like minded users. There they post articles about their shared interest.', 'help' => '', 'min_word_count' => 0, 'custom' => 1, 'modified' => 1, 'locked' => 0, 'orig_type' => 'og');
     node_type_save((object)$info);
-    module_disable('og_basic');
+    module_disable(array('og_basic'));
     node_types_rebuild();
   }
 }
