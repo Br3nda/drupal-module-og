@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.13 2007/02/21 14:57:43 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.14 2007/02/22 03:38:05 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -965,7 +965,7 @@ function og_handler_field_yesempty($fieldinfo, $fielddata, $value, $data) {
 }
 
 function og_handler_filter_og_type($op, $filter, $filterinfo, &$query) {
-  list($types, $in) = og_get__sql_args();
+  list($types, $in) = og_get_sql_args();
   $query->add_where("node.type IN ($in)", $types);
 }
 
