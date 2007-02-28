@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.25 2007/02/12 15:04:32 weitzman Exp $
+// $Id: og.install,v 1.26 2007/02/28 21:32:43 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -389,6 +389,12 @@ function og_migrate_type_basic_14() {
 function og_update_15() {
   variable_del('og_max_posts');
   variable_del('og_home_page_presentation');
+  return array();
+}
+
+function og_update_16() {
+  // we are no longer denying access to nodes without groups. see http://drupal.org/node/107289
+  node_access_rebuild();
   return array();
 }
 
