@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.16 2007/02/22 13:36:36 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.17 2007/03/20 18:58:53 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -517,6 +517,8 @@ function og_views_default_views() {
       'value' => '1',
     ),
   );
+  $view->use_pager = TRUE;
+  $view->nodes_per_page = '50';
   $view->exposed_filter = array ();
   $view->requires = array(node);
   $views[$view->name] = $view;
