@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.344 2007/03/23 06:37:58 weitzman Exp $
+// $Id: og.module,v 1.345 2007/03/25 16:14:16 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -32,7 +32,7 @@ define('OG_NOTIFICATION_SELECTIVE', 2);
 
 function og_help($section) {
   switch ($section) {
-    case strstr($section, 'admin/build/block/configure/og'):
+    case strlen(section) && strstr($section, 'admin/build/block/configure/og'):
       return t('Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages.');
     case 'admin/settings/og':
       return t('In order to let group admins determine their own group theme, you must enable multiple themes using !page.', array('!page' => l(t('theme configuration page'), 'admin/build/themes')));
@@ -2112,7 +2112,6 @@ function theme_opml_icon($url) {
     return '<a href="'. check_url($url) .'" class="opml-icon">'. $image. '</a>';
   }
 }
-
 
 function og_block_new() {
   list($types, $in) = og_get_sql_args();
