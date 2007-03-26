@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.28 2007/03/25 16:14:16 weitzman Exp $
+// $Id: og_views.inc,v 1.29 2007/03/26 03:04:13 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -101,7 +101,14 @@ function og_views_tables() {
           'list' => 'views_handler_filter_groupcurrent',
           'list-type' => 'select',
           'handler' => 'og_handler_filter_picg',
-        )
+        ),
+        'is_public' => array(
+          'name' => t('OG: Public'),
+          'help' => t('Posts marked as Public, which are viewable by non group members as well.'),
+          'operator' => array('=' => 'Is'),
+          'list' => 'views_handler_operator_yesno',
+          'list-type' => 'select',
+        ),
       ),    
       'fields' => array(  
         'is_public' => array(
