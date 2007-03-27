@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.345 2007/03/25 16:14:16 weitzman Exp $
+// $Id: og.module,v 1.346 2007/03/27 03:26:12 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -828,7 +828,7 @@ function og_get_subscriptions($uid, $min_is_active = 1) {
       $subscriptions[$uid][$row['nid']] = $row;
     }
 
-    if (!$subscriptions[$uid]) {
+    if (!isset($subscriptions[$uid])) {
       $subscriptions[$uid] = array();
     }
   }
