@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.20 2007/04/26 13:42:26 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.21 2007/04/26 14:57:20 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -671,7 +671,7 @@ function og_views_default_views() {
   $view->page_empty = t('No groups');
   $view->page_empty_format = '1';
   $view->page_type = 'table';
-  $view->url = 'og/all';
+  $view->url = 'og';
   $view->use_pager = TRUE;
   $view->nodes_per_page = '90';
   $view->menu = TRUE;
