@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.351 2007/04/26 14:31:46 weitzman Exp $
+// $Id: og.module,v 1.352 2007/04/26 14:56:54 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -46,7 +46,6 @@ function og_menu($may_cache) {
   if ($may_cache) {
     // anon users should be able to get to the subscribe page
     $items[] = array('path' => 'og/subscribe', 'type' => MENU_CALLBACK, 'callback' => 'og_subscribe', 'access' => TRUE, 'title' => t('Subscribe to group'));
-    $items[] = array('path' => 'og', 'callback' => 'og_list_groups_page', 'title' => t('Groups'), 'weight' => 3, 'access' => user_access('access content'));
     
     $access = $user->uid; // login is required
     $items[] = array('path' => 'og/opml', 'type' => MENU_CALLBACK, 'callback' => 'og_opml', 'access' => $access, 'title' => t('OPML'));
