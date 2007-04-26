@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.19 2007/03/26 03:04:31 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.20 2007/04/26 13:42:26 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -559,7 +559,7 @@ function og_views_default_views() {
   $view->view_args_php = '';
   $view->page = TRUE;
   $view->page_title = t('My groups');
-  $view->page_header = t('You may edit your all your email subscription using this convenient page. Also, you might be interested in an <a href="!url" rel="nofollow">OPML feed containing feeds from all your subscribed groups</a>.', array('!url' => url('og/opml')));
+  $view->page_header = t('You may edit all your email subscriptions using this convenient page. Also, you might be interested in an <a href="!url" rel="nofollow">OPML feed containing feeds from all your subscribed groups</a>.', array('!url' => url('og/opml')));
   $view->page_header_format = '1';
   $view->page_footer = '<?php
 
