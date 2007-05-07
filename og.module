@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.355 2007/05/06 20:14:53 weitzman Exp $
+// $Id: og.module,v 1.356 2007/05/07 02:28:43 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -118,7 +118,7 @@ function og_menu_check() {
   $args = func_get_args();
   $function = array_shift($args);
   $groups = array_keys($user->og_groups);
-  if (user_access('administer nodes') || isset($groups[$args[0]])) {
+  if (user_access('administer nodes') || in_array($args[0], $groups)) {
     return call_user_func_array($function, $args);
   }
   else {
