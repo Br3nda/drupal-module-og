@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.27 2007/03/20 22:08:59 weitzman Exp $
+// $Id: og.install,v 1.28 2007/05/23 22:31:56 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -399,6 +399,15 @@ function og_update_16() {
   }
   return array();
 }
+
+function og_update_17() {
+  // we are once again putting group nodes into the node access system. see http://drupal.org/node/128306
+  if (variable_get('og_enabled', 0)) {
+    node_access_rebuild();
+  }
+  return array();
+}
+
 
 // An implementation of hook_disable
 // Causes a node_access rebuild
