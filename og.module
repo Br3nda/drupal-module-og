@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.356 2007/05/07 02:28:43 weitzman Exp $
+// $Id: og.module,v 1.357 2007/05/23 15:53:18 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -95,7 +95,7 @@ function og_menu($may_cache) {
       }
       // group admin only
       $node = node_load($gid);
-      $items[] = array('path' => "og/users/$gid/add", 'callback' => 'drupal_get_form', 'title' => t('Add subscribers'), 'callback arguments' => array('og_add_users', $gid), 'type' => MENU_LOCAL_TASK, 'weight' => 5, 'access' => node_access('update', $node));
+      $items[] = array('path' => "og/users/$gid/add_user", 'callback' => 'drupal_get_form', 'title' => t('Add subscribers'), 'callback arguments' => array('og_add_users', $gid), 'type' => MENU_LOCAL_TASK, 'weight' => 5, 'access' => node_access('update', $node));
     }
     
     // email tab on group node
