@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.21 2007/04/26 14:57:20 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.22 2007/05/23 19:19:55 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -222,7 +222,7 @@ function og_views_tables() {
       // here's a filter that is limited to og content types to be used for exposed filters that should not contain other values
      'filters' => array(
         'og_type_selector' => array(
-          'field' => 'type_selector',
+          'field' => 'type',
           'name' => t('OG: node type (selector)'),
           'list' => $type_options,
           'list-type' => 'list',
