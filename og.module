@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.357 2007/05/23 15:53:18 weitzman Exp $
+// $Id: og.module,v 1.358 2007/05/23 19:01:59 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -42,12 +42,12 @@ function og_help($section) {
 function og_menu($may_cache) {
   global $user;
   $items = array();
+  $access = $user->uid; // login is required
 
   if ($may_cache) {
     // anon users should be able to get to the subscribe page
     $items[] = array('path' => 'og/subscribe', 'type' => MENU_CALLBACK, 'callback' => 'og_subscribe', 'access' => TRUE, 'title' => t('Subscribe to group'));
     
-    $access = $user->uid; // login is required
     $items[] = array('path' => 'og/opml', 'type' => MENU_CALLBACK, 'callback' => 'og_opml', 'access' => $access, 'title' => t('OPML'));
     $items[] = array('path' => 'og/unsubscribe', 'type' => MENU_CALLBACK, 'callback' => 'og_unsubscribe', 'access' => $access, 'title' => t('Unsubscribe from group'));
     $items[] = array('path' => 'og/approve', 'type' => MENU_CALLBACK, 'callback' => 'og_approve', 'access' => $access, 'title' => t('Approve subscription request'));
