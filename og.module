@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.65 2007/05/24 02:51:39 weitzman Exp $
+// $Id: og.module,v 1.298.2.66 2007/05/24 21:38:36 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2003,6 +2003,8 @@ function og_node_access_records($node) {
   if (og_is_group_type($node->type)) {
     // this grant allows group admins to manage stuff
     $grants[] = array('realm' => 'og_subscriber', 'gid' => $node->nid, 'grant_view' => 1, 'grant_update' => 1, 'grant_delete' => 1);
+    // this one lets everyone see group homepage. see 'private groups' issue if you don't want this. we need help.
+    $grants[] = array('realm' => 'og_public', 'gid' => 0, 'grant_view' => 1, 'grant_update' => 0, 'grant_delete' => 0);
   }
   elseif (is_array($node->og_groups)) {
     // applies to non group nodes
@@ -2012,7 +2014,6 @@ function og_node_access_records($node) {
     }
   }
   
-  // this grant now gets set on group nodes as well as regular nodes
   if ($node->og_public) {
     $grants[] = array('realm' => 'og_public', 'gid' => 0, 'grant_view' => 1, 'grant_update' => 0, 'grant_delete' => 0);
   }
