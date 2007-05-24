@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.64 2007/05/24 02:47:55 weitzman Exp $
+// $Id: og.module,v 1.298.2.65 2007/05/24 02:51:39 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1721,7 +1721,7 @@ function og_mail($type, $obj) {
               (oug.og_email IS NULL AND ou.mail_type=1) OR
               (oug.og_email = %d AND ou.mail_type=1) OR
               (oug.og_email = %d)
-            )";
+              ) AND u.status = 1";
     $result = db_query($sql, OG_NOTIFICATION_SELECTIVE, OG_NOTIFICATION_ALWAYS);
     while ($row = db_fetch_object($result)) {
       // append these group specific variables
