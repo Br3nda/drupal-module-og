@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.28 2007/05/23 22:31:56 weitzman Exp $
+// $Id: og.install,v 1.26.2.1 2007/05/24 20:40:43 dww Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -394,9 +394,7 @@ function og_update_15() {
 
 function og_update_16() {
   // we are no longer denying access to nodes without groups. see http://drupal.org/node/107289
-  if (variable_get('og_enabled', 0)) {
-    node_access_rebuild();
-  }
+  node_access_rebuild();
   return array();
 }
 

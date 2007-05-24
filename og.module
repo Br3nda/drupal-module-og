@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.362 2007/05/24 02:56:55 weitzman Exp $
+// $Id: og.module,v 1.342.2.1 2007/05/24 20:40:43 dww Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -32,7 +32,7 @@ define('OG_NOTIFICATION_SELECTIVE', 2);
 
 function og_help($section) {
   switch ($section) {
-    case strlen(section) && strstr($section, 'admin/build/block/configure/og'):
+    case strstr($section, 'admin/build/block/configure/og'):
       return t('Group specific blocks are only visible on group pages and not on systemwide pages like the home page or admin pages.');
     case 'admin/settings/og':
       return t('In order to let group admins determine their own group theme, you must enable multiple themes using !page.', array('!page' => l(t('theme configuration page'), 'admin/build/themes')));
@@ -47,6 +47,7 @@ function og_menu($may_cache) {
   if ($may_cache) {
     // anon users should be able to get to the subscribe page
     $items[] = array('path' => 'og/subscribe', 'type' => MENU_CALLBACK, 'callback' => 'og_subscribe', 'access' => TRUE, 'title' => t('Subscribe to group'));
+    $items[] = array('path' => 'og', 'callback' => 'og_list_groups_page', 'title' => t('Groups'), 'weight' => 3, 'access' => user_access('access content'));
     
     $items[] = array('path' => 'og/opml', 'type' => MENU_CALLBACK, 'callback' => 'og_opml', 'access' => $access, 'title' => t('OPML'));
     $items[] = array('path' => 'og/unsubscribe', 'type' => MENU_CALLBACK, 'callback' => 'og_unsubscribe', 'access' => $access, 'title' => t('Unsubscribe from group'));
@@ -995,7 +996,7 @@ function og_opml() {
 
   global $user;
   foreach ($user->og_groups as $gid => $group) {
-    $output .= '<outline text="'. check_plain($group['title']) .'" xmlUrl="'. url("node/$gid/feed", NULL, NULL, TRUE) ."\" />\n";    
+    $output .= '<outline text="'. check_plain($group->title) .'" xmlUrl="'. url("node/$gid/feed", NULL, NULL, TRUE) ."\" />\n";    
   }
 
   $output .= "</body>\n";
@@ -1251,12 +1252,6 @@ function og_update_group($node) {
   db_query($sql, $node->theme, $node->og_selective, $node->og_register, $node->og_description, $node->og_website, $node->og_directory, $node->og_notification, $node->og_language, $node->nid);
 }
 
-// returns TRUE if node type should generate email notifications when posted to a group.
-function og_node_type_notify($type) {
-  $omitted = variable_get('og_omitted_email_node_types', array());
-  return in_array($type, $omitted) ? FALSE : TRUE;
-}
-
 /**
  * Implementation of hook_nodeapi().
  *
@@ -1346,7 +1341,7 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       // TODO: move this to cron to help give time to fix typos, and help scaling. create new module
       // implementing an SMTP library that uses cron.
       if (!module_exists('og2list')) {
-        if ($node->status && og_node_type_notify($node->type)) {
+        if ($node->status) {
           $node->msgid = "$node->nid-0". og_msgid_server();
           og_mail(node_get_types('name', $node), $node);
         }
@@ -1415,8 +1410,6 @@ function og_form_alter($form_id, &$form) {
     }
   }
   
-  // add option to migrate messages before deleting a group
-  // TODO: add option to move subscriptions as well
   if ($form_id == 'node_delete_confirm') {
     $node = node_load($form['nid']['#value']);
     if (og_is_group_type($node->type)) {
@@ -2047,7 +2040,6 @@ function og_block($op = 'list', $delta = 0, $edit = array()) {
     // Now provided by og_views. Please don't reuse this number 4
     // $blocks[4]['info'] = t('My groups');
     $blocks[5]['info'] = t('Group notifications');
-    $blocks[6]['info'] = t('Group Network');
     
     // Auto-enable the group blocks for fresh installations.
     $blocks[0]['status'] = 1;
@@ -2067,8 +2059,6 @@ function og_block($op = 'list', $delta = 0, $edit = array()) {
         return og_block_new();
       case 5:
         return og_block_notifications();
-      case 6:
-        return og_block_users_network();
     }
   }
   elseif ($op == 'configure') {
@@ -2130,6 +2120,7 @@ function theme_opml_icon($url) {
   }
 }
 
+
 function og_block_new() {
   list($types, $in) = og_get_sql_args();
   $sql = "SELECT COUNT(*) FROM {node} n INNER JOIN {og} og ON n.nid = og.nid WHERE og.directory=1 AND n.type IN ($in) AND n.status = 1";
@@ -2148,21 +2139,6 @@ function og_block_new() {
   }
 }
 
-function og_block_users_network() {
-  global $user;
-  if ($user->uid && count($user->og_groups)) {
-    $max = variable_get('og_block_cnt_2', 10);
-    $placeholders = array_fill(0, count($user->og_groups), "'%s'");
-    $sql = "SELECT ogu.uid, u.name, u.picture FROM {og_uid} ogu INNER JOIN {users} u ON ogu.uid = u.uid WHERE ogu.uid != %d AND ogu.nid IN (". implode(", ", $placeholders) .") GROUP BY ogu.uid, u.name, u.picture ORDER BY ogu.created DESC";
-    $args = array_keys($user->og_groups);
-    array_unshift($args, $user->uid);
-    $result = db_query_range($sql, $args, 0, $max);
-    $block['content'] = og_user_title_list($result, NULL, FALSE);
-    $block['subject'] = t('My Network');
-    return $block;
-  }
-}
-
 function og_block_subscribers() {
   global $user;
   if ($group_node = og_get_group_context()) {
@@ -2172,38 +2148,30 @@ function og_block_subscribers() {
       $max = variable_get('og_block_cnt_2', 10);
       $sql = "SELECT DISTINCT(u.uid), u.* FROM {og_uid} ogu INNER JOIN {users} u ON ogu.uid = u.uid WHERE ogu.nid = %d ORDER BY ogu.created DESC";
       $result = db_query_range($sql, $gid, 0, $max);
-      $block['content'] = og_user_title_list($result, $gid);
-      $block['subject'] = t('Recently joined');
-      return $block;
-    }
-  }
-}
+      while ($row = db_fetch_object($result)) {
+        if (og_is_picture()) {
+          //showing member pictures
+          $link = theme('user_picture', $row). theme('username', $row);
+        }
+        else {
+          $link = theme('username', $row);
+        }
+        $links[] = $link;
+      }
 
-// shows users. analogous to node_title_list()
-function og_user_title_list($result, $gid = NULL, $show_more = TRUE) {
-  while ($row = db_fetch_object($result)) {
-    if (og_is_picture()) {
-      //showing member pictures
-      $link = theme('user_picture', $row). theme('username', $row);
-    }
-    else {
-      $link = theme('username', $row);
-    }
-    $links[] = $link;
-  }
-
-  if ($links) {
-    $max = variable_get('og_block_cnt_2', 10);
-    if (count($links) > $max-1) {
-      array_pop($links);
-      $txt = t('more');
-      $title = array('title' => t('View all subscribers.'));
-      if ($show_more) {
-        $more = og_is_picture() ? l($txt, "og/users/$gid/faces", $title) : l($txt, "og/users/$gid", $title);
-        $append = "<div class=\"more-link\">$more</div>";
+      if ($links) {
+        if (count($links) > $max-1) {
+          array_pop($links);
+          $txt = t('more');
+          $title = array('title' => t('View all subscribers.'));
+          $more = og_is_picture() ? l($txt, "og/users/$gid/faces", $title) : l($txt, "og/users/$gid", $title);
+          $append = "<div class=\"more-link\">$more</div>";
+        }
+        $block['content'] = theme('item_list', $links). $append;
+        $block['subject'] = t('Recently joined');
+        return $block;
       }
     }
-    return theme('item_list', $links). $append;
   }
 }
 
@@ -2222,59 +2190,61 @@ function og_block_details() {
 function og_og_block_details($node) {
   global $user;
 
-  $result = db_query(og_list_users_sql(0), $node->nid);
-  $cntall = db_num_rows($result);
-  $cntpending = 0;
-  while ($row = db_fetch_object($result)) {
-    if ($row->is_active == 0) {
-      $cntpending++;
-    }
-    if ($row->uid == $user->uid) {
-      if ($row->is_active) {
-        $subscription = 'active';
+  if ($node = og_get_group_context()) {
+    $result = db_query(og_list_users_sql(0), $node->nid);
+    $cntall = db_num_rows($result);
+    $cntpending = 0;
+    while ($row = db_fetch_object($result)) {
+      if ($row->is_active == 0) {
+        $cntpending++;
       }
-      else {
-        $subscription = 'requested';
+      if ($row->uid == $user->uid) {
+        if ($row->is_active) {
+          $subscription = 'active';
+        }
+        else {
+          $subscription = 'requested';
+        }
       }
     }
-  }
 
-  if ($subscription == 'active' || user_access('administer nodes')) {
-    $links = module_invoke_all('og_create_links', $node);
-    if ($node->og_selective < OG_INVITE_ONLY) {
-      $links[] = l(t('Invite friend'), "og/invite/$node->nid");
+    if ($subscription == 'active' || user_access('administer nodes')) {
+      $links = module_invoke_all('og_create_links', $node);
+      if ($node->og_selective < OG_INVITE_ONLY) {
+        $links[] = l(t('Invite friend'), "og/invite/$node->nid");
+      }
+      $txt = format_plural($cntall-$cntpending, '1 subscriber', '@count subscribers');
+      $txt = og_is_picture() ? l($txt, "og/users/$node->nid/faces") : l($txt, "og/users/$node->nid");
+      $txt .= $cntpending ? " ($cntpending)" : '';
+      $links[] = $txt;
+      $links[] =  t('Manager: '). theme('username', $node);
+      $links[] = isset($subscription) ? l(t('My subscription'), "og/manage/$node->nid") : og_subscribe_link($node);
+      if (isset($node->og_website) && !empty($node->og_website)) {
+        $links[] = l(t('website'), $node->og_website);
+      }
+      if (module_exists('search') && user_access('search content')) {
+        $post = drupal_get_form('og_search_form', $node);
+      }
     }
-    $txt = format_plural($cntall-$cntpending, '1 subscriber', '@count subscribers');
-    $txt = og_is_picture() ? l($txt, "og/users/$node->nid/faces") : l($txt, "og/users/$node->nid");
-    $txt .= $cntpending ? " ($cntpending)" : '';
-    $links[] = $txt;
-    $links[] =  t('Manager: '). theme('username', $node);
-    $links[] = isset($subscription) ? l(t('My subscription'), "og/manage/$node->nid") : og_subscribe_link($node);
-    if (isset($node->og_website) && !empty($node->og_website)) {
-      $links[] = l(t('website'), $node->og_website);
+    elseif ($subscription == 'requested') {
+      $links[] = t('Your subscription request awaits approval.');
+      $links[] = l(t('delete request'), "og/unsubscribe/$node->nid", array(), 'destination=og');
     }
-    if (module_exists('search') && user_access('search content')) {
-      $post = drupal_get_form('og_search_form', $node);
+    elseif (!$user->uid) {
+      $dest = drupal_get_destination();
+      $links[] = t('You must <a href="!register">register</a>/<a href="!login">login</a> in order to post into this group.', array('!register' => url("user/register", $dest), '!login' => url("user/login", $dest)));
     }
-  }
-  elseif ($subscription == 'requested') {
-    $links[] = t('Your subscription request awaits approval.');
-    $links[] = l(t('delete request'), "og/unsubscribe/$node->nid", array(), 'destination=og');
-  }
-  elseif (!$user->uid) {
-    $dest = drupal_get_destination();
-    $links[] = t('You must <a href="!register">register</a>/<a href="!login">login</a> in order to post into this group.', array('!register' => url("user/register", $dest), '!login' => url("user/login", $dest)));
-  }
-  elseif ($node->og_selective < OG_INVITE_ONLY) {
-    $links[] = og_subscribe_link($node);
-  }
-  else {
-    $links[] = t('This is a @closed group. The group administrators add/remove subscribers as needed.', array('@closed' => t('closed')));
-  }
+    elseif ($node->og_selective < OG_INVITE_ONLY) {
+      $links[] = og_subscribe_link($node);
+    }
+    else {
+      $links[] = t('This is a @closed group. The group administrators add/remove subscribers as needed.', array('@closed' => t('closed')));
+    }
 
-  $block['content'] = theme('item_list', $links). $post;
-  $block['subject'] = $node->title;
-  return $block;
+    $block['content'] = theme('item_list', $links). $post;
+    $block['subject'] = $node->title;
+    return $block;
+  }
 }
 
 function og_subscribe_link($node) {
@@ -2384,21 +2354,19 @@ function og_admin_settings() {
   foreach ($types as $type) {
     $options[$type->type] = t($type->name);
   }
-  $all_node_type_options = $options;   // save this for og_node_types
+  $og_node_type_options = $options;   // save this for og_node_types
   // hide node types which are already serving as a group node
   foreach (variable_get('og_node_types', array('og')) as $val) {
     unset($options[$val]);
   }
-  $non_group_type_options = $options;   // save this for og_node_types
-  $form['og_settings']['node_form']['og_omitted'] = array('#type' => 'select', '#title' => t('Omitted content types'), '#default_value' => variable_get('og_omitted', array()), '#options' => $non_group_type_options, '#description' => t('Select any node types which should <em>not</em> participate in the Audience targetting system. Node types which are designated as group home page node types (see below) will be automatically excluded.'), '#multiple' => TRUE);
+  $form['og_settings']['node_form']['og_omitted'] = array('#type' => 'select', '#title' => t('Omitted content types'), '#default_value' => variable_get('og_omitted', array()), '#options' => $options, '#description' => t('Select any node types which should <em>not</em> participate in the Audience targetting system. Node types which are designated as group home page node types (see below) will be automatically excluded.'), '#multiple' => TRUE);
 
   $form['og_settings']['home'] = array('#type' => 'fieldset', '#title' => t('Group home page'), '#collapsible' => TRUE, '#collapsed' => TRUE);
   $options = og_get_available_views();
   $form['og_settings']['home']['og_home_page_view'] = array('#type' => 'radios', '#title' => t('Presentation style'), '#options' => $options, '#default_value' => variable_get('og_home_page_view', 'og_ghp_ron'), '#description' => t('Pick a View for your group home page. Only Views whose names start with <strong>og_ghp_</strong> are eligible. The View determines the layout of your home page. You may alter the presentation using usual the !theme. Also see the Theme section of the OG README file.', array('!theme' => l(t('usual Views themeing techniques'), 'http://drupal.org/node/42597'))));
-  $form['og_settings']['home']['og_node_types'] = array('#type' => 'select', '#title' => t('Group home page node types'), '#default_value' => variable_get('og_node_types', array('og')), '#options' => $all_node_type_options, '#required' => TRUE, '#description' => t("<b>Required</b>. Select the node types which act as group home pages. Usually, you will want to !create called <em>group</em> for this purpose.", array('!create' => l(t('create a simple node type'), 'admin/content/types'))), '#multiple' => TRUE);
+  $form['og_settings']['home']['og_node_types'] = array('#type' => 'select', '#title' => t('Group home page node types'), '#default_value' => variable_get('og_node_types', array('og')), '#options' => $og_node_type_options, '#required' => TRUE, '#description' => t("<b>Required</b>. Select the node types which act as group home pages. Usually, you will want to !create called <em>group</em> for this purpose.", array('!create' => l(t('create a simple node type'), 'admin/content/types'))), '#multiple' => TRUE);
 
   $form['og_settings']['email'] = array('#type' => 'fieldset', '#title' => t('Email settings'), '#collapsible' => TRUE, '#collapsed' => TRUE);
-  $form['og_settings']['email']['og_omitted_email_node_types'] = array('#type' => 'select', '#title' => t('Omitted node types for email notifications'), '#default_value' => variable_get('og_omitted_email_node_types', array()), '#options' => $non_group_type_options, '#description' => t("Select any node types which should <b>not</b> generate email notifications when they are posted into a group."), '#multiple' => TRUE);
   $form['og_settings']['email']['og_new_node_subject'] = array('#type' => 'textfield', '#title' => t('New content subject'), '#description' => 'Subject of email for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @body, @username. %subject contains the comment title in the case of a comment but the node title in the case of a new post. @title is always the node title.', '#default_value' => _og_user_mail_text('og_new_node_subject'));
   $form['og_settings']['email']['og_new_node_body'] = array('#type' => 'textarea', '#title' => t('New content body'), '#rows' => 10, '#description' => 'Body of email for new content. Available variables: @group, !group_url, @type, @site, !content_url, !reply_url, @title, @subject, @body, @username. @subject contains the comment title in the case of a comment but the node title in the case of a new post. %title is always the node title.', '#default_value' => _og_user_mail_text('og_new_node_body'));
   $form['og_settings']['email']['og_admin_email_body'] = array('#type' => 'textarea', '#title' => t('Group admin email body'), '#rows' => 10, '#description' => 'The body of the email sent to users from the group admin. Available variables: @group, @body, @site, !url_group, !url_unsubscribe', '#default_value' => _og_user_mail_text('og_admin_email_body'));
@@ -2525,20 +2493,5 @@ function og_db_rewrite_sql($sql, $primary_table, $primary_field,  $args) {
     $query['join'] = 'INNER JOIN {og_ancestry} oga ON n.nid = oga.nid';
     $query['where'] =  'oga.group_nid = '. $args['og_nid'];
     return $query;
-  }
-}
-
-// A hook from replies.module. Return TRUE if og is handling the notification to a given recipient on a given reply
-function og_replies_mine($comment, $recipient) {
-  $node = node_load($comment->nid);
-  // check each group that this node is in
-  foreach ((array)$node->og_groups as $gid) {
-    // check if recipient is an active member
-    if (isset($recipient->og_groups[$gid]) && $recipient->og_groups[$gid]['is_active']) {
-      // check if user is already getting this group notification
-      if ($recipient->og_email || $recipient->og_groups[$gid]['mail_type']) {
-        return TRUE;
-      }
-    }
   }
 }

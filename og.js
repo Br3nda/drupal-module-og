@@ -1,4 +1,4 @@
-// $Id: og.js,v 1.4 2007/03/27 03:26:12 weitzman Exp $
+// $Id: og.js,v 1.2.2.1 2007/05/24 20:40:43 dww Exp $
 
 Drupal.ogAttach = function() {
 /*  Disable the public checkbox if no groups are selected in in Audience*/
