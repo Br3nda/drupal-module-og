@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.342.2.2 2007/05/24 22:05:01 weitzman Exp $
+// $Id: og.module,v 1.342.2.3 2007/05/30 01:34:43 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2283,7 +2283,7 @@ function og_search_form($group) {
     '#value' => t('Search'),
   );
   $form['#process'] = array('views_filters_process' => array());
-  $form['#method'] = 'GET';
+  $form['#method'] = 'get';
   $form['#action'] = url("og/search/$group->nid");
   return $form;
 } 
