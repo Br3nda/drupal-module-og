@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.29 2007/05/24 21:42:25 weitzman Exp $
+// $Id: og.install,v 1.30 2007/06/04 03:36:36 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -87,8 +87,14 @@ function og_install() {
       ");
       break;
   }
-  _block_rehash(); // enable standard og blocks
   drupal_set_message(t('Organic groups module enabled. Please see the included readme.txt file for further installation instructions.'));
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function og_enable() {
+  _block_rehash(); // enable standard og blocks
 }
 
 // 2006-05-31 PFM: deletes row if present in the table.  The first parameter
