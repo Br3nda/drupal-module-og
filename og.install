@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.10 2007/05/24 21:42:56 weitzman Exp $
+// $Id: og.install,v 1.21.2.11 2007/07/03 00:19:03 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -10,7 +10,6 @@ function og_install() {
         selective int(11) NOT NULL default '0',
         description varchar(255) NULL,
         theme varchar(255) NULL,
-        website varchar(255) NULL,
         register int(1) NOT NULL default 0,
         directory int(1) NOT NULL default 0,
         notification int(1) NOT NULL default 0,

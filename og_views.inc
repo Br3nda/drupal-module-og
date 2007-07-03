@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.23 2007/06/23 07:40:31 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.24 2007/07/03 00:19:03 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -25,10 +25,6 @@ function og_views_tables() {
       'fields' => array(
         'description' => array(
           'name' => t('Og: Group: Description'),
-        ),
-        'website' => array(
-          'name' => t('Og: Group: Website'),
-          'handler' => 'og_handler_field_website',
         ),
         'count' => array(
           'name' => t('Og: Group: Subscriber Count'),
@@ -1043,15 +1039,6 @@ function og_handler_field_count($fieldinfo, $fielddata, $value, $data) {
 
   $cnt = db_num_rows(db_query(og_list_users_sql(), $data->nid));
   return in_array($data->nid, array_keys($user->og_groups)) ? l($cnt, "og/users/$data->nid") : $cnt;
-}
-
-/**
- * Views handler to display the external website field
- */
-function og_handler_field_website($fieldinfo, $fielddata, $value, $data) {
-  if ($value) {
-    return l(t('external website'), $value);
-  }
 }
 
 /**
