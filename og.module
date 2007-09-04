@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.371 2007/09/04 03:30:21 weitzman Exp $
+// $Id: og.module,v 1.372 2007/09/04 03:37:19 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -947,7 +947,9 @@ function og_list_users_faces_page($gid) {
   $sql = og_list_users_sql(0,0,'ou.is_admin DESC, u.picture DESC, u.name ASC');
   /* list group admins first, pending subscribers second, regular subscribers last.  Alphabetize within each of these catergories */
   $result = pager_query($sql, 100, 0, NULL, $gid);
-  return theme('og_picture_grid', $result);
+  $output = theme('og_picture_grid', $result);
+  $output .= theme('pager', NULL, 100);
+  return $output;
 }
 
 // from views_bonus: grid.inc
