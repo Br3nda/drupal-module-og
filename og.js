@@ -1,4 +1,4 @@
-// $Id: og.js,v 1.4 2007/03/27 03:26:12 weitzman Exp $
+// $Id: og.js,v 1.5 2007/09/04 03:22:48 weitzman Exp $
 
 Drupal.ogAttach = function() {
 /*  Disable the public checkbox if no groups are selected in in Audience*/
@@ -29,7 +29,7 @@ Drupal.ogAttach = function() {
 	      $('#edit-og-public').attr("disabled", "disabled");
 	  }				
 	}
-}
+};
 
 if (Drupal.jsEnabled) {
   $(document).ready(Drupal.ogAttach);
