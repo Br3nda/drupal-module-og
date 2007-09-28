@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.45 2007/09/27 16:40:08 weitzman Exp $
+// $Id: og_views.inc,v 1.46 2007/09/28 20:35:54 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -349,7 +349,7 @@ function og_handler_argument_group_name_like($op, &$query, $argtype, $arg = '') 
       views_handler_filter_like('handler', $filter, $filterinfo, $query);
       break;
     case 'title':
-      return db_result(db_query_range('SELECT title FROM {node} WHERE nid = %d', $query, 0, 1));;
+      return check_plain($query);
   }
 }
 
