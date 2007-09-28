@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.36 2007/09/28 14:39:35 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.37 2007/09/28 20:36:45 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -342,13 +342,14 @@ function og_handler_argument_group_name_like($op, &$query, $argtype, $arg = '') 
       $query->orderby[] = ' num_nodes '. $argtype;
       break;
     case 'filter':
+      $query->ensure_table('og_node_data');
       $filterinfo['table'] = 'og_node_data';
       $filterinfo['field'] = 'title';
       $filter = array('value' => $arg, 'operator' => $argtype['options']);
       views_handler_filter_like('handler', $filter, $filterinfo, $query);
       break;
     case 'title':
-      return db_result(db_query_range('SELECT title FROM {node} WHERE nid = %d', $query, 0, 1));;
+      return check_plain($query);
   }
 }
 
