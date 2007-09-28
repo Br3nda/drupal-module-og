@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.35 2007/09/27 16:40:14 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.36 2007/09/28 14:39:35 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -342,7 +342,6 @@ function og_handler_argument_group_name_like($op, &$query, $argtype, $arg = '') 
       $query->orderby[] = ' num_nodes '. $argtype;
       break;
     case 'filter':
-      $query->ensure_table('og_node_data');
       $filterinfo['table'] = 'og_node_data';
       $filterinfo['field'] = 'title';
       $filter = array('value' => $arg, 'operator' => $argtype['options']);
