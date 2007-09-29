@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.387 2007/09/28 15:26:52 weitzman Exp $
+// $Id: og.module,v 1.388 2007/09/29 12:05:11 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1841,7 +1841,7 @@ function og_mail_output($body, $html = TRUE) {
   static $i = 0;
 
   if ($html) {
-    $pattern = '@(<a href="(.+?)">(.+?)</a>)@ei';
+    $pattern = '@<a +([^ >]+ )*?href *= *"([^>"]+?)"[^>]*>([^<]+?)</a>@ei';
     $body = preg_replace($pattern, "'\\3 ['. og_mail_urls('\\2') .']'", $body);
     $urls = og_mail_urls();
     if (count($urls)) {
