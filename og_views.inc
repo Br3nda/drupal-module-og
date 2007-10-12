@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.40 2007/10/02 21:04:17 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.41 2007/10/12 19:54:45 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -1308,6 +1308,15 @@ function og_views_query_substitutions($view) {
   $groupnode = og_get_group_context();
   // return -1 instead of 0 to avoid matching all posts without a group
   return array('***CURRENT_GID***' => $groupnode ? $groupnode->nid : -1);
+}
+
+/**
+ * An implementation of hook_view_url_tokens.
+ */
+function og_views_url_tokens() {
+  return array(
+    '$group' => 'og_url_group',
+  );
 }
 
 /**
