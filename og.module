@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.106 2007/10/12 19:54:45 weitzman Exp $
+// $Id: og.module,v 1.298.2.107 2007/10/23 01:50:10 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -413,7 +413,6 @@ function og_save_subscription($gid, $uid, $args = array()) {
   if ($cnt == 0) {
     // this pattern borrowed from user_save()
     $fields = array('nid', 'uid', 'created', 'changed');
-    $group = node_load($gid);
     $values = array($gid, $uid, $args['created'] ? $args['created'] : $time, $time);
     unset($args['created']);
     foreach ($args as $key => $value) {
