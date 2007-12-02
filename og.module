@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.110 2007/12/02 01:30:19 weitzman Exp $
+// $Id: og.module,v 1.298.2.111 2007/12/02 01:32:19 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1010,8 +1010,8 @@ function og_page_activity() {
   $header = array(
     array('data' => t('Title'), 'field' => 'node_group_nid.title'),
     array('data' => t('Manager'), 'field' => 'u.name'),
-    array('data' => t('Node cnt'), 'field' => 'ncount'),
-    array('data' => t('Comment cnt'), 'field' => 'ccount'),
+    array('data' => t('Posts'), 'field' => 'ncount'),
+    array('data' => t('Comments'), 'field' => 'ccount'),
     array('data' => t('Age'), 'field' => 'node_group_nid.created'),
     array('data' => t('Last comment'), 'field' => 'lct', 'sort' => 'asc'),
   );
