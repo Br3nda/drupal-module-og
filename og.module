@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.109 2007/10/24 00:09:46 weitzman Exp $
+// $Id: og.module,v 1.298.2.110 2007/12/02 01:30:19 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1547,6 +1547,7 @@ function og_form_add_og_audience($form_id, &$form) {
   }
   else {
     $subs = og_get_subscriptions($node->uid);
+    $options = array();
     foreach ($subs as $key => $val) {
       $options[$key] = $val['title'];
     }
