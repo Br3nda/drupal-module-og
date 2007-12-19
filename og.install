@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.16 2007/12/19 04:05:50 weitzman Exp $
+// $Id: og.install,v 1.21.2.17 2007/12/19 05:13:58 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -87,7 +87,7 @@ function og_install() {
   }
   
   _block_rehash(); // enable standard og blocks
-  drupal_set_message(t('Organic groups module enabled. Please see the included <a href="!readme">README file</a> for further installation instructions.', array('!readme' => url(drupal_get_path('module', 'og'). '/README.txt'))));
+  drupal_set_message(t('Organic groups module enabled. Please see the included !README file for further installation instructions.', array('!README' => og_readme())));
   
 }
 
