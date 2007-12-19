@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.37 2007/12/19 04:26:22 weitzman Exp $
+// $Id: og.install,v 1.38 2007/12/19 16:00:29 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -87,6 +87,10 @@ function og_install() {
   }
   
   _block_rehash(); // enable standard og blocks
+  
+
+  // Need og_readme() function.
+  drupal_load('module', 'og');
   drupal_set_message(t('Organic groups module enabled. Please see the included !README file for further installation instructions.', array('!README' => og_readme())));
   
 }
