@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.38 2007/12/19 16:00:29 weitzman Exp $
+// $Id: og.install,v 1.39 2007/12/22 04:27:36 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -86,7 +86,10 @@ function og_install() {
       break;
   }
   
-  _block_rehash(); // enable standard og blocks
+  // enable standard og blocks. for custom profiles, block may not be included yet.
+  if (function_exists('block_rehash')) {
+    _block_rehash();
+  }
   
 
   // Need og_readme() function.
