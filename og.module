@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.119 2008/01/01 00:40:48 weitzman Exp $
+// $Id: og.module,v 1.298.2.120 2008/01/01 00:42:16 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1222,7 +1222,7 @@ function og_group_form($node) {
         '#type' => 'checkbox',
         '#title' => t('private group'), 
         '#default_value' => $node->nid ? $node->og_private : $default, 
-        '#description' => t('Should this group be visible only by its subscribers?  Disabled if the group is set to <em>List in Directory</em> or Subscription requests: open'));
+        '#description' => t('Should this group be visible only by its subscribers?  Disabled if the group is set to <em>List in Directory</em> or <em>Subscription requests: open</em>'));
         break;
   }
   
