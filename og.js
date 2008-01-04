@@ -1,4 +1,4 @@
-// $Id: og.js,v 1.1.2.7 2007/12/31 22:21:29 weitzman Exp $
+// $Id: og.js,v 1.1.2.8 2008/01/04 02:12:58 weitzman Exp $
 
 Drupal.ogAttach = function() {
   /* Node authoring form for group content -Disable the public checkbox if no groups are selected in in Audience */
@@ -62,7 +62,7 @@ Drupal.ogAttach = function() {
    */
   $("#edit-og-private").click(function() { 
     if ($("#edit-og-private:checked").val()) {
-      $("#edit-og-directory").attr('disabled','disabled');
+      $("#edit-og-directory").removeAttr("checked").attr('disabled','disabled');
     }
     else {
       $("#edit-og-directory").removeAttr('disabled');
