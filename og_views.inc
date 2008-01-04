@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.43 2007/12/28 19:07:30 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.44 2008/01/04 02:13:36 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -65,6 +65,9 @@ function og_views_tables() {
         'selective' => array(
           'name' => t('OG: Group: Selective'),
         ),
+        'private' => array(
+          'name' => t('OG: Group: Selective'),
+        ),
         'subscribe' => array(
           'name' => t('OG: Group: Subscribe Link'),
           'handler' => 'og_handler_field_subscribe',
@@ -93,6 +96,13 @@ function og_views_tables() {
           'list' => 'views_handler_operator_yesno',
           'list-type' => 'select',
           'help' => t('Admin specifies whether or not a group appears in the public listings.'),
+        ),
+        'private' => array(
+          'name' => t('OG: Group: Private'),
+          'operator' => array('=' => 'Is'),
+          'list' => 'views_handler_operator_yesno',
+          'list-type' => 'select',
+          'help' => t('Is the group home page private or not.'),
         ),
         'selective' => array(
           'name' => t('OG: Group: Selective'),
