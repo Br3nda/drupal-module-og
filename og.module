@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.123 2008/01/09 04:57:12 weitzman Exp $
+// $Id: og.module,v 1.298.2.124 2008/01/09 05:20:34 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2076,7 +2076,7 @@ function og_user($op, $edit, &$account, $category = NULL) {
       }
       return $form;
     case 'form':
-      if ($category == 'account') {
+      if ($category == 'account' && !empty($account->og_groups)) {
         $form['og_settings'] = array(
           '#type' => 'fieldset',
           '#title' => t('Organic groups settings'),
