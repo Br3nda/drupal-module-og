@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.122 2008/01/04 02:15:44 weitzman Exp $
+// $Id: og.module,v 1.298.2.123 2008/01/09 04:57:12 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -388,10 +388,10 @@ function og_manage_form($group) {
       $submit = TRUE;
       break;
     case OG_NOTIFICATION_ALWAYS:
-      $form['mail_type'] = array('#type' => 'item', '#title' => t('Email notification'), '#value' => t('Your !prof is configured to: <em>Always receive email notifications</em>.', array('!prof' => l(t('personal profile'), "user/$user->uid/edit")))); 
+      $form['mail_type'] = array('#type' => 'item', '#title' => t('Email notification'), '#value' => t('Your <a href="!prof">personal profile</a> is configured to: <em>Always receive email notifications</em>.', array('!prof' => url("user/$user->uid/edit")))); 
       break;
     case OG_NOTIFICATION_NEVER:
-      $form['mail_type'] = array('#type' => 'item', '#title' => t('Email notification'), '#value' => t('Your !prof is configured to: <em>Never receive email notifications</em>.', array('!prof' => l(t('personal profile'), "user/$user->uid/edit")))); 
+      $form['mail_type'] = array('#type' => 'item', '#title' => t('Email notification'), '#value' => t('Your <a href="!prof">personal profile</a> is configured to: <em>Never receive email notifications</em>.', array('!prof' => url("user/$user->uid/edit")))); 
       break;
   }
   if ($submit) {
