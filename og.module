@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.427 2008/02/01 04:11:21 weitzman Exp $
+// $Id: og.module,v 1.428 2008/02/09 16:00:47 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1271,7 +1271,7 @@ function og_submit_group(&$node) {
   if (og_is_group_type($node->type)) {
     $node->comment = COMMENT_NODE_DISABLED;
   }
-  else {
+  elseif (!empty($node->og_groups)) {
     // Add the inaccessible groups which did not show in Audience selector
     $node->og_groups += (array)$node->og_groups_inaccessible;
   }
