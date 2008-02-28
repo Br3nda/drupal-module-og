@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.44 2008/01/04 02:13:36 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.45 2008/02/28 22:39:26 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -641,6 +641,7 @@ function og_views_default_views() {
   $view = new stdClass();
   $view->name = 'og_ghp_ron';
   $view->description = 'OG: Group home page - River of news. Default';
+  $view->page = TRUE;
   $view->page_type = 'teaser';
   $view->access = array ();
   $view->view_args_php = '';
