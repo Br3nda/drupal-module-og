@@ -1,5 +1,5 @@
 <?php
-// $Id: og_panels.module,v 1.1.2.8 2008/02/28 22:39:26 weitzman Exp $
+// $Id: og_panels.module,v 1.1.2.9 2008/03/02 01:34:10 weitzman Exp $
 
 function og_panels_help($section) {
   switch ($section) {
@@ -171,7 +171,7 @@ function og_panels_table($displays, $group_node) {
      $item['page_title'] = array('#value' => l($display->page_title, "node/$nid/$display->path"));
      $item['published'] = array('#value' => $display->published ? t('Yes') : t('No'));
      $item['edit content'] = array('#value' => l(t('edit content'), "node/$nid/og_panels/$display->did/panel_content", array(), drupal_get_destination()));
-     $item['edit layout'] = array('#value' => l(t('edit layout'), "node/$nid/og_panels/$display->did/panel_layout"));
+     $item['change layout'] = array('#value' => l(t('change layout'), "node/$nid/og_panels/$display->did/panel_layout"));
      $item['edit layout settings'] = array('#value' => l(t('edit layout settings'), "node/$nid/og_panels/$display->did/panel_settings"));
      $item['edit page'] = array('#value' => l(t('edit page'), "node/$nid/og_panels/form/$display->did", array(), drupal_get_destination()));
      $item['delete page'] =  array('#value' => l(t('delete page'), "node/$nid/og_panels/$display->did/delete", array(), drupal_get_destination()));
@@ -217,7 +217,7 @@ function theme_og_panels_table($form) {
         drupal_render($form[$did]['page_title']), 
         drupal_render($form[$did]['published']),
         drupal_render($form[$did]['edit content']),
-        drupal_render($form[$did]['edit layout']), 
+        drupal_render($form[$did]['change layout']), 
         drupal_render($form[$did]['edit layout settings']), 
         drupal_render($form[$did]['edit page']),
         drupal_render($form[$did]['delete page']),
