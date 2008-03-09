@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.56 2008/03/06 17:47:25 weitzman Exp $
+// $Id: og_views.inc,v 1.57 2008/03/09 12:47:40 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -1287,7 +1287,7 @@ function og_handler_post_count($fieldinfo, $fielddata, $value, $data) {
 function og_handler_post_count_new($fieldinfo, $fielddata, $value, $data) {
   global $user;
 
-  $cnt = db_result(db_query(db_rewrite_sql('SELECT COUNT(*) FROM {node} n INNER JOIN {og_ancestry} oga ON n.nid = oga.nid LEFT JOIN history h ON n.nid=h.nid AND h.uid = %d WHERE n.status = 1 AND oga.group_nid = %d AND h.timestamp IS NULL AND n.created > %d'), $user->uid, $data->nid, NODE_NEW_LIMIT));
+  $cnt = db_result(db_query(db_rewrite_sql('SELECT COUNT(*) FROM {node} n INNER JOIN {og_ancestry} oga ON n.nid = oga.nid LEFT JOIN {history} h ON n.nid=h.nid AND h.uid = %d WHERE n.status = 1 AND oga.group_nid = %d AND h.timestamp IS NULL AND n.created > %d'), $user->uid, $data->nid, NODE_NEW_LIMIT));
   if ($cnt) {
     if ($fielddata['options'] == 'normal') {
       return $cnt;
