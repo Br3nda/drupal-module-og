@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.140 2008/03/16 04:52:36 weitzman Exp $
+// $Id: og.module,v 1.298.2.141 2008/03/18 15:17:59 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2820,16 +2820,6 @@ function theme_og_format_subscriber_status($group) {
   if (!$group['is_active']) {
     return ' '. t('(pending approval)');
   }
-}
-
-/**
- * Implementation of hook_simpletest().
- */
-function og_simpletest() {
-  $dir = drupal_get_path('module', 'og'). DIRECTORY_SEPARATOR . 'tests';
-  require_once($dir . DIRECTORY_SEPARATOR . 'og_testcase.php');
-  $tests = file_scan_directory($dir, '\.test');
-  return array_keys($tests);
 }
 
 /**
