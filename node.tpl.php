@@ -1,4 +1,4 @@
-<?php // $Id: node.tpl.php,v 1.6 2008/03/10 02:59:45 weitzman Exp $
+<?php // $Id: node.tpl.php,v 1.7 2008/03/18 15:07:55 weitzman Exp $
 ?>
 
 <div class="node<?php if ($sticky) { print " sticky"; } ?><?php if (!$status) { print " node-unpublished"; } ?>">
@@ -10,7 +10,7 @@
   <span class="taxonomy"><?php print $terms?></span>
   <div class="content"><?php print $content?></div>
   <?php if ($node->og_groups && $page) {
-          $current_groups = og_node_groups_distinguish($node->og_groups, $node->og_groups_names);
+          $current_groups = og_node_groups_distinguish($node->og_groups_both);
           foreach ($node->og_groups_both as $gid => $title) {
             global $user;
             // User may only see a group if she is a member or it is accessible.
