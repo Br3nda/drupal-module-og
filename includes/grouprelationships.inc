@@ -1,5 +1,5 @@
 <?php
-// $Id: grouprelationships.inc,v 1.1.2.2 2008/03/24 14:34:57 weitzman Exp $
+// $Id: grouprelationships.inc,v 1.1.2.3 2008/03/24 21:34:55 weitzman Exp $
 /**
  * @file includes/grouprelationships.inc
  *
@@ -15,10 +15,7 @@ function panels_group_from_node_context($context = NULL, $conf) {
     return panels_context_create_empty('group', NULL);
   }
 
-  // TODO: Just returns the first group as the context. 
-  if (isset($context->data->og_groups)) {
-    foreach ($context->data->og_groups as $gid) {
-      return panels_context_create('group', node_load($gid));
-    }
+  if ($group = og_get_group_context()) {
+    return panels_context_create('group', $group);
   }
 }
