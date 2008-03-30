@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.48 2008/03/09 12:47:56 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.49 2008/03/30 13:33:26 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -1277,7 +1277,8 @@ function og_handler_post_count($fieldinfo, $fielddata, $value, $data) {
     $where = " AND n.type = '%s'";
   };
   // the $where at end is harmless even when not used.
-  $cnt = db_result(db_query(db_rewrite_sql("SELECT COUNT(*) FROM {node} n INNER JOIN {og_ancestry} oga ON n.nid = oga.nid WHERE n.status = 1 AND oga.group_nid = %d $where"), $data->nid, $fielddata['options'] ));
+  // we specify COUNT(n.nid) instead of COUNT(*) so that dupe nids are omitted.
+  $cnt = db_result(db_query(db_rewrite_sql("SELECT COUNT(n.nid) FROM {node} n INNER JOIN {og_ancestry} oga ON n.nid = oga.nid WHERE n.status = 1 AND oga.group_nid = %d $where"), $data->nid, $fielddata['options'] ));
   return $cnt;
 }
 
