@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.147 2008/03/22 21:50:52 weitzman Exp $
+// $Id: og.module,v 1.298.2.148 2008/03/30 13:15:34 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1094,7 +1094,7 @@ function og_view_group(&$node, $teaser = FALSE, $page = FALSE) {
       if ($GLOBALS['current_view']->num_rows || $view->page_empty) {
         $node->content['view'] = array('#value' => $built);
       }
-      else {
+      elseif (empty($_POST)) {
         // Use this default empty text unless overridden by View (which is a usually not a good idea. This text is smart)
         og_home_empty($node);
       }
