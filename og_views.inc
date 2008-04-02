@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.58 2008/03/30 13:33:12 weitzman Exp $
+// $Id: og_views.inc,v 1.59 2008/04/02 16:09:49 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -1311,7 +1311,7 @@ function og_handler_field_subscribe($fieldinfo, $fielddata, $value, $data) {
       case OG_INVITE_ONLY:
         return '<em>'. t('Invite only'). '</em>';
       default:
-        return l(t('join'), "og/subscribe/$data->nid", array('rel' => 'nofollow'), drupal_get_destination());  
+        return og_subscribe_link($data);
     }
   }
 }
