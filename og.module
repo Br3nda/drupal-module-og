@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.158 2008/04/03 16:57:21 weitzman Exp $
+// $Id: og.module,v 1.298.2.159 2008/04/03 17:06:21 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1107,7 +1107,8 @@ function og_view_group(&$node, $teaser = FALSE, $page = FALSE) {
         $args[] = 'feed';
       }
       $built = views_build_view('embed', $view, $args, $view->use_pager, $view->nodes_per_page);
-      if ($GLOBALS['current_view']->num_rows || $view->page_empty) {
+      // Views will set either total_rows or num_rows depending on whether View has a pager.
+      if ($view->total_rows || $view->num_rows || $view->page_empty) {
         $node->content['view'] = array('#value' => $built);
       }
       elseif (empty($_POST)) {
