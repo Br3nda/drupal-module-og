@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.20 2007/12/31 22:21:29 weitzman Exp $
+// $Id: og.install,v 1.21.2.21 2008/04/05 15:05:46 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -442,6 +442,23 @@ function og_update_20() {
   }
   return $ret;
 }
+
+/**
+ * Changes '@body' to '@node_teaser' in existing e-mail templates.
+ */ 
+function og_update_5600() {
+  $ret = array();
+  $variables = array('og_new_node_body', 'og_new_node_subject');
+  foreach ($variables as $variable) {
+    $value = variable_get($variable, '');
+    if (!empty($value)) {
+      variable_set($variable, str_replace('@body', '@node_teaser', $value));
+      $ret[] = array('success' => TRUE, 'query' => "Replaced @body with @node_teaser in $variable");
+    }
+  }
+  return $ret;
+}
+
 // end updates //
 
 function og_enable() {
