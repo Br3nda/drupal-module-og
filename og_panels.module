@@ -1,5 +1,5 @@
 <?php
-// $Id: og_panels.module,v 1.1.2.24 2008/04/10 14:54:04 weitzman Exp $
+// $Id: og_panels.module,v 1.1.2.25 2008/04/11 18:16:55 weitzman Exp $
 
 function og_panels_help($section) {
   switch ($section) {
@@ -55,7 +55,7 @@ function og_panels_menu($may_cache) {
         
         $displays = og_panels_get_all($node->nid);
         foreach ($displays as $display) {
-          if ($display->default_page && $display->published) {
+          if ($display->default_page && $display->published && arg(2) != 'feed') {
             // Hijack the menu handler for this node.
             $items[] = array(
               'path' => "node/$nid",
