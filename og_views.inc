@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.59 2008/04/02 16:09:49 weitzman Exp $
+// $Id: og_views.inc,v 1.60 2008/04/12 01:23:10 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -760,7 +760,7 @@ function og_views_default_views() {
     array (
       'tablename' => 'og',
       'field' => 'count',
-      'label' => 'Subscribers',
+      'label' => 'Members',
     ),
     array (
       'tablename' => 'og_uid',
@@ -859,7 +859,7 @@ function og_views_default_views() {
     array (
       'tablename' => 'og',
       'field' => 'count',
-      'label' => 'Subscribers',
+      'label' => 'Members',
     ),
     array (
       'tablename' => 'og',
@@ -869,7 +869,7 @@ function og_views_default_views() {
     array (
       'tablename' => 'og',
       'field' => 'subscribe',
-      'label' => 'Subscribe',
+      'label' => 'Join',
     ),
   );
   $view->filter = array (
