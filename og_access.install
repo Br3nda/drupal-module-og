@@ -1,0 +1,11 @@
+<?php
+// $Id: og_access.install,v 1.1.2.2 2008/04/15 17:00:27 weitzman Exp $
+
+function og_access_install() {
+}
+
+function og_access_uninstall() {
+  variable_del('og_access_rebuild');
+  node_access_rebuild();
+  drupal_set_message(t('The node access table has been rebuilt.'));
+}

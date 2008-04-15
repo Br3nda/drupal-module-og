@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.23 2008/04/15 14:04:46 weitzman Exp $
+// $Id: og.install,v 1.21.2.24 2008/04/15 17:00:27 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -454,6 +454,22 @@ function og_update_5600() {
       $ret[] = array('success' => TRUE, 'query' => "Replaced @body with @node_teaser in $variable");
     }
   }
+  return $ret;
+}
+
+/**
+ * Enable og_access module if needed
+ */ 
+function og_update_5700() {
+  $ret = array();
+  if (variable_get('og_enabled', FALSE) && !module_exists('og_access')) {
+    $ret[] = update_sql("DELETE FROM system WHERE name = 'og_access'"); // just to be sure
+    $filename = drupal_get_path('module', 'og'). "/og_access";
+    $sql = "INSERT INTO system (filename, name, type, description, status, throttle, bootstrap, schema_version, weight) VALUES ('$filename', 'og_access', 'module', 'Enable access control for private posts and private groups.', 1, 0, 1, -1, 0)";
+    $ret[] = update_sql($sql);
+  }
+  // variable_del('og_enabled'); is harmless to leave around, and will help if someone reruns the update.
+  
   return $ret;
 }
 
