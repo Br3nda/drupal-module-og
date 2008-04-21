@@ -1,0 +1,8 @@
+; $Id: og_panels.info,v 1.2 2008/04/21 20:13:09 weitzman Exp $
+name = Organic groups panels
+description = "Enable group admins to create panel pages."
+package = "Organic groups"
+dependencies[] = og
+dependencies[] = panels
+dependencies[] = panels_views
+core = 6.x
