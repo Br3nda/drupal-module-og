@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.170 2008/04/21 16:27:20 weitzman Exp $
+// $Id: og.module,v 1.298.2.171 2008/04/21 16:34:17 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1283,6 +1283,9 @@ function og_insert_group($node) {
 function og_update_group($node) {
   $sql = "UPDATE {og} SET theme = '%s', selective = %d, register = %d, description = '%s', directory = %d, notification = %d, language = '%s', private = %d WHERE nid = %d";
   db_query($sql, $node->og_theme, $node->og_selective, $node->og_register, $node->og_description, $node->og_directory, $node->og_notification, $node->og_language, $node->og_private, $node->nid);
+  if (!db_affected_rows()) {
+    og_insert_group($node);  
+  }
 }
 
 /**
