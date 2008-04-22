@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.27 2008/04/20 22:24:17 weitzman Exp $
+// $Id: og.install,v 1.21.2.28 2008/04/22 15:16:29 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -465,7 +465,7 @@ function og_update_5700() {
   if (variable_get('og_enabled', FALSE) && !module_exists('og_access')) {
     $ret[] = update_sql("DELETE FROM system WHERE name = 'og_access'"); // just to be sure
     $filename = drupal_get_path('module', 'og'). "/og_access";
-    $sql = "INSERT INTO system (filename, name, type, description, status, throttle, bootstrap, schema_version, weight) VALUES ('$filename', 'og_access', 'module', 'Enable access control for private posts and private groups.', 1, 0, 0, -1, 0)";
+    $sql = "INSERT INTO {system} (filename, name, type, description, status, throttle, bootstrap, schema_version, weight) VALUES ('$filename', 'og_access', 'module', 'Enable access control for private posts and private groups.', 1, 0, 0, -1, 0)";
     $ret[] = update_sql($sql);
     // Refresh the module list to include the new enabled module.
     module_list(TRUE, FALSE);
