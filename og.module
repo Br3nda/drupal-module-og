@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.172 2008/04/22 12:04:12 weitzman Exp $
+// $Id: og.module,v 1.298.2.173 2008/04/22 15:30:20 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1831,7 +1831,7 @@ function og_comment($comment, $op) {
         }
       }
       // remove the perm check after 5.3 is released.
-      if ($comment['status'] == COMMENT_PUBLISHED && !$skip_notification && og_node_mail_type($node->type) && isset($node->og_groups) && !empty($node->og_groups)) {
+      if ($comment['status'] == COMMENT_PUBLISHED && !$skip_notification && og_is_mail_type($node->type) && isset($node->og_groups) && !empty($node->og_groups)) {
         if (module_exists('job_queue')) {
           $description = t('OG: notify group members about comment %id on !link', array('%id' => $comment['cid'], '!link' => l($node->title, "node/$node->nid", NULL, NULL, 'comment-'. $comment['cid'])));
           job_queue_add('og_mail', $description, array('comment', $comment['cid']));
