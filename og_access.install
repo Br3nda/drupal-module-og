@@ -1,5 +1,14 @@
 <?php
-// $Id: og_access.install,v 1.1.2.3 2008/04/16 02:52:39 weitzman Exp $
+// $Id: og_access.install,v 1.1.2.4 2008/04/23 14:40:31 weitzman Exp $
+
+/**
+ * An implementation of hook_install().
+ */
+function og_access_install() {
+  // Put this module after OG so it can form_alter as needed.
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'og_access'");
+}
+
 
 /**
  * Implementation of hook_enable().
