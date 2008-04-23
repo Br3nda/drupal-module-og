@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.62 2008/04/23 13:47:27 weitzman Exp $
+// $Id: og_views.inc,v 1.63 2008/04/23 18:40:58 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -1341,7 +1341,7 @@ function og_handler_field_nodelink($fieldinfo, $fielddata, $value, $data) {
 }
 
 function og_handler_field_managelink($fieldinfo, $fielddata, $value, $data) {
-  return l(t('my membership'), "og/manage/$data->nid", NULL, drupal_get_destination());
+  return l(t('my membership'), "og/manage/$data->nid", array('query' => drupal_get_destination()));
 }
 
 function og_handler_field_yesempty($fieldinfo, $fielddata, $value, $data) {
