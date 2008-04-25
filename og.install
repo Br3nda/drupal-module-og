@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.49 2008/04/22 19:20:06 weitzman Exp $
+// $Id: og.install,v 1.51 2008/04/25 03:02:06 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -326,7 +326,7 @@ function og_update_5600() {
 function og_update_5700() {
   $ret = array();
   if (variable_get('og_enabled', FALSE) && !module_exists('og_access')) {
-    $ret[] = update_sql("DELETE FROM system WHERE name = 'og_access'"); // just to be sure
+    $ret[] = update_sql("DELETE FROM {system} WHERE name = 'og_access'"); // just to be sure
     $filename = drupal_get_path('module', 'og'). "/og_access";
     $sql = "INSERT INTO {system} (filename, name, type, description, status, throttle, bootstrap, schema_version, weight) VALUES ('$filename', 'og_access', 'module', 'Enable access control for private posts and private groups.', 1, 0, 0, -1, 0)";
     $ret[] = update_sql($sql);
@@ -346,27 +346,37 @@ function og_update_5700() {
  * 
  * @return void
  **/
- function og_update_5701() {
-   $ret = array();
-   $types = node_get_types();
-   foreach ($types as $type) {
-     if (in_array($type->type, variable_get('og_node_types', array('og')))) {
-       variable_set('og_content_type_usage_'. $type->type, 'group');
-     }
-     elseif (in_array($type->type, variable_get('og_omitted', array('og')))) {
-       variable_set('og_content_type_usage_'. $type->type, 'omitted');
-     }
-     elseif (in_array($type->type, variable_get('og_omitted_email_node_types', array('og')))) {
-      variable_set('og_content_type_usage_'. $type->type, 'group_post_standard_nomail');
-     }
-     else {
-       variable_set('og_content_type_usage_'. $type->type, 'group_post_standard_mail');
-     } 
-   }
-   
-   node_access_rebuild();
-   return $ret;
- }
+function og_update_5701() {
+  $ret = array();
+  $types = node_get_types();
+  foreach ($types as $type) {
+    if (in_array($type->type, variable_get('og_node_types', array('og')))) {
+      variable_set('og_content_type_usage_'. $type->type, 'group');
+    }
+    elseif (in_array($type->type, variable_get('og_omitted', array('og')))) {
+      variable_set('og_content_type_usage_'. $type->type, 'omitted');
+    }
+    elseif (in_array($type->type, variable_get('og_omitted_email_node_types', array('og')))) {
+     variable_set('og_content_type_usage_'. $type->type, 'group_post_standard_nomail');
+    }
+    else {
+      variable_set('og_content_type_usage_'. $type->type, 'group_post_standard_mail');
+    } 
+  }
+ 
+ node_access_rebuild();
+ return $ret;
+}
+
+function og_update_6000() {
+  $ret = array();
+  // Fix how we append the custom request text from a group join request.
+  $name = 'og_request_user_body';
+  if ($txt = variable_get($name, FALSE)) {
+    $txt .= "\n\nPersonal message from @username:\n------------------\n\n@request";
+    variable_set($name, $txt);
+  }
+}
 
 // end updates //
 

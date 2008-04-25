@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.4 2008/04/21 12:48:33 weitzman Exp $
+// $Id: og_access.module,v 1.6 2008/04/25 03:02:06 weitzman Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -141,6 +141,14 @@ function og_access_alter_nongroup_form(&$form, $node) {
         $form['og_nodeapi']['visible']['og_public'] = array('#type' => 'checkbox', '#title' => t('Public'), '#default_value' => $node->nid ? $node->og_public : 0, '#description' => t('Show this post to everyone, or only to members of the groups checked above. Posts without any groups are always <em>Public</em>.'), '#weight' => 2);
         break;
     }
+    
+    if (count($form['og_nodeapi']['visible']) > 1) {
+      $form['og_nodeapi']['#type'] = 'fieldset';
+      $form['og_nodeapi']['#title'] = t('Groups');
+      $form['og_nodeapi']['#collapsible'] = TRUE;
+      $form['og_nodeapi']['#collapsed'] = $selected_groups ? TRUE : FALSE;
+    }
+
   }
 
 }
@@ -188,11 +196,6 @@ function og_access_node_grants($account, $op) {
  * Implementation of hook_node_access_records.
  */
 function og_access_node_access_records($node) {
-  // don't write records if the node type is omitted or node is a group
-  if (og_is_omitted_type($node->type)) {
-    return;
-  }
-  
   if (og_is_group_type($node->type)) {
     // This grant allows group admins to manage their group.
     $grants[] = array('realm' => 'og_admin', 'gid' => $node->nid, 'grant_view' => 1, 'grant_update' => 1, 'grant_delete' => 1);
