@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.178 2008/04/24 22:13:20 weitzman Exp $
+// $Id: og.module,v 1.298.2.179 2008/04/25 13:25:03 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -804,7 +804,7 @@ function og_confirm_unsubscribe($gid, $node, $uid) {
   $account = user_load(array('uid' => $uid));
   return confirm_form($form, 
                t('Are you sure you want to remove !name from the group %title?', array('!name' => theme('username', $account), '%title' => $node->title)),
-               'og/manage/'. $node->nid, ' ', t('Remove'), t('Cancel'));
+               'og/users/'. $node->nid, ' ', t('Remove'), t('Cancel'));
 }
 
 /**
