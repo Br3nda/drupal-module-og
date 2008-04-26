@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.63 2008/04/23 18:40:58 weitzman Exp $
+// $Id: og_views.inc,v 1.64 2008/04/26 04:55:09 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -29,6 +29,7 @@ function og_views_tables() {
       'fields' => array(
         'description' => array(
           'name' => t('OG: Group: Description'),
+          'help' => t('A group\'s description as enterd on the grop form.'),
         ),
         'count' => array(
           'name' => t('OG: Group: Members Count'),
