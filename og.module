@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.179 2008/04/25 13:25:03 weitzman Exp $
+// $Id: og.module,v 1.298.2.180 2008/05/02 01:37:39 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -357,7 +357,7 @@ function og_manage_form($group) {
     }
     else {
       $links[] = l(t('Leave this group'), "og/unsubscribe/$group->nid");
-      $form['unsubscribe'] = array('#type' => 'markup', '#value' => theme('item_list', $links, t('Actions')));
+      $form['unsubscribe'] = array('#type' => 'markup', '#value' => theme('item_list', $links));
     }
   }
 
