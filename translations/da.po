@@ -2,7 +2,7 @@
 # Copyright 2005 Lennart Kiil <lennart@zensci.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: Danish translation of Drupal (og.module) $Id: da.po,v 1.2 2006/01/13 14:29:15 wulff Exp $\n"
+"Project-Id-Version: Danish translation of Drupal (og.module) $Id: da.po,v 1.1 2008/05/04 21:41:54 hass Exp $\n"
 "POT-Creation-Date: 2005-06-08 10:55+0200\n"
 "PO-Revision-Date: 2006-01-13 15:29+0100\n"
 "Last-Translator: Morten Wulff <wulff@tem.dtu.dk>\n"
