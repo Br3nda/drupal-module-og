@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_tracker.view,v 1.1 2008/05/04 14:49:07 weitzman Exp $
+// $Id: og.og_tracker.view,v 1.2 2008/05/04 15:00:11 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_tracker';
@@ -99,6 +99,32 @@ $view->display = array();
       'label' => 'Last post',
       'date_format' => 'small',
       'custom_date_format' => '',
+      'relationship' => 'none',
+    ),
+    'timestamp' => 
+    array (
+      'id' => 'timestamp',
+      'table' => 'history_user',
+      'field' => 'timestamp',
+      'label' => '',
+      'comments' => 1,
+      'relationship' => 'none',
+      'link_to_node' => 0,
+    ),
+    'new_comments' => 
+    array (
+      'id' => 'new_comments',
+      'table' => 'node',
+      'field' => 'new_comments',
+      'label' => '',
+      'set_precision' => false,
+      'precision' => 0,
+      'decimal' => '.',
+      'separator' => ',',
+      'prefix' => '',
+      'suffix' => 'new',
+      'link_to_comment' => 1,
+      'no_empty' => 1,
       'relationship' => 'none',
     ),
   ),
