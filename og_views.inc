@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.52 2008/04/23 13:46:46 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.53 2008/05/05 21:27:58 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -581,7 +581,7 @@ function og_views_default_views() {
     array (
       'tablename' => 'node',
       'field' => 'title',
-      'label' => 'Group',
+      'label' => 'Title',
       'handler' => 'views_handler_field_nodelink_with_mark',
       'sortable' => '1',
       'options' => 'link',
