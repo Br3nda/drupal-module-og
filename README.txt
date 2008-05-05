@@ -35,9 +35,9 @@ THEMES
 ------------------
 You may wish to stylize nodes which have properties assigned by this module.
 --- public vs. private posts are denoted by $node->og_public
---- group assignments (if any) are to be found in $node->og_groups. this is an array of nids. the group names are in $node->og_groups_names.
+--- group assignments (if any) are to be found in $node->og_groups_both. if you just want to print a list of links to the affiliated groups, see $og_links variable in any group post. 
 --- you may wish to omit the node author and time if we are showing a group home page. also consider not showing node links for these nodes since they just add clutter.
---- provided in this package are two template files for the phptemplate engine. One stylizes group nodes as suggested above and the other stylizes all other nodes as suggested above. These can be starting points for your customization of look and feel of the central area of the group home page. Or you might use the included og_panels module to achieve custom group homepages (and other group pages) that group admins can design themselves.
+--- provided in this package are two template files for the phptemplate engine. One stylizes group nodes and the other stylizes all other stylizes group posts. These can be starting points for your customization of look and feel of your group. Or you might use the included og_panels module to achieve custom group homepages (and other group pages) that group admins can design themselves.
 
 INTEGRATION
 ---------------------
@@ -54,7 +54,7 @@ TODO/BUGS/FEATURE REQUESTS
 
 UPGRADING FROM 5.0 TO 6.x
 -----------------
-
+- The user interface for selecting alternate Views for your grop homepage is gone. You may still select an alternate view by setting 'og_home_page_view' variable in your settings.php
 
 UPGRADING FROM 4.7 TO 5.x
 -----------------
