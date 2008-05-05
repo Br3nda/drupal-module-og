@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_ghp_ron.view,v 1.2 2008/05/04 01:45:05 weitzman Exp $
+// $Id: og.og_ghp_ron.view,v 1.3 2008/05/05 02:39:41 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_ghp_ron';
@@ -177,7 +177,7 @@ $view->display['default'] = $display;
   ),
   'displays' => 
   array (
-    'default' => 0,
+    'default' => 'default',
   ),
   'style_plugin' => 'rss',
   'style_options' => 

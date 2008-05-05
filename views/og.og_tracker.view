@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_tracker.view,v 1.3 2008/05/05 00:24:22 weitzman Exp $
+// $Id: og.og_tracker.view,v 1.4 2008/05/05 02:39:41 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_tracker';
@@ -322,6 +322,8 @@ $view->display['page'] = $display;
   ),
   'displays' => 
   array (
+    'default' => 'default',
+    'page' => 'page',
   ),
   'style_plugin' => 'rss',
   'style_options' => 
