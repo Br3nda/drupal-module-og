@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_my.view,v 1.2 2008/05/05 00:32:47 weitzman Exp $
+// $Id: og.og_my.view,v 1.3 2008/05/05 01:14:55 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_my';
@@ -146,11 +146,11 @@ $view->display = array();
         'button' => 'Expose',
       ),
     ),
-    'uid_current' => 
+    'uid' => 
     array (
-      'id' => 'uid_current',
+      'id' => 'uid',
       'table' => 'og_uid',
-      'field' => 'uid_current',
+      'field' => 'uid',
       'operator' => '=',
       'value' => 1,
       'group' => 0,
