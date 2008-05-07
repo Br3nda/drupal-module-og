@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.492 2008/05/06 11:38:48 weitzman Exp $
+// $Id: og.module,v 1.493 2008/05/07 03:04:36 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -38,14 +38,6 @@ function og_help($path, $arg) {
 }
 
 function og_menu() {
-  // anon users should be able to get to the join page
-  $items['og/subscribe'] = array(
-    'type' => MENU_CALLBACK, 
-    'page callback' => 'og_subscribe', 
-    'access callback' => TRUE, 
-    'title' => 'Join group'
-  );
-  
   // anon users should be able to get to the join page
   $items['og/subscribe'] = array(
     'type' => MENU_CALLBACK, 
@@ -155,9 +147,9 @@ function og_menu() {
 
   //membership page and its 'add members' tab
   $items['og/users/%node'] = array(
-    'page callback' => 'og_list_users_page',
+    'page callback' => 'views_page',
     'title' => 'Members', 
-    'page arguments' => array(2), 
+    'page arguments' => array('og_members', 'defaults', arg(2)), 
     'type' => MENU_CALLBACK, 
     'access' => 'og_is_group_member',
     'access arguments' => array(2),
