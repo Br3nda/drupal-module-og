@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_members.view,v 1.3 2008/05/07 04:13:21 weitzman Exp $
+// $Id: og.og_members.view,v 1.4 2008/05/07 04:59:54 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_members';
@@ -139,6 +139,14 @@ $view->display = array();
       'table' => 'og_uid',
       'field' => 'is_admin',
       'order' => 'DESC',
+      'relationship' => 'none',
+    ),
+    'is_active' => 
+    array (
+      'id' => 'is_active',
+      'table' => 'og_uid',
+      'field' => 'is_active',
+      'order' => 'ASC',
       'relationship' => 'none',
     ),
     'name' => 
