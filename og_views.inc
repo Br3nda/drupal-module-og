@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.53 2008/05/05 21:27:58 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.54 2008/05/08 19:49:26 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -330,7 +330,7 @@ function og_views_arguments() {
         '#type' => 'select',
         '#options' => 'views_handler_operator_like',
       ),
-      'help' => t('Filter for the one or more organic groups. Groups should be specified by name, or part of a name. Use the <em>Option</e> field to specify how to match the supplied name.'),
+      'help' => t('Filter for the one or more organic groups. Groups should be specified by name, or part of a name. Use the <em>Option</em> field to specify how to match the supplied name.'),
       )
     );
   return $args;
