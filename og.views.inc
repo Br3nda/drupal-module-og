@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.16 2008/05/09 06:46:46 weitzman Exp $
+// $Id: og.views.inc,v 1.17 2008/05/20 01:32:33 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -167,20 +167,6 @@ function og_views_data_og() {
 /**
  * We do not try to run db_rewrite_sql() on this subquery so the count is potenially more than the user can see.
  */
-// oga.group_nid=n.nid is not right.
-// class views_handler_field_og_post_count_new extends views_handler_field_numeric {
-//   function query() {
-//     global $user;
-//     $sql = "SELECT COUNT(*) FROM {node} n INNER JOIN {og_ancestry} oga ON n.nid = oga.nid LEFT JOIN {history} h ON n.nid=h.nid AND h.uid = $user->uid WHERE n.status = 1 AND oga.group_nid = n.nid AND h.timestamp IS NULL AND n.created > ". NODE_NEW_LIMIT;
-//     dsm($sql);
-//     $this->query->add_field('', "($sql)", 'post_count_new');
-//     $this->field_alias = 'post_count_new';
-//   }
-// }
-
-/**
- * We do not try to run db_rewrite_sql() on this subquery so the count is potenially more than the user can see.
- */
 class views_handler_field_og_post_count extends views_handler_field_numeric {
   function query() {
     $sql = "SELECT COUNT(n.nid) FROM {node} n INNER JOIN {og_ancestry} oga ON n.nid = oga.nid WHERE n.status = 1 AND oga.group_nid = %d";
@@ -222,7 +208,6 @@ class views_handler_filter_og_type extends views_handler_filter_node_type {
     }
   }  
 }
-
 
 /**
  * Field handler to show Selective state.
