@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_ghp_ron.view,v 1.5 2008/05/21 20:17:12 weitzman Exp $
+// $Id: og.og_ghp_ron.view,v 1.6 2008/05/21 20:49:09 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_ghp_ron';
@@ -60,7 +60,7 @@ $view->display = array();
       'title' => '%1',
       'default_argument_type' => 'fixed',
       'default_argument' => '',
-      'validate_type' => 'numeric',
+      'validate_type' => 'og_group_types',
       'validate_fail' => 'not found',
       'break_phrase' => 0,
       'add_table' => 0,
@@ -89,6 +89,7 @@ $view->display = array();
         '4' => 0,
       ),
       'validate_argument_type' => 'tid',
+      'not' => 0,
     ),
   ),
   'filters' => array(
