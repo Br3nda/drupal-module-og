@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.19 2008/05/21 02:08:07 weitzman Exp $
+// $Id: og.views.inc,v 1.20 2008/05/21 02:12:50 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -327,7 +327,6 @@ function og_views_data_og_ancestry() {
     ),    
   );
   
-  // TODOH: set context
   $data['og_ancestry']['picg'] = array(
     'title' => t('OG: Posts in current group'),
     'help' => t('Posts in current group. Useful for blocks where determining context is hard. If page is not in any group context, no nodes are listed and thus a block would not appear.'),
