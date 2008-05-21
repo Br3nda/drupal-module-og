@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.20 2008/05/21 02:12:50 weitzman Exp $
+// $Id: og.views.inc,v 1.21 2008/05/21 11:30:28 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -586,7 +586,7 @@ class views_handler_filter_og_is_admin extends views_handler_filter_in_operator 
   
   // 0 won't work as a key for checkboxes.
   function value_form(&$form, &$form_state) { 
-    parent::value_form(&$form, &$form_state); 
+    parent::value_form($form, $form_state); 
     $form['value']['#type'] = 'select'; 
     $form['value']['#multiple'] = TRUE; 
   }
