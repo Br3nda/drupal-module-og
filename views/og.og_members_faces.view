@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_members_faces.view,v 1.1 2008/05/21 20:17:12 weitzman Exp $
+// $Id: og.og_members_faces.view,v 1.2 2008/05/23 18:10:06 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_members_faces';
@@ -118,6 +118,8 @@ $view->display = array();
       'validate_argument_php' => '',
       'require_value' => 0,
       'reduce_duplicates' => 0,
+      'validate_argument_is_member' => 1,
+      'not' => 0,
     ),
   ),
   'filters' => array(
@@ -164,5 +166,6 @@ $view->display = array();
   'empty_format' => '1',
   'distinct' => 0,
   'use_ajax' => '1',
+  'title' => 'Group faces',
 );
 $view->display['default'] = $display;
