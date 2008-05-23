@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.24 2008/05/23 01:43:04 weitzman Exp $
+// $Id: og.views.inc,v 1.25 2008/05/23 03:33:16 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -634,7 +634,7 @@ class views_handler_field_og_is_admin extends views_handler_field {
      $is_admin = $values->{$this->field_alias};
     // don't use og_is_group_admin() here since we don't want mark on 'admin nodes' people.
     if ($is_admin) {
-      return '<em>'. t('admin'). '</em>'; 
+      return t('admin'); 
     }
   }
 }
