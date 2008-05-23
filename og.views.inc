@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.23 2008/05/21 20:38:40 weitzman Exp $
+// $Id: og.views.inc,v 1.24 2008/05/23 01:43:04 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -731,8 +731,9 @@ class views_handler_field_og_managelink extends views_handler_field {
         return l(t('remove'), "og/unsubscribe/$nid/$uid", array('query' => drupal_get_destination()));
       }
       else {
-        $approve = l(t('approve'), "og/approve/$nid/$uid", array('query' => drupal_get_destination()));
-        $deny = l(t('deny'), "og/deny/$nid/$uid", array('query' => drupal_get_destination()));
+        $token = og_get_token($nid);
+        $approve = l(t('approve'), "og/approve/$nid/$uid/$token", array('query' => drupal_get_destination()));
+        $deny = l(t('deny'), "og/deny/$nid/$uid/$token", array('query' => drupal_get_destination()));
         return t('Request: !a or !d', array('!a' => $approve, '!d' => $deny));
       }
     }
