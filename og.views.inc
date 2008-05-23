@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.25 2008/05/23 03:33:16 weitzman Exp $
+// $Id: og.views.inc,v 1.26 2008/05/23 14:12:26 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -728,7 +728,7 @@ class views_handler_field_og_managelink extends views_handler_field {
     // Only show links to group admins. And don't show next to group manager.
     if (og_is_group_admin($node) && $uid != $node->uid) {
       if ($is_active) {
-        return l(t('remove'), "og/unsubscribe/$nid/$uid", array('query' => drupal_get_destination()));
+        return l(t('Remove membership'), "og/unsubscribe/$nid/$uid", array('query' => drupal_get_destination()));
       }
       else {
         $token = og_get_token($nid);
