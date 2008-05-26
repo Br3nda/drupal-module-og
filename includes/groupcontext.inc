@@ -1,5 +1,5 @@
 <?php
-// $Id: groupcontext.inc,v 1.2 2008/03/22 21:50:14 weitzman Exp $
+// $Id: groupcontext.inc,v 1.3 2008/05/26 13:57:32 weitzman Exp $
 /**
  * @file contexts/group.inc
  *
@@ -34,8 +34,8 @@ function og_panels_context_group_settings_form($conf, $external = FALSE) {
     $form['external'] = array(
       '#type' => 'checkbox',
       '#default_value' => $conf['external'],
-      '#title' => t('Require this context from an external source (such as containing panel page)'),
-      '#description' => t('If selected, group selection (below) will be ignored'),
+      '#title' => t('Require this context from an external source (such as containing panel page).'),
+      '#description' => t('If selected, group selection (below) will be ignored.'),
     );
   }
 
