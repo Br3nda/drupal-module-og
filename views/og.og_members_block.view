@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_members_block.view,v 1.2 2008/05/23 18:10:06 weitzman Exp $
+// $Id: og.og_members_block.view,v 1.3 2008/05/27 17:53:33 weitzman Exp $
 
 $view = new view;
 $view->name = 'og_members_block';
@@ -201,7 +201,7 @@ $view->display['default'] = $display;
   $display->display_options = array(
   'defaults' => array(
     'access' => TRUE,
-    'title' => TRUE,
+    'title' => FALSE,
     'header' => TRUE,
     'header_format' => TRUE,
     'header_empty' => TRUE,
@@ -234,6 +234,7 @@ $view->display['default'] = $display;
   'arguments' => array(),
   'filters' => array(),
   'block_description' => 'Group admins',
+  'title' => 'Group admins',
 );
 $view->display['block'] = $display;
   $display = new views_display;
