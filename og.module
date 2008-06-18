@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.520 2008/06/18 16:05:12 weitzman Exp $
+// $Id: og.module,v 1.521 2008/06/18 16:22:29 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1634,7 +1634,7 @@ function og_node_type_form_submit($form, &$form_state) {
   $type = $form_state['values']['type'];
   $var = 'og_content_type_usage';
   $new = $form_state['values'][$var];
-  $old = $$form_state['values']['old_'. $var];
+  $old = $form_state['values']['old_'. $var];
   if ($new != $old) {
     node_access_needs_rebuild();
   }
@@ -2344,7 +2344,6 @@ function og_save_ancestry($node) {
  * An implementation of hook_node_type. Automatically update admin preferences when node type is renamed or removed.
  */
 function og_node_type($op, $info) {
-  $values = variable_get($variable, array());
   switch ($op) {
     case 'delete':
       variable_del('og_content_type_usage_'. $info->type);
