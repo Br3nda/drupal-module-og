@@ -1,5 +1,5 @@
 <?php
-// $Id: og.admin.inc,v 1.6 2008/05/27 17:53:33 weitzman Exp $
+// $Id: og.admin.inc,v 1.7 2008/06/18 18:50:38 weitzman Exp $
 
 /**
  * Menu callback to load settings form.
@@ -96,7 +96,7 @@ function og_admin_settings() {
     '#description' => t('Do you require that all (non administrator) posts be affiliated with a group? Note that changing this setting will affect existing posts when they are edited.')
   );
   unset($options);
-  
+
   $form['og_settings']['email'] = array(
     '#type' => 'fieldset', 
     '#title' => t('Email settings'), 

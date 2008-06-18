@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.57 2008/05/27 17:53:33 weitzman Exp $
+// $Id: og.install,v 1.58 2008/06/18 18:50:38 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -176,6 +176,7 @@ function og_schema() {
         'description'     => 'Is this a public or private post? This value is always the same across all groups for a given post.',
         'type'            => 'int',
         'size'            => 'tiny',
+        'default'         => 1,
         'not null'        => TRUE,
       ),
     ),
