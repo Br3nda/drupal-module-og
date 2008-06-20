@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.189 2008/06/19 16:37:37 weitzman Exp $
+// $Id: og.module,v 1.298.2.190 2008/06/20 01:06:35 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2314,7 +2314,7 @@ function og_is_mail_type($type) {
 function og_is_wiki_type($type) {
   $usage = variable_get('og_content_type_usage_'. $type, 'omitted');
   return strpos($usage, 'wiki') ? TRUE : FALSE;
-}``
+}
 
 // returns TRUE if node type can be posted into a group.
 function og_is_group_post_type($type) {
