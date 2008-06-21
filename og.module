@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.531 2008/06/20 19:26:17 weitzman Exp $
+// $Id: og.module,v 1.532 2008/06/21 01:27:35 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1031,7 +1031,7 @@ function og_add_users_og_names_validate($form, $form_state) {
       $uids[] = $account->uid;
     }
     else {
-      $bad[] = $name;
+      $bad[] = check_plain($name);
       $err = TRUE;
     }
   }
