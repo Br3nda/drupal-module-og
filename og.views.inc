@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.29 2008/06/02 00:54:00 weitzman Exp $
+// $Id: og.views.inc,v 1.30 2008/06/22 23:50:24 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -470,7 +470,7 @@ function og_views_data_og_uid() {
     ),
   );
   $data['og_uid']['managelinkmy'] = array(
-    'title' => t('OG: Manage membership link'),
+    'title' => t('OG: Edit membership link'),
     'help' => t('A link to the <em>My membership</em> page.'),
     'field' => array(
       'handler' => 'views_handler_field_og_managelinkmy',
@@ -740,7 +740,7 @@ class views_handler_field_og_managelinkmy extends views_handler_field {
 
   function render($values) {
     global $user;
-    return l(t('My membership'), "og/manage/$values->nid", array('query' => drupal_get_destination()));
+    return l(t('Edit membership'), "og/manage/$values->nid", array('query' => drupal_get_destination()));
   }
 }
   
