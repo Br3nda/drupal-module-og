@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.31 2008/05/05 21:27:57 weitzman Exp $
+// $Id: og.install,v 1.21.2.32 2008/07/02 14:51:26 weitzman Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -496,6 +496,16 @@ function og_update_5700() {
    node_access_rebuild();
    return $ret;
  }
+ 
+ /**
+  * Force menu rebuild since subscribe/unsubscribe paths are better protected now.
+  */ 
+ function og_update_5702() {
+   $ret[] = array('success' => TRUE, 'query' => 'Menu has been rebuilt.');
+   menu_rebuild();
+   return $ret;
+ }
+ 
 
 // end updates //
 
