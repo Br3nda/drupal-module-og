@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.192 2008/07/01 23:46:45 weitzman Exp $
+// $Id: og.module,v 1.298.2.193 2008/07/02 02:43:56 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -237,7 +237,6 @@ function og_set_group_context($group_node = NULL) {
       array('og' => array('group_context' => array(
         'nid' => $group_node->nid, 
         'title' => $group_node->title,
-        'taxonomy' => isset($group_node->taxonomy) ? $group_node->taxonomy : array(),
         'type' => $group_node->type,
         ))),
       'setting'
