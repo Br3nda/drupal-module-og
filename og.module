@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.543 2008/07/05 19:59:30 weitzman Exp $
+// $Id: og.module,v 1.544 2008/07/06 19:38:27 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1169,7 +1169,7 @@ function og_view_group(&$node, $teaser = FALSE, $page = FALSE) {
 
     unset($node->content['body']);
     $node->content['og_mission'] = array(
-      '#value' => check_markup($node->body, $node->format, FALSE), 
+      '#value' => $node->body, // node_prepare() already ran check_markup()
       '#node' => $node,
       '#weight' => -3,
       '#theme' => 'og_mission',
