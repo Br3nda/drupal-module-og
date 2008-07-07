@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.30 2008/06/22 23:50:24 weitzman Exp $
+// $Id: og.views.inc,v 1.31 2008/07/07 14:28:05 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -182,6 +182,17 @@ class views_handler_field_og_member_count extends views_handler_field_numeric {
     $sql = str_replace('%d', 'og.nid', $sql);
     $this->query->add_field('', "($sql)", 'member_count');
     $this->field_alias = 'member_count';
+  }
+  
+  function render($values) {
+    $nid = $values->nid;
+    $txt = $values->member_count;
+    if (og_is_group_member($nid)) {
+      return og_is_picture() ? l($txt, "og/users/$nid/faces") : l($txt, "og/users/$nid");
+    }
+    else {
+      return parent::render($values);
+    }
   }
 }
 
