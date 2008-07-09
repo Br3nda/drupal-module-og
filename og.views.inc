@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.31 2008/07/07 14:28:05 weitzman Exp $
+// $Id: og.views.inc,v 1.32 2008/07/09 19:59:17 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -198,10 +198,15 @@ class views_handler_field_og_member_count extends views_handler_field_numeric {
 
 class views_handler_filter_og_type_all extends views_handler_filter {
   function query() {
-    $group_types = og_get_types('group');
-    $placeholders = db_placeholders($group_types, 'varchar');
-    $table = $this->query->ensure_table('node');
-    $this->query->add_where($this->options['group'], "$table.type IN ($placeholders)", $group_types);
+    if ($group_types = og_get_types('group')) {
+      $placeholders = db_placeholders($group_types, 'varchar');
+      $table = $this->query->ensure_table('node');
+      $this->query->add_where($this->options['group'], "$table.type IN ($placeholders)", $group_types);
+    }
+    else {
+      $this->query->add_where($this->options['group'], "FALSE");
+      drupal_set_message(t('You have no node types which are acting as groups. See the Notes section of the !readme and the Content types fieldset at top of <a href="!settings">OG settings</a>.', array('!readme' => og_readme(), '!settings' => url('admin/og/og'))), 'error');
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: og.admin.inc,v 1.7 2008/06/18 18:50:38 weitzman Exp $
+// $Id: og.admin.inc,v 1.8 2008/07/09 19:59:17 weitzman Exp $
 
 /**
  * Menu callback to load settings form.
@@ -18,6 +18,7 @@ function og_admin_settings() {
   );
   $map = og_types_map();
   $header = array(t('Type'), t('Usage'), t('Operations'));
+  $rows = array();
   foreach (node_get_types() as $type) {
     $type_url_str = str_replace('_', '-', $type->type);
     $usage = variable_get('og_content_type_usage_'. $type->type, 'omitted');
