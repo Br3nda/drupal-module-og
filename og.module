@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.551 2008/07/15 00:59:45 weitzman Exp $
+// $Id: og.module,v 1.552 2008/07/15 19:17:22 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2685,7 +2685,7 @@ function og_block_notifications() {
  * Return code that emits an XML icon. TODOL: this opml icon belongs in theme.inc
  */
 function theme_opml_icon($url) {
-  if ($image = theme('image', drupal_get_path('module', 'og'). '/opml.gif', t('OPML file'), t('OPML file'))) {
+  if ($image = theme('image', drupal_get_path('module', 'og'). '/images/opml-icon-16x16.png', t('OPML feed'), t('OPML feed'))) {
     return '<a href="'. check_url($url) .'" class="opml-icon">'. $image. '</a>';
   }
 }
