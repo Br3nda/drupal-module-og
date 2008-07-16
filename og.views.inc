@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.33 2008/07/15 00:59:45 weitzman Exp $
+// $Id: og.views.inc,v 1.34 2008/07/16 14:30:00 weitzman Exp $
 
 function og_views_data() {
   $data = array();
@@ -165,7 +165,7 @@ function og_views_data_og() {
 }
 
 /**
- * We do not try to run db_rewrite_sql() on this subquery so the count is potenially more than the user can see.
+ * We do not try to run db_rewrite_sql() on this subquery so the count is potentially more than the user can see.
  */
 class views_handler_field_og_post_count extends views_handler_field_numeric {
   function query() {
