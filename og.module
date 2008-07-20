@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.555 2008/07/17 02:37:03 weitzman Exp $
+// $Id: og.module,v 1.556 2008/07/20 23:13:32 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1356,7 +1356,7 @@ function og_group_form($node, $form_state) {
         '#type' => 'radios',
         '#title' => t('Language'),
         '#default_value' => $node->og_language,
-        '#options' => $languages,
+        '#options' => array('' => t('Language neutral')) + $languages,
         '#description' => t('Selecting a different locale will change the interface language of the group. Users who have chosen a preferred language always see their chosen language.'),
       );
     }
