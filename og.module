@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.556 2008/07/20 23:13:32 weitzman Exp $
+// $Id: og.module,v 1.557 2008/07/21 12:50:18 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1415,7 +1415,7 @@ function og_presave_group(&$node) {
   if (!isset($node->og_notification)) {
     $node->og_notification = NULL;
   }
-  if (!isset($node->og_notification)) {
+  if (!isset($node->og_private)) {
     $node->og_private = FALSE;
   }
   
