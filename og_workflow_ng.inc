@@ -1,5 +1,5 @@
 <?php
-// $Id: og_workflow_ng.inc,v 1.2 2008/05/25 23:02:45 weitzman Exp $
+// $Id: og_workflow_ng.inc,v 1.3 2008/07/24 14:06:16 weitzman Exp $
 
 /**
  * @file
@@ -13,12 +13,12 @@ function og_event_info() {
   return array(
     'og_user_insert' => array(
       '#label' => t('User joins group'),
-      '#module' => t('OG'),
+      '#module' => 'OG',
       '#arguments' => og_workflow_ng_events_hook_og_arguments(),
     ),
     'og_user_approved' => array(
       '#label' => t('User approved to group by admin'),
-      '#module' => t('OG'),
+      '#module' => 'OG',
       '#description' => t('A pending member is approved by a group administrator.'),
       '#arguments' => og_workflow_ng_events_hook_og_arguments(),
     ),
