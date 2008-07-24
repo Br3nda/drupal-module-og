@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.560 2008/07/22 19:03:38 weitzman Exp $
+// $Id: og.module,v 1.561 2008/07/24 15:39:42 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1222,6 +1222,7 @@ function og_view_group(&$node, $teaser = FALSE, $page = FALSE) {
         og_home_empty($node);
       }
       drupal_set_title(filter_xss_admin($view->build_info['title']));
+      drupal_add_feed(url("node/$node->nid/feed"), drupal_get_title());
     } 
   }
 }
