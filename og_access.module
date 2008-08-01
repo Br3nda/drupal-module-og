@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.23 2008/07/16 19:40:56 weitzman Exp $
+// $Id: og_access.module,v 1.24 2008/08/01 02:54:34 weitzman Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -161,7 +161,7 @@ function og_access_alter_nongroup_form(&$form, $form_state, $node) {
         $form['og_nodeapi']['visible']['og_public'] = array(
           '#type' => 'checkbox', 
           '#title' => t('Public'), 
-          '#default_value' => isset($node->nid) ? $node->og_public : 0, 
+          '#default_value' => isset($node->og_public) ? $node->og_public : 0, 
           '#description' => t('Show this post to everyone, or only to members of the groups checked above. Posts without any groups are always <em>public</em>.'), 
           '#weight' => 2,
         );
