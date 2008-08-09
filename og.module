@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.566 2008/08/05 02:56:05 weitzman Exp $
+// $Id: og.module,v 1.568 2008/08/09 03:36:00 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -340,10 +340,6 @@ function og_init() {
   
   drupal_add_css(drupal_get_path('module', 'og'). '/og.css');
 
-  if (module_exists('workflow_ng')) {
-    module_load_include('inc', 'og', 'og_workflow_ng');
-  }
-  
   // Set group context and language if needed.
   if ($node = og_determine_context()) {
     og_set_language($node);
@@ -374,6 +370,22 @@ function og_set_language($node) {
  */
 function og_perm() {
   return array('administer organic groups');
+}
+
+/**
+ * Implementation of hook_og().
+ */
+function og_og($op, $gid, $uid, $args) {
+  if (module_exists('rules')) {
+    if (in_array($op, array('user insert', 'user delete'))) {   
+      $op = str_replace(' ', '_', $op);    
+      rules_invoke_event('og_'. $op, $uid, $gid);   
+    }
+    // Pending member was approved.
+    elseif ($op = 'user update' && $args['is_active']) {
+      rules_invoke_event('og_user_approved', $uid, $gid);
+    }    
+  }
 }
 
 /**
@@ -1332,10 +1344,10 @@ function og_group_form($node, $form_state) {
     if (count($languages) > 1) {
       $form['og_language'] = array(
         '#type' => 'radios',
-        '#title' => t('Language'),
+        '#title' => t('Group language'),
         '#default_value' => $node->og_language,
         '#options' => array('' => t('Language neutral')) + $languages,
-        '#description' => t('Selecting a different locale will change the interface language of the group. Users who have chosen a preferred language always see their chosen language.'),
+        '#description' => t('Selecting a different locale will change the interface language for all group pages and emails. Users who have chosen a preferred language always see their chosen language.'),
       );
     }
   }
