@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.55 2008/05/26 14:03:35 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.55.2.1 2008/09/09 19:07:28 karthik Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -78,11 +78,6 @@ function og_views_tables() {
           'sortable' => FALSE,
           'notafield' => TRUE,
           'help' => t('Displays a links for joining a group when a user is not already a member.'),
-        ),
-        'notification' => array(
-          'name' => t('OG: Group: Notification'),
-          'handler' => 'og_handler_field_yesempty',
-          'help' => t('Displays <em>yes</em> if group automatically sends email notifications to members'),
         ),
         'language' => array(
           'name' => t('OG: Group: Language'),
@@ -225,12 +220,6 @@ function og_views_tables() {
         ),
       ),
       'fields' => array(
-        'mail_type' => array(
-          'name' => t('OG: Subscription email'),
-          'handler' => 'og_handler_field_yesempty',
-          'sortable' => false,
-          'help' => t('Does member receive email notifications for a group.'),
-        ),
         'managelink' => array(
           'name' => t('OG: Manage membership link'),
           'handler' => 'og_handler_field_managelink',
