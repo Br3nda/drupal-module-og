@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.62 2008/09/16 16:29:58 weitzman Exp $
+// $Id: og.install,v 1.63 2008/09/18 21:57:03 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -372,7 +372,7 @@ function og_update_6000() {
 // Update to support views modularization while retaining backward compatibility.
 function og_update_6001() {
   $ret = array();
-  module_enable(array('og_views'));
+  drupal_install_modules(array('og_views'));
   //enable the og_views block instead of the plain og one
   db_query("UPDATE {blocks} SET module = 'og_views', delta = '1' WHERE module = 'og' AND delta = '5'");
   return $ret;
