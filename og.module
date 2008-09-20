@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.578 2008/09/18 23:32:38 karthik Exp $
+// $Id: og.module,v 1.579 2008/09/20 17:23:15 karthik Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -569,8 +569,7 @@ function og_broadcast_form_submit($form, &$form_state) {
   $message = array(
     'from' => $user,
     'subject' => $form_state['values']['subject'],
-    'body' => _og_mail_text('og_admin_email_body', $variables),
-    'queue' => TRUE
+    'body' => _og_mail_text('og_admin_email_body', $variables)
   );
 
   // Send notifications to each member; Sending an array of recipients implies
