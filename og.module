@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.583 2008/09/23 20:52:21 karthik Exp $
+// $Id: og.module,v 1.584 2008/09/27 20:21:38 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -314,6 +314,7 @@ function og_preprocess_page(&$variables) {
     // Copied from drupal_get_js().
     $js =  "\n". '<script type="text/javascript">jQuery.extend(Drupal.settings, '. drupal_to_js(call_user_func_array('array_merge_recursive', $data)) .");</script>\n";
     $variables['scripts'] .= $js;
+    $variables['body_classes'] .= " og-context og-context-$group_node->nid";
   }
 }
 
