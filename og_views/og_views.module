@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.module,v 1.5 2008/09/22 12:54:19 weitzman Exp $
+// $Id: og_views.module,v 1.6 2008/09/29 20:02:31 weitzman Exp $
 
 /**
  * Implementation of hook_menu().
@@ -57,7 +57,7 @@ function og_views_block($op = 'list', $delta = 0, $edit = array()) {
     $blocks[0]['info'] = t('Group search');
     $blocks[0]['cache'] = BLOCK_NO_CACHE;
     
-    $blocks[1]['info'] = t('Group notifications (views enhanced)');
+    $blocks[1]['info'] = t('Group notifications (Views enhanced)');
     $blocks[1]['cache'] = BLOCK_NO_CACHE;
     return $blocks;
   }
