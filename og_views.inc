@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.inc,v 1.12.2.55.2.2 2008/10/02 03:28:37 weitzman Exp $
+// $Id: og_views.inc,v 1.12.2.55.2.3 2008/10/02 03:43:12 weitzman Exp $
 /**
  * Implementation of the hook_views_tables()
  */
@@ -70,6 +70,9 @@ function og_views_tables() {
         ),
         'private' => array(
           'name' => t('OG: Group: Private'),
+          'handler' => 'og_handler_field_private',
+          'sortable' => TRUE,
+          'help' => t('Displays whether a group is private or public with respect to groups.'),
         ),
         'subscribe' => array(
           'name' => t('OG: Group: Join Link'),
@@ -1270,6 +1273,11 @@ function og_handler_field_count($fieldinfo, $fielddata, $value, $data) {
   $cnt = db_num_rows(db_query(og_list_users_sql(), $data->nid));
   return in_array($data->nid, array_keys($user->og_groups)) ? l($cnt, "og/users/$data->nid") : $cnt;
 }
+
+function og_handler_field_private($fieldinfo, $fielddata, $value, $data) {
+  return $value ? t('Private') : t('Public');
+}
+
 
 function og_handler_field_language($fieldinfo, $fielddata, $value, $data) {
   global $locale;
