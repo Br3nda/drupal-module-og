@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.198 2008/09/29 17:06:44 weitzman Exp $
+// $Id: og.module,v 1.298.2.199 2008/10/02 03:16:07 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1594,9 +1594,9 @@ function og_node_delete_group_form(&$form) {
     $options = og_all_groups_options();
     unset($options[$form['nid']['#value']]);
     $form['target'] = array('#type' => 'select', '#title' => t('Target group'), '#default_value' => 0, '#options' => $options, '#weight' => 0, '#description' => t('If you chose <b>Move all group posts</b> above, specify a destination group.'));
-    // register a submit handler
-    $form['#submit']['og_node_delete_confirm_submit'] = array();
   }
+  // register a submit handler
+  $form['#submit']['og_node_delete_confirm_submit'] = array();
   $form['actions']['submit']['#value'] = t('Delete group');
 }
 
