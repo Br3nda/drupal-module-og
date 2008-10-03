@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.21.2.32.2.5 2008/10/02 19:30:04 karthik Exp $
+// $Id: og.install,v 1.21.2.32.2.6 2008/10/03 06:20:58 karthik Exp $
 
 function og_install() {
   switch ($GLOBALS['db_type']) {
@@ -486,10 +486,10 @@ function og_update_5700() {
    return $ret;
  }
  
- /**
-  * Notifications upgrade: Set flag to indicate that this is an upgraded 
-  * installation.
-  */ 
+/**
+ * Notifications upgrade: Set flag to indicate that this is an upgraded 
+ * installation.
+ */ 
 function og_update_5703() {
   // Remove mail / no mail options from OG group types and move preferences to
   // og_notifications.
