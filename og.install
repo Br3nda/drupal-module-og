@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.67 2008/10/06 08:07:50 karthik Exp $
+// $Id: og.install,v 1.68 2008/10/09 14:45:53 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -161,7 +161,7 @@ function og_install() {
   drupal_install_schema('og');
 
   // enable standard og blocks. for custom profiles, block may not be included yet.
-  if (function_exists('block_rehash')) {
+  if (function_exists('_block_rehash')) {
     _block_rehash();
   }
   
