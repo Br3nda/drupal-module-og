@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.591 2008/10/22 03:12:18 weitzman Exp $
+// $Id: og.module,v 1.592 2008/10/25 13:36:58 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -364,8 +364,9 @@ function og_init() {
   if ($node = og_determine_context()) {
     og_set_language($node);
   }
-  // TODOL: try to set this less often to avoid filling sessions table during spidering.
-  $_SESSION['og_last'] = $node;
+  if ($user->uid || variable_get('cache', CACHE_DISABLED) == CACHE_DISABLED) {
+    $_SESSION['og_last'] = $node;
+  }
 }
 
 /**
