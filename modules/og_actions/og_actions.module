@@ -1,5 +1,5 @@
 <?php
-// $Id: og_actions.module,v 1.4 2008/09/24 20:18:05 weitzman Exp $
+// $Id: og_actions.module,v 1.5 2008/10/29 20:01:54 dww Exp $
 
 /**
  * Implementation of hook_action_info().
