@@ -1,5 +1,5 @@
 <?php
-// $Id: og.admin.inc,v 1.12 2008/09/18 23:32:38 karthik Exp $
+// $Id: og.admin.inc,v 1.13 2008/10/29 19:57:53 dww Exp $
 
 /**
  * Menu callback to load settings form.
