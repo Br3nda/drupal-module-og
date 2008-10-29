@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.module,v 1.6 2008/09/29 20:02:31 weitzman Exp $
+// $Id: og_views.module,v 1.7 2008/10/29 19:59:49 dww Exp $
 
 /**
  * Implementation of hook_menu().
