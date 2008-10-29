@@ -1,5 +1,5 @@
 <?php
-// $Id: node-og-group.tpl.php,v 1.2 2008/06/18 18:49:11 weitzman Exp $
+// $Id: node-og-group.tpl.php,v 1.3 2008/10/29 20:04:41 dww Exp $
 
 /**
  * @file node-og-grouo.tpl.php
