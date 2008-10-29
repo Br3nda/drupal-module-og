@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.24 2008/08/01 02:54:34 weitzman Exp $
+// $Id: og_access.module,v 1.26 2008/10/29 19:58:40 dww Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
