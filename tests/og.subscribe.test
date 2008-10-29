@@ -1,5 +1,5 @@
 <?php
-// $Id: og_subscribe.test,v 1.17 2008/10/09 14:38:33 weitzman Exp $
+// $Id: og.subscribe.test,v 1.18 2008/10/29 20:03:53 dww Exp $
 
 /**
  * @file
