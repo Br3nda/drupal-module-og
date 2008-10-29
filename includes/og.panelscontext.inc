@@ -1,5 +1,5 @@
 <?php
-// $Id: groupcontext.inc,v 1.3 2008/05/26 13:57:32 weitzman Exp $
+// $Id: og.panelscontext.inc,v 1.4 2008/10/29 20:02:28 dww Exp $
 /**
  * @file contexts/group.inc
  *
