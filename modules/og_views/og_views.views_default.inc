@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views_default.inc,v 1.2 2008/07/31 19:48:15 weitzman Exp $
+// $Id: og_views.views_default.inc,v 1.3 2008/10/29 19:59:45 dww Exp $
 
 // Declare all the .view files in the views subdir that end in .view
 function og_views_default_views() {
