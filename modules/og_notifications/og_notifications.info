@@ -1,4 +1,4 @@
-; $Id: og_notifications.info,v 1.6 2008/10/02 18:49:04 karthik Exp $
+; $Id: og_notifications.info,v 1.7 2008/10/29 19:59:23 dww Exp $
 name = Organic Groups Notifications
 description = Allows users to receive notifications and subscribe to group content.
 package = "Organic groups"
