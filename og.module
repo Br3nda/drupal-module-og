@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.593 2008/10/28 14:23:08 weitzman Exp $
+// $Id: og.module,v 1.594 2008/10/29 20:40:42 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -288,7 +288,7 @@ function og_theme() {
   return array(
     'opml_icon' => array('arguments' => array('url')),
     'og_format_subscriber_status' => array('arguments' => array('group')),
-    'og_mission' => array('template' => 'og-mission', 'arguments' => array('form' => NULL)),
+    'og_mission' => array('template' => 'og-mission', 'arguments' => array('form' => NULL), 'path' => drupal_get_path('module', 'og'). '/theme'),
   );
 }
 
