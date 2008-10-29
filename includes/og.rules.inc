@@ -1,5 +1,5 @@
 <?php
-// $Id: og.rules.inc,v 1.2 2008/08/06 13:25:16 weitzman Exp $
+// $Id: og.rules.inc,v 1.3 2008/10/29 19:57:56 dww Exp $
 
 /**
  * @file
