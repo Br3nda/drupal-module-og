@@ -1,5 +1,5 @@
 <?php
-// $Id: og.og_ghp_ron.view,v 1.2 2008/08/14 17:32:48 weitzman Exp $
+// $Id: og.og_ghp_ron.view,v 1.3 2008/10/29 20:00:25 dww Exp $
 
 $view = new view;
 $view->name = 'og_ghp_ron';
