@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.6 2008/10/06 07:58:11 karthik Exp $
+// $Id: og_views.views.inc,v 1.7 2008/10/29 19:59:42 dww Exp $
 
 /**
  * Implementation of hook_views_handlers().
