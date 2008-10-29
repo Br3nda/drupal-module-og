@@ -1,4 +1,4 @@
-; $Id: og_panels.info,v 1.3 2008/05/20 01:45:09 weitzman Exp $
+; $Id: og_panels.info,v 1.4 2008/10/29 19:59:01 dww Exp $
 name = Organic groups panels
 description = "Enable group admins to create panel pages."
 package = "Organic groups"
