@@ -1,8 +1,11 @@
 <?php
-// $Id: og_notifications.module,v 1.13 2008/10/29 19:59:32 dww Exp $
+// $Id: og_notifications.module,v 1.14 2008/10/30 19:18:53 karthik Exp $
+
 /**
  * @file
- * Subscriptions to content in groups.
+ * Provide notifications and messaging support for organic groups.
+ *
+ * @author Karthik Kumar / Zen [ http://drupal.org/user/21209 ].
  */
 
 /**
