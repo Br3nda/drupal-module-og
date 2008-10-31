@@ -1,5 +1,9 @@
 <?php
-// $Id: og.og_search.view,v 1.2 2008/10/29 19:59:55 dww Exp $
+// $Id: og.og_search.view,v 1.3 2008/10/31 14:14:44 weitzman Exp $
+
+if (!module_exists('search')) {
+  return;
+}
 
 $view = new view;
 $view->name = 'og_search';
