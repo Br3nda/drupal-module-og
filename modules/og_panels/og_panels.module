@@ -1,5 +1,5 @@
 <?php
-// $Id: og_panels.module,v 1.40 2008/10/29 19:59:19 dww Exp $
+// $Id: og_panels.module,v 1.41 2008/10/31 12:14:04 weitzman Exp $
 
 function og_panels_help($section) {
   switch ($section) {
@@ -634,7 +634,7 @@ function og_panels_block_info($module, $delta, &$info) {
       // Provide alternate versions as content items
       unset($info);
       break;
-    case 'default':
+    default:
       $info['icon'] = 'images/user-multiple.png';
       $info['required context'] = new panels_required_context(t('Group'), 'group');
       $info['path'] = drupal_get_path('module', 'og_panels'). '/';
