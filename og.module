@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.594 2008/10/29 20:40:42 weitzman Exp $
+// $Id: og.module,v 1.595 2008/10/31 01:50:52 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -866,6 +866,15 @@ function og_invite_form_submit($form, &$form_state) {
     drupal_mail('og', 'invite_user', $mail, $GLOBALS['language'], $variables, $from);
   }
   drupal_set_message(format_plural(count($emails), '1 invitation sent.', '@count invitations sent.'));
+}
+
+/**
+ * Implementation of hook_mail().
+ */
+function og_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $message['subject'] .= _og_mail_text($key .'_subject', $params, $language);
+  $message['body'][] = _og_mail_text($key .'_body', $params, $language);
 }
 
 function og_subscribe($node, $uid = NULL) {
@@ -2018,9 +2027,10 @@ function _og_mail_text($messageid, $variables = array(), $language = NULL) {
         return t("Membership request denied for '@title'", $variables, $langcode);
       case 'og_deny_user_body':
         return t("Sorry, your membership request was denied.", $variables, $langcode);
-      case 'og_invite_user_subject':
+      // These emails have no 'og' prefix as they come through hook_mail().
+      case 'invite_user_subject':
         return t("Invitation to join the group '@group' at @site", $variables, $langcode);
-      case 'og_invite_user_body':
+      case 'invite_user_body':
         return t("Hi. I'm a member of '@group' and I welcome you to join this group as well. Please see the link and message below.\n\n@group\n@description\nJoin: !group_url\n@body", $variables, $langcode);
       case 'og_request_user_subject':
         return t("Membership request for '@group' from '@username'", $variables, $langcode);        
