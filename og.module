@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.197.2.9 2008/10/31 02:04:32 weitzman Exp $
+// $Id: og.module,v 1.298.2.197.2.10 2008/10/31 03:47:34 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -810,8 +810,8 @@ function og_unsubscribe($gid, $uid = NULL) {
   }
   $node = node_load($gid);
   $account = user_load(array('uid' => $uid));
-  if (!in_array($gid, array_keys($account->og_groups)) || ($uid != $user->uid && !og_is_node_admin($node))) {
-    // Ubsubscribee must be a member.
+  if (!in_array($gid, array_keys(og_get_subscriptions($account->uid, 0))) || ($uid != $user->uid && !og_is_node_admin($node))) {
+    // Ubsubscribee must be a member or awaiting approval
     // Only admins can remove another member.
     drupal_access_denied();
     exit();
