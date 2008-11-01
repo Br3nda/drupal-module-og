@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.598 2008/10/31 17:22:01 weitzman Exp $
+// $Id: og.module,v 1.599 2008/11/01 11:41:19 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1702,15 +1702,11 @@ function og_form_alter(&$form, &$form_state, $form_id) {
  */
 function og_content_extra_fields($type_name) {
   $extras = array();
-  
+
   if (og_is_group_post_type($type_name)) {
-    $description = t('OG audience');
-    if (module_exists('og_access')) {
-      $description .= t(' & Public checkbox.');
-    } 
     $extra['og_nodeapi'] = array(
       'label' => t('Groups'),
-      'description' => $description,
+      'description' => module_exists('og_access') ? t('OG audience & Public checkbox.') : t('OG audience.'),
       'weight' => 0,
     );
   }
