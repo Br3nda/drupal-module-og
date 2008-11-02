@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.600 2008/11/02 13:24:50 weitzman Exp $
+// $Id: og.module,v 1.601 2008/11/02 13:27:39 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2385,7 +2385,7 @@ function og_block_notifications() {
   global $user;
   
   if ($groupnode = og_get_group_context()) {
-    $content = t('This group offers a !subscription.', array('!subscription' => l(t('subscription option'), 'og/manage/'. $groupnode->nid)));
+    $content = t('This group offers a <a href="@subscription">subscription option</a>.', array('@subscription' => url('og/manage/'. $groupnode->nid)));
     $block['content'] = $content;
     $block['subject'] = t('Group notifications');
     return $block;
