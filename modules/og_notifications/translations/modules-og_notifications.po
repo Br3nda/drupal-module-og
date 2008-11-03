@@ -1,4 +1,4 @@
-# $Id: modules-og_notifications.po,v 1.4 2008/11/03 11:49:40 hass Exp $
+# $Id: modules-og_notifications.po,v 1.5 2008/11/03 15:15:05 hass Exp $
 #
 # LANGUAGE translation of Drupal (og_notifications/og_notifications.module)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OG notifications\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-11-03 12:47+0100\n"
+"PO-Revision-Date: 2008-11-03 16:13+0100\n"
 "Last-Translator: Alexander Haß\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
