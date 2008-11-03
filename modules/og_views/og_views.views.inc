@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.7 2008/10/29 19:59:42 dww Exp $
+// $Id: og_views.views.inc,v 1.8 2008/11/03 15:02:45 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -204,7 +204,7 @@ function og_views_data_og() {
   );
   $data['og']['subscribe'] = array(
     'title' => t('Group: Join link'),
-    'help' => t('Displays a links for joining a group when a user is not already a member.'),
+    'help' => t('Displays a link for joining a group when a user is not already a member.'),
     'field' => array(
       'handler' => 'og_views_handler_field_og_subscribe',
     ),
