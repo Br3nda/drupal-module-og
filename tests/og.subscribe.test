@@ -1,12 +1,12 @@
 <?php
-// $Id: og.subscribe.test,v 1.20 2008/11/02 14:11:17 weitzman Exp $
+// $Id: og.subscribe.test,v 1.21 2008/11/03 00:26:48 weitzman Exp $
 
 /**
  * @file
  * Tests for membership related operations in the organic groups module.
  */
 
-require_once dirname(__FILE__) .'/og_testcase.php';
+require_once drupal_get_path('module', 'og') . '/tests/og_testcase.php';
 
 class OgSubscribe extends OgTestCase {
   function getInfo() {
