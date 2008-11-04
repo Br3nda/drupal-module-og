@@ -1,5 +1,5 @@
 <?php
-// $Id: og_notifications.install,v 1.8 2008/10/29 19:59:27 dww Exp $
+// $Id: og_notifications.install,v 1.9 2008/11/04 12:12:13 karthik Exp $
 
 /**
  * Implementation of hook_install().
@@ -82,9 +82,10 @@ function og_notifications_og_upgrade() {
   $autosubscribe = variable_get('og_notification', 1) == 1 ? 1 : 0;
   variable_set('og_notifications_autosubscribe', $autosubscribe);
   variable_del('og_notification');
-  db_query("UPDATE {og_uid_global} SET og_email = 0 WHERE og_email = 2");
 
   db_query("INSERT INTO {og_notifications} (uid, autosubscribe) SELECT oug.uid, oug.og_email FROM {og_uid_global} oug");
+  db_query("UPDATE {og_notifications} SET autosubscribe = 0 WHERE autosubscribe = 2");
+
   db_query('DROP TABLE {og_uid_global}');
 
   variable_del('og_notifications_update_required');
