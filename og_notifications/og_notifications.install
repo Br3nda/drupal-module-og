@@ -1,5 +1,5 @@
 <?php
-// $Id: og_notifications.install,v 1.1.2.8 2008/10/30 19:11:09 karthik Exp $
+// $Id: og_notifications.install,v 1.1.2.9 2008/11/04 12:03:48 karthik Exp $
 
 /**
  * Implementation of hook_install().
@@ -45,6 +45,25 @@ function og_notifications_update_5001() {
  */
 function og_notifications_enable() {
   _og_notifications_populate();
+}
+
+/**
+ * Implementation of hook_requirements().
+ */
+function og_notifications_requirements($phase) {
+  if ($phase == 'install') {
+    $schema = db_result(db_query("SELECT schema_version FROM {system} WHERE type = 'module' AND name = 'og'"));
+    if ($schema < 5703) {
+      $t = get_t();
+      return array(
+        'og_notifications' => array(
+          'title' => $t('OG notifications'),
+          'value' => $t('Please ensure that your installation of organic groups is up to date before enabling OG notifications.'),
+          'severity' => REQUIREMENT_ERROR
+        )
+      );
+    }
+  }
 }
 
 /**
