@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.3 2008/10/30 19:18:53 karthik Exp $
+$Id: README.txt,v 1.4 2008/11/04 18:55:59 karthik Exp $
 
 og_notifications integrates OG with the notifications and messaging modules
 family thereby enabling such features as group subscriptions, administrative
@@ -43,3 +43,4 @@ messaging and other related modules.
 CREDITS
 -------
 Authored by Karthik Kumar / Zen [ http://drupal.org/user/21209 ]
+Sponsored by Kevin Millecam [Webwise Solutions]
