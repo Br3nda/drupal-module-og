@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.602 2008/11/03 02:18:01 weitzman Exp $
+// $Id: og.module,v 1.603 2008/11/04 00:44:19 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -139,6 +139,7 @@ function og_menu() {
     'access arguments' => array('administer site configuration'),
     'description' => 'Configure the main Organic groups module (og).', 
     'file' => 'og.admin.inc',
+    'file path' => drupal_get_path('module', 'og'). '/includes',
     'weight' => -5,
   );
   
