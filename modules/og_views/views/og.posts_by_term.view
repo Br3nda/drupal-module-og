@@ -1,5 +1,9 @@
 <?php
-// $Id: og.posts_by_term.view,v 1.1 2008/11/03 00:49:56 weitzman Exp $
+// $Id: og.posts_by_term.view,v 1.2 2008/11/07 12:45:05 weitzman Exp $
+
+if (!module_exists('taxonomy')) {
+  return;
+}
 
 $view = new view;
 $view->name = 'og_by_subject';
@@ -9,7 +13,7 @@ $view->view_php = '';
 $view->base_table = 'node';
 $view->is_cacheable = FALSE;
 $view->api_version = 2;
-$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+$view->disabled = TRUE; /* Edit this to true to make a default view disabled initially */
 $handler = $view->new_display('default', 'Defaults', 'default');
 $handler->override_option('fields', array(
   'type' => array(
