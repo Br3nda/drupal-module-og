@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.605 2008/11/09 17:17:54 weitzman Exp $
+// $Id: og.module,v 1.606 2008/11/14 01:29:15 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1622,7 +1622,8 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       if ($node->og_groups) {
         $current_groups = og_node_groups_distinguish($node->og_groups_both, FALSE);
       }
-      return format_plural(count($current_groups['accessible']), '1 group', '@count groups');
+      $msg = format_plural(count($current_groups['accessible']), '1 group', '@count groups');
+      return array('og_msg' => $msg);
       // TODOL: bad formatting. commented out.
       // foreach ($current_groups['accessible'] as $gid => $item) {
       //           $og_links['og_'. $gid] = array('title' => $item['title'], 'href' => "node/$gid");
