@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.607 2008/11/15 14:40:53 weitzman Exp $
+// $Id: og.module,v 1.608 2008/11/15 14:54:25 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -260,7 +260,7 @@ function og_is_group_member($gid, $include_admins = TRUE, $uid = NULL) {
     // Adventurous modules can cause us to arrive here before og_init() has fired.
     // See http://drupal.org/node/285696
     if (!isset($user->og_groups)) {
-      $user = user_load(array('uid' => $uid));  
+      $user = user_load(array('uid' => $user->uid));  
     }
   }
 
@@ -290,6 +290,11 @@ function og_is_group_member($gid, $include_admins = TRUE, $uid = NULL) {
 function og_is_group_admin($node, $account = NULL) {
   if (is_null($account)) {
     $account = $GLOBALS['user'];
+    // Adventurous modules can cause us to arrive here before og_init() has fired.
+    // See http://drupal.org/node/285696
+    if ($account->uid && !isset($account->og_groups)) {
+      $account = user_load(array('uid' => $account->uid));  
+    }
   }
   
   return og_is_group_type($node->type) && (user_access('administer nodes', $account) || !empty($account->og_groups[$node->nid]['is_admin']));
