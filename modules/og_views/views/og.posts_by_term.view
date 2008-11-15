@@ -1,13 +1,13 @@
 <?php
-// $Id: og.posts_by_term.view,v 1.2 2008/11/07 12:45:05 weitzman Exp $
+// $Id: og.posts_by_term.view,v 1.3 2008/11/15 15:05:37 weitzman Exp $
 
 if (!module_exists('taxonomy')) {
   return;
 }
 
 $view = new view;
-$view->name = 'og_by_subject';
-$view->description = 'Shows group posts categorized by taxonomy';
+$view->name = 'posts_by_term';
+$view->description = 'Shows group posts categorized by taxonomy term';
 $view->tag = 'og';
 $view->view_php = '';
 $view->base_table = 'node';
