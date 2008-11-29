@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.8 2008/11/03 15:02:45 weitzman Exp $
+// $Id: og_views.views.inc,v 1.9 2008/11/29 19:31:40 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -424,9 +424,6 @@ function og_views_data_og_uid() {
     'field' => array(
       'handler' => 'og_views_handler_field_og_is_manager',
       'click sortable' => FALSE,
-    ),
-    'filter' => array(
-      'handler' => 'views_handler_filter_boolean_operator',
     ),
   );
   $data['og_uid']['created'] = array(
