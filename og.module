@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.611 2008/12/08 18:58:05 weitzman Exp $
+// $Id: og.module,v 1.612 2008/12/12 03:35:07 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1460,6 +1460,12 @@ function og_presave_group(&$node) {
 
 function og_devel_generate(&$node) {
   if (og_is_group_type($node->type)) {
+    // Don't let anon own a group. They can edit all group nodes, and more. Could potentially be fixed by devel respecting
+    // content type create permissions.
+    if ($node->uid == 0) {
+      $node->uid = 1;
+    }
+    
     $node->og_selective = rand(0,3);
     $can_join = $node->og_selective <= OG_MODERATED;
     $open_join = $node->og_selective < OG_MODERATED;
