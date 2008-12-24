@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.module,v 1.10 2008/11/19 03:54:58 weitzman Exp $
+// $Id: og_views.module,v 1.11 2008/12/24 03:43:57 weitzman Exp $
 
 /**
  * Implementation of hook_menu().
@@ -28,6 +28,12 @@ function og_views_menu() {
 
   return $items;
 }
+
+function og_menu_access_picture($gid) {
+  $view = views_get_view('og_members_faces');
+  return og_is_picture() && og_is_group_member($gid) && !$view->disabled;
+}
+
 
 /**
  * Implementation of hook_views_api().

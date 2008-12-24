@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.613 2008/12/24 03:28:18 weitzman Exp $
+// $Id: og.module,v 1.614 2008/12/24 03:43:57 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -235,10 +235,6 @@ function og_menu_access_unsubscribe($group_node, $account) {
 
 function og_menu_access_invite($node) {
   return og_is_group_member($node) && ($node->og_selective < OG_INVITE_ONLY || og_is_group_admin($node));
-}
-
-function og_menu_access_picture($gid) {
-  return og_is_picture() && og_is_group_member($gid);
 }
 
 /**
