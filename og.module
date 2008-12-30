@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.197.2.16 2008/12/04 03:00:41 weitzman Exp $
+// $Id: og.module,v 1.298.2.197.2.17 2008/12/30 16:27:18 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1031,7 +1031,7 @@ function theme_og_picture_grid($result, $column_count = 5) {
   }
   $content .= '</table>';
   
-  if ($content) {
+  if ($total) {
     return $content;
   }
 }
