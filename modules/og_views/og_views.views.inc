@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.10 2008/11/30 18:33:21 weitzman Exp $
+// $Id: og_views.views.inc,v 1.11 2008/12/31 05:41:47 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -364,8 +364,13 @@ function og_views_data_og_uid() {
     // 'help' => t('foo')
     'filter' => array(
       'handler' => 'views_handler_filter_user_current',
-      'help' => t("OG: Group in user's groups"),
+      'help' => t("OG: Group in current user's groups"),
     ),
+   'argument' => array(
+     'title' => t('Member of a group'),
+     'handler' => 'views_handler_argument_numeric',
+     'help' => t("OG: Group in specified user's groups. Note that OG usually considers a user's groups to be private information. You may want to add access control to your View or validation to this argument."),
+   ),
   );
   $data['og_uid']['managelinkadmin'] = array(
     'title' => t('OG: Admin manage link'),
