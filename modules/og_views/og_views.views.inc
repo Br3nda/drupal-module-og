@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.11 2008/12/31 05:41:47 weitzman Exp $
+// $Id: og_views.views.inc,v 1.12 2008/12/31 13:49:32 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -264,9 +264,6 @@ function og_views_data_og_ancestry() {
       'field' => 'nid',
     ),
   );
-  
-  $help = 
-  
   $data['og_ancestry']['group_nid'] = array(
     'title' => t('Groups'),
     'help' => t('The groups for a post.'),
