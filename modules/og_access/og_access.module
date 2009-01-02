@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.29 2008/11/14 14:15:10 weitzman Exp $
+// $Id: og_access.module,v 1.30 2009/01/02 03:55:41 weitzman Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -307,8 +307,12 @@ function og_access_node_access_records($node) {
       );
     }
   }
-
-  return isset($grants) ? $grants : NULL;
+  if (!empty($grants)) {
+    // Allow other modules to change the grants.
+    drupal_alter('og_access_grants', $grants, $node);
+    return $grants;
+  }
+  return NULL;
 }
 
 /**
