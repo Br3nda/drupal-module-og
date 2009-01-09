@@ -1,4 +1,4 @@
-# $Id: og_notifications-module.po,v 1.1.2.2 2008/07/13 17:14:43 hass Exp $
+# $Id: og_notifications-module.de.po,v 1.1.4.2 2009/01/09 19:44:06 hass Exp $
 #
 # LANGUAGE translation of Drupal (og_notifications/og_notifications.module)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
