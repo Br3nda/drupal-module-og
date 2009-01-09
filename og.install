@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.69 2008/10/09 15:06:31 weitzman Exp $
+// $Id: og.install,v 1.70 2009/01/09 18:39:53 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -334,6 +334,7 @@ function og_update_5701() {
 function og_update_5703() {
   // Remove mail / no mail options from OG group types and move preferences to
   // og_notifications.
+  drupal_load('module', 'og');
   $types = og_get_types('group_post');
   $mail_types = array();
   foreach ($types as $type) {
