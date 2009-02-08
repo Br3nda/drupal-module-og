@@ -1,5 +1,5 @@
 <?php
-// $Id: og_notifications.module,v 1.1.2.2.2.15 2009/02/08 20:47:35 karthik Exp $
+// $Id: og_notifications.module,v 1.1.2.2.2.16 2009/02/08 21:18:36 karthik Exp $
 
 /**
  * @file
@@ -343,6 +343,8 @@ function og_notifications_user_page($account = NULL) {
     );
 
     $content_types = array_filter(variable_get('og_notifications_content_types', array()));
+    $content_names = node_get_types('names');
+
     foreach ($account->og_groups as $gid => $group) {
       $group_index = 'groups-'. $gid;
 
@@ -352,7 +354,7 @@ function og_notifications_user_page($account = NULL) {
         // group is not already subscribed to (for all posts).
         $bool = isset($ngrouptypes[$gid]) && isset($ngrouptypes[$gid][$type]);
         $types[$type] = array(
-          'title' => $title,
+          'title' => check_plain($content_names[$type]),
           'checkbox' => $bool,
           'send_interval' => $bool ? $ngrouptypes[$gid][$type]->send_interval : $grouptype_form['defaults']['#value']['send_interval'],
           'send_method' => $bool ? $ngrouptypes[$gid][$type]->send_method : $grouptype_form['defaults']['#value']['send_method']
