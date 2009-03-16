@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.30 2009/01/02 03:55:41 weitzman Exp $
+// $Id: og_access.module,v 1.31 2009/03/16 17:00:58 weitzman Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -67,6 +67,7 @@ function og_access_content_extra_fields($type_name) {
     $extra['og_private'] = array(
       'label' => t('Private group'),
       'description' => t('Checkbox for visibility of group home page to non-members.'),
+      'weight' => 0,
     );
   }
   return $extra;
@@ -307,6 +308,7 @@ function og_access_node_access_records($node) {
       );
     }
   }
+      
   if (!empty($grants)) {
     // Allow other modules to change the grants.
     drupal_alter('og_access_grants', $grants, $node);
