@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.618 2009/01/02 03:58:21 weitzman Exp $
+// $Id: og.module,v 1.619 2009/03/16 16:44:52 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -708,7 +708,7 @@ function og_approve($node, $account, $token) {
       'body' => _og_mail_text('og_approve_user_body', $variables)
     );
 
-    module_invoke_all('og', 'user approve', $node->nid, $uid, $message);
+    module_invoke_all('og', 'user approve', $node->nid, $account->uid, $message);
     drupal_goto("node/$node->nid");
   }
 }
@@ -732,7 +732,7 @@ function og_deny($node, $account, $token) {
     'body' => _og_mail_text('og_deny_user_body', $variables)
   );
 
-  module_invoke_all('og', 'user deny', $node->nid, $uid, $message);
+  module_invoke_all('og', 'user deny', $node->nid, $account->uid, $message);
   drupal_goto("node/$node->nid");
 }
 
