@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.1 2009/04/09 21:14:21 weitzman Exp $
+// $Id: og_views.views.inc,v 1.13.4.2 2009/04/10 03:07:25 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -464,6 +464,7 @@ function og_views_data_og_uid() {
     'title' => t('OG: Is the group manager'),
     'help' => t('Add <em>manager</em> text if user is the group manager.'),
     'field' => array(
+      'field' => 'uid',
       'handler' => 'og_views_handler_field_og_is_manager',
       'click sortable' => FALSE,
     ),
