@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.install,v 1.5.4.2 2009/04/10 12:39:57 weitzman Exp $
+// $Id: og_access.install,v 1.5.4.3 2009/04/10 13:04:38 weitzman Exp $
 
 /**
  * Definition of hook_schema();
@@ -84,7 +84,7 @@ function og_access_update_6201() {
   
   // Dedupe og_ancestry table because some sites had dupes of unkown origin.
   // See og.install.
-  og_ancestry_dedupe();
+  og_ancestry_dedupe($ret);
   
   return $ret;
 }
