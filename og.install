@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.71.4.1 2009/04/09 21:14:20 weitzman Exp $
+// $Id: og.install,v 1.71.4.2 2009/04/10 12:39:55 weitzman Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -419,7 +419,7 @@ function og_update_6002() {
 }
 
 // Migrate the is_public column from og_ancestry to a new og_nid table. Denormalizing.
-function og_update_6003() {
+function og_update_6203() {
   $ret = array();
   if (module_exists('og_access')) {
     // Do nothing. An og_access update handles this.

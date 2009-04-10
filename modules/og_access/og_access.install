@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.install,v 1.5.4.1 2009/04/09 21:14:20 weitzman Exp $
+// $Id: og_access.install,v 1.5.4.2 2009/04/10 12:39:57 weitzman Exp $
 
 /**
  * Definition of hook_schema();
@@ -51,7 +51,7 @@ function og_access_uninstall() {
 }
 
 // Migrate the is_public column from og_ancestry to a new og_access_post table. Denormalizing.
-function og_access_update_6001() {
+function og_access_update_6201() {
   $ret = array();
   // Create new table.
   $schema['og_access_post'] = array(
