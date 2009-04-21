@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.module,v 1.18.4.1 2009/04/10 03:32:02 weitzman Exp $
+// $Id: og_views.module,v 1.18.4.2 2009/04/21 15:06:06 weitzman Exp $
 
 /**
  * Implementation of hook_menu().
@@ -94,7 +94,7 @@ function og_views_block_notifications() {
   if ($groupnode = og_get_group_context()) {
     $content = t('This group offers a <a href="@groupfeed">RSS feed</a>', array('@groupfeed' => url("node/$groupnode->nid/feed")));
     if (module_exists('og_notifications') && $user->uid) {
-      $content .= t(' and an <a href="@email">email subscription</a>.', array('@email' => url('user/$user->uid/notifications/group')));
+      $content .= t(' and an <a href="@email">email subscription</a>.', array('@email' => url("user/$user->uid/notifications/group")));
     }
     else {
       $content .= '.';
