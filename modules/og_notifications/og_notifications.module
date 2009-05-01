@@ -1,5 +1,5 @@
 <?php
-// $Id: og_notifications.module,v 1.24.4.6 2009/04/18 05:49:13 karthik Exp $
+// $Id: og_notifications.module,v 1.24.4.7 2009/05/01 06:52:33 karthik Exp $
 
 /**
  * @file
@@ -793,9 +793,10 @@ function _og_notifications_node_options($account, $node) {
  * see if the message object being passed is an OG notification.
  *
  * @param Object $message
- *   The message object
- * @return Boolean
- *   True if this is an OG notification message. False, otherwise ...
+ *   The message object.
+ * @return Integer
+ *   The subscription ID if this is an OG notification message. 0, 
+ * otherwise ...
  */
 function _og_notification_check_message($message) {
   $sid = 0;
@@ -810,5 +811,5 @@ function _og_notification_check_message($message) {
     }
   }
 
-  return $sid > 0;
+  return $sid > 0 ? $sid : 0;
 }
