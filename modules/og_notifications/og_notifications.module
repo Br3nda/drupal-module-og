@@ -1,5 +1,5 @@
 <?php
-// $Id: og_notifications.module,v 1.24.4.13 2009/05/06 05:25:24 karthik Exp $
+// $Id: og_notifications.module,v 1.24.4.14 2009/05/06 06:15:38 karthik Exp $
 
 /**
  * @file
@@ -311,7 +311,8 @@ function og_notifications_notifications($op, &$arg0, $arg1 = NULL, $arg2 = NULL)
         'name' => t('Group'),
         'field' => 'nid',
         'type' => 'int',
-        'options callback' => 'og_notifications_groups'
+        'options callback' => 'og_notifications_groups',
+        'format callback' => 'notifications_node_nid2title'
       );
       // Notifications does not allow custom callbacks for overlapping fields.
       // This is resolved via a form_alter refines the field to only displsy
