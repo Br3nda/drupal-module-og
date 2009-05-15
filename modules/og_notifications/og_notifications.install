@@ -1,5 +1,5 @@
 <?php
-// $Id: og_notifications.install,v 1.9.4.1 2009/05/13 07:18:23 karthik Exp $
+// $Id: og_notifications.install,v 1.9.4.2 2009/05/15 05:46:56 karthik Exp $
 
 /**
  * Implementation of hook_install().
@@ -30,7 +30,7 @@ function og_notifications_schema() {
         'not null' => TRUE
       ),
       'autosubscribe' => array(
-        'description' => t(''),
+        'description' => t("The user's autosubscribe preference: -1, 0 or 1 which corresponds to 'Site default', 'Disabled' or 'Enabled' respectively."),
         'type' => 'int',
         'size' => 'tiny',
         'not null' => TRUE,
