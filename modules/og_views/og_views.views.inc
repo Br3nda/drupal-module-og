@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.2 2009/04/10 03:07:25 weitzman Exp $
+// $Id: og_views.views.inc,v 1.13.4.3 2009/06/09 04:25:16 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -153,7 +153,7 @@ function og_views_data_og() {
     'field' => array(
       'handler' => 'og_views_handler_field_og_post_count',
       'click sortable' => TRUE,
-      'help' => t('Number of published posts in a group. Can be restricted by node type using the <em>Option</em> dropdown.'),
+      'help' => t('Number of published posts in a group.'),
       'notafield' => TRUE,
      ),
   );
