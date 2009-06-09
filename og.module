@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.7 2009/05/29 02:14:52 weitzman Exp $
+// $Id: og.module,v 1.628.4.8 2009/06/09 04:12:16 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -851,7 +851,7 @@ function og_view_group(&$node, $teaser = FALSE, $page = FALSE) {
     $node->content['og_description'] = array(
       '#type' => 'item',
       '#title' => t('Description'),
-      '#value' => $node->og_description,
+      '#value' => check_plain($node->og_description),
       );
   }
   else {
