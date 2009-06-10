@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.4 2009/06/10 16:13:12 weitzman Exp $
+// $Id: og_views.views.inc,v 1.13.4.5 2009/06/10 22:50:00 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -536,7 +536,6 @@ function og_views_data_og_notifications() {
       'handler' => 'og_views_handler_filter_autosubscribe',
     ),
   );
-dsm($data);
   return $data;
 }
 
