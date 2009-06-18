@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.11 2009/06/18 00:51:10 weitzman Exp $
+// $Id: og.module,v 1.628.4.12 2009/06/18 02:06:44 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -386,7 +386,8 @@ function og_init() {
   // We have to perform a load in order to assure that the $user->og_groups bits are present.
   global $user;
   if ($user->uid) {
-    $user = user_load(array('uid' => $user->uid));
+    // $user gets modified by reference.
+    og_user('load', array(), $user);
   }
   else {
     $user->og_groups = array();
