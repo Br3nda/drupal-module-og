@@ -1,0 +1,104 @@
+<?php
+// $Id: og_panels.install,v 1.4.4.1 2009/07/13 03:57:15 weitzman Exp $
+
+/**
+ * Implementations of hook_install/uninstall
+ *
+ * To go with our lovely new hook_schema()
+ */
+function og_panels_install() {
+  drupal_install_schema('og_panels');
+}
+
+function og_panels_uninstall() {
+  drupal_uninstall_schema('og_panels');
+}
+
+
+/**
+ * Implementation of hook_schema()
+ *
+ * Create schemas for handling og_panels and also the tab router, as per
+ * http://drupal.org/node/362031
+ *  
+ */
+function og_panels_schema() {
+  $schema['og_panels'] = array(
+    'description' => 'Keeps track of panel dids per-group.',
+    'fields' => array(
+      'did' => array(
+        'description' => 'A panels display id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0),
+      'nid' => array(
+        'description' => 'The organic group node id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0),
+      'published' => array(
+        'description' => 'Boolean: is this panels page published?',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0),
+      'page_title' => array(
+        'description' => 'The tab/title for this panels page.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => ''),
+      'path' => array(
+        'description' => 'The url alias for this panel.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => ''),
+      'default_page' => array(
+        'description' => 'Boolean: is this panels page the default home for the group?',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0),
+      'show_blocks' => array(
+        'description' => 'Boolean: should this panels page hide the normal block regions?',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0),
+      'weight' => array(
+        'description' => 'Weighting for tab order',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0),
+      'tab_num' => array(
+        'description' => 'Tab number for this node_tab.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0),
+      ),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'page_title' => array('page_title'),
+      'tab_num' => array('tab_num'),
+      'did' => array('did'),
+     ),
+    'primary key' => array('nid', 'tab_num'),
+  );
+  return $schema;    
+}
+
+function og_panels_update_5001() {
+  $ret = array();
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("ALTER TABLE {og_panels} ADD COLUMN weight int(4) NOT NULL DEFAULT 0");
+      break;
+    case 'pgsql':
+      db_add_column($ret, 'og_panels', 'weight', 'integer', array('not null' => TRUE, 'default' => 0));
+      break;
+  }
+  return $ret ? $ret : array();
+}
+
