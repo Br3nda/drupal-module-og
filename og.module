@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.16 2009/08/08 17:52:20 weitzman Exp $
+// $Id: og.module,v 1.628.4.17 2009/08/08 18:10:40 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -760,7 +760,7 @@ function og_subscribe_user($gid, $account, $request = NULL) {
       case OG_OPEN:
         og_save_subscription($gid, $account->uid, array('is_active' => 1));
         $return_value = array('type' => 'subscribed',
-                              'message' => t('You are now a member of the %group.', array('%group' => $node->title)));
+                              'message' => t('You are now a member of %group.', array('%group' => $node->title)));
         break;
       case OG_CLOSED:
       case OG_INVITE_ONLY:
