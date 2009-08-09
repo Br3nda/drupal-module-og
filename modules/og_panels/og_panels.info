@@ -1,9 +1,8 @@
-; $Id: og_panels.info,v 1.6.4.4 2009/08/03 00:44:50 weitzman Exp $
-name = Organic groups panels. NOT COMPATIBLE WITH DRUPAL 6 YET.
+; $Id: og_panels.info,v 1.6.4.5 2009/08/09 01:52:01 weitzman Exp $
+name = Organic groups panels.
 description = "Enable group admins to create panel pages."
 package = "Organic groups"
 dependencies[] = og
 dependencies[] = panels
-dependencies[] = ctools
 dependencies[] = page_manager
 core = 6.x
