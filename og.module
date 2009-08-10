@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.20 2009/08/10 19:52:32 weitzman Exp $
+// $Id: og.module,v 1.628.4.21 2009/08/10 19:58:13 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -486,7 +486,7 @@ function og_determine_context() {
     $gid = intval(current($_REQUEST['gids']));
     $node = node_load($gid);
   }
-  elseif (($item['map'][0] == 'og' && !empty($item['map'][2])) || $path == 'comment/reply/%') {
+  elseif ((!empty($item['map'][2]) && $item['map'][0] == 'og') || $path == 'comment/reply/%') {
     $node = menu_get_object('node', 2);
   }
   elseif ($path == 'comment/edit' || $path == 'comment/delete') {
