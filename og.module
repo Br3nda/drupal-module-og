@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.22 2009/08/10 20:39:11 weitzman Exp $
+// $Id: og.module,v 1.628.4.23 2009/09/02 11:27:57 weitzman Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1570,7 +1570,7 @@ function og_node_delete_move_memberships($form, &$form_state) {
 function og_all_groups_options() {
   list($types, $in) = og_get_sql_args();
   $sql = "SELECT n.title, n.nid FROM {node} n WHERE n.type $in AND n.status = 1 ORDER BY n.title ASC";
-  $result = db_query($sql, $types);
+  $result = db_query(db_rewrite_sql($sql), $types);
   while ($row = db_fetch_object($result)) {
     $options[$row->nid] = $row->title;
   }
