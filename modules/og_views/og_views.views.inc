@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.6 2009/08/10 19:52:33 weitzman Exp $
+// $Id: og_views.views.inc,v 1.13.4.7 2009/09/17 13:25:32 weitzman Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -527,15 +527,4 @@ function og_views_data_og_notifications() {
     ),
   );
   return $data;
-}
-
-// -------- Utility functions.
-
-function og_views_set_breadcrumb($nid) {
-  $node = node_load((int)$nid);
-  $bc = array(
-    '<front>' => t('Home'),
-    "node/$nid" => check_plain($node->title),
-  );
-  return $bc;
 }
