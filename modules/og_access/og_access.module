@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.32.4.3 2009/09/17 02:49:07 weitzman Exp $
+// $Id: og_access.module,v 1.32.4.4 2009/09/22 02:49:31 weitzman Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -238,7 +238,7 @@ function og_access_alter_nongroup_form(&$form, $form_state, $node) {
 function og_access_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form['#node']) && $form_id == $form['#node']->type .'_node_form') {
     // This way, our js gets added even if form is cached.
-    $form['#after_build'][] = 'og_access_add_js';
+    $form['#pre_render'][] = 'og_access_add_js';
     $node = $form['#node'];
     if (og_is_group_type($node->type)) {
       og_access_alter_group_form($form, $node);
@@ -249,8 +249,9 @@ function og_access_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-function og_access_add_js() {
+function og_access_add_js($form) {
   drupal_add_js(drupal_get_path('module', 'og_access'). '/og_access.js');
+  return $form;
 }
 
 /**
