@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.2.1 2009/07/31 07:30:25 dww Exp $
+// $Id: og.module,v 1.628.2.2 2009/09/30 19:03:21 dww Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -2297,7 +2297,7 @@ function og_save_ancestry($node) {
         $ancestry = array(
           'nid' => $node->nid,
           'group_nid' => $gid,
-          'is_public' => $node->og_public,
+          'is_public' => !empty($node->og_public),
         );
         drupal_write_record('og_ancestry', $ancestry);
       }
