@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.298.2.199 2008/10/02 03:16:07 weitzman Exp $
+// $Id: og.module,v 1.298.2.195.2.1 2009/09/30 19:11:20 dww Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -985,7 +985,7 @@ function og_list_users_page($gid) {
 
 function og_list_users_faces_page($gid, $column_count = 5, $row_count = 10, $pager_id = 0) {
   $max_per_page = $row_count * $column_count;
-  $sql = og_list_users_sql(1, 0, 'ou.is_admin DESC, u.picture DESC, u.name ASC');
+  $sql = og_list_users_sql(0, 0, 'ou.is_admin DESC, u.picture DESC, u.name ASC');
   /* list group admins first, members with pics second, regular members last.  Alphabetize within each of these categories */
   $result = pager_query($sql, $max_per_page, $pager_id, NULL, $gid);
   $output = theme('og_picture_grid', $result, $column_count);
@@ -1089,11 +1089,13 @@ function og_page_activity() {
 // 
 function og_view_group(&$node, $teaser = FALSE, $page = FALSE) {
   if ($teaser || !$page) {
-    $node->content['og_description'] = array(
-      '#type' => 'item',
-      '#title' => t('Description'),
-      '#value' => $node->og_description,
+    if (!empty($node->og_description)) {
+      $node->content['og_description'] = array(
+        '#type' => 'item',
+        '#title' => t('Description'),
+        '#value' => check_plain($node->og_description),
       );
+    }
   }
   else {
     $bc[] = array('path' => "og", 'title' => t('Groups'));
@@ -1362,6 +1364,11 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
           form_set_error('name', t('The group manager, %name, must have an email address in his <a href="!profile">profile</a>.', array('%name' => $account->name, '!profile' => url("user/$node->uid/edit"))));
         }
         
+        // Must be authored in the default input format or else admins might not get their admin perms
+        // If Body field is omitted, there may not yet be a $node->format
+        if (isset($node->format) && $node->format != filter_resolve_format(FILTER_FORMAT_DEFAULT)) {
+          form_set_error('body', t("You must use the default input format when authoring a group node."));
+        }
       }
       else {
         // Ensure that a group is selected if groups are required. needed when author has no groups. In other cases, fapi does the validation
@@ -1594,9 +1601,9 @@ function og_node_delete_group_form(&$form) {
     $options = og_all_groups_options();
     unset($options[$form['nid']['#value']]);
     $form['target'] = array('#type' => 'select', '#title' => t('Target group'), '#default_value' => 0, '#options' => $options, '#weight' => 0, '#description' => t('If you chose <b>Move all group posts</b> above, specify a destination group.'));
+    // register a submit handler
+    $form['#submit']['og_node_delete_confirm_submit'] = array();
   }
-  // register a submit handler
-  $form['#submit']['og_node_delete_confirm_submit'] = array();
   $form['actions']['submit']['#value'] = t('Delete group');
 }
 
@@ -2146,8 +2153,7 @@ function og_get_sql_args() {
  * Determine whether user can act as a group administrator for a given group.
  */
 function og_is_node_admin($node) {
-  global $user;
-  return og_is_group_type($node->type) && (user_access('administer nodes') || !empty($user->og_groups[$node->nid]['is_admin']));
+  return node_access('update', $node);
 }
 
 function og_user($op, $edit, &$account, $category = NULL) {
@@ -2360,14 +2366,6 @@ function og_is_group_type($type) {
 function og_feed($gid) {
   header("HTTP/1.1 301 Moved Permanently");
   header('Location: '. url("node/$gid/feed", NULL, NULL, TRUE));
-}
-
-/**
- * Check a user's membership in a group. Site admins always return TRUE.
- */
-function og_is_group_member($gid, $user) {
-  $groups = array_keys($user->og_groups);
-  return user_access('administer nodes') || in_array($gid, $groups) ? TRUE : FALSE;
 }
 
 
