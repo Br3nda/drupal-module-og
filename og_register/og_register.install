@@ -1,0 +1,20 @@
+<?php
+// $Id: og_register.install,v 1.1 2010/01/03 15:24:12 amitaibu Exp $
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the organic groups register.
+ */
+
+/**
+ * Implement hook_enable().
+ *
+ * Add OG access fields to existing group content.
+ */
+function og_register_enable() {
+  foreach (node_type_get_names() as $type => $name){
+    if (og_is_group_type('node', $type)) {
+      og_create_field('og_register', 'node', $type);
+    }
+  }
+}

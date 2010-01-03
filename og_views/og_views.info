@@ -1,0 +1,8 @@
+; $Id: og_views.info,v 1.4 2010/01/03 15:24:12 amitaibu Exp $
+name = Organic groups Views integration
+description = "Use Views to search and display organic groups."
+package = "Organic groups"
+dependencies[] = og
+dependencies[] = views
+core = 7.x
+files[] = og_views.module

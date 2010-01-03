@@ -1,0 +1,8 @@
+; $Id: og_test.info,v 1.1 2010/01/03 15:24:12 amitaibu Exp $
+name = "Organic groups tests"
+description = "Test module for the Organic groups tests."
+package = Testing
+version = VERSION
+core = 7.x
+files[] = og_test.module
+hidden = TRUE
