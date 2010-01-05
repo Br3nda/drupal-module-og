@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.7 2009/09/17 13:25:32 weitzman Exp $
+// $Id: og_views.views.inc,v 1.13.4.8 2010/01/05 14:55:12 amitaibu Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -53,6 +53,9 @@ function og_views_views_handlers() {
       ),
       'og_views_handler_field_og_managelink' => array(
         'parent' => 'views_handler_field',
+      ),
+      'og_views_handler_field_boolean_og_private' => array(
+        'parent' => 'views_handler_field_boolean',
       ),
       'og_views_handler_field_og_is_active' => array(
         'parent' => 'views_handler_field',
@@ -190,7 +193,7 @@ function og_views_data_og() {
     'help' => t('Is the group home page private or not.'),
     'real field' => 'og_private',
     'field' => array(
-      'handler' => 'views_handler_field_boolean',
+      'handler' => 'og_views_handler_field_boolean_og_private',
       'click sortable' => TRUE
     ),
     'filter' => array(
