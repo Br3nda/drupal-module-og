@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.31 2010/01/05 15:21:35 amitaibu Exp $
+// $Id: og.module,v 1.628.4.32 2010/01/24 14:20:39 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1086,10 +1086,9 @@ function og_presave_group(&$node) {
     $node->og_theme = NULL;
   }
 
-  // Normalize og_groups array
+  // Keep only the selected groups.
   if (isset($node->og_groups)) {
     $node->og_groups = array_filter($node->og_groups);
-    $node->og_groups = array_keys($node->og_groups);
   }
 
   // Support devel module's bulk node generation.
@@ -1930,7 +1929,6 @@ function og_save_ancestry($node) {
     $sql = "DELETE FROM {og_ancestry} WHERE nid = %d";
     db_query($sql, $node->nid);
     if (isset($node->og_groups)) {
-      $node->og_groups = array_unique($node->og_groups);
       foreach ($node->og_groups as $gid) {
         $ancestry = array(
           'nid' => $node->nid,
