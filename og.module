@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.32 2010/01/24 14:20:39 amitaibu Exp $
+// $Id: og.module,v 1.628.4.33 2010/01/24 14:44:56 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1429,6 +1429,9 @@ function og_form_node_type_form_alter(&$form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Organic groups'),
     '#group' => 'additional_settings',
+    '#attached' => array('js' => array(
+      'vertical-tabs' => drupal_get_path('module', 'og') . '/og.js',
+    )),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#access' => user_access('administer organic groups'),
