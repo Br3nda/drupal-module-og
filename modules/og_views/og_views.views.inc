@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.views.inc,v 1.13.4.8 2010/01/05 14:55:12 amitaibu Exp $
+// $Id: og_views.views.inc,v 1.13.4.9 2010/02/07 13:45:09 amitaibu Exp $
 
 /**
  * Implementation of hook_views_handlers().
@@ -46,6 +46,9 @@ function og_views_views_handlers() {
         'parent' => 'views_handler_field',
       ),
       'og_views_handler_field_og_subscribe' => array(
+        'parent' => 'views_handler_field',
+      ),
+      'og_views_handler_field_og_invite' => array(
         'parent' => 'views_handler_field',
       ),
       'og_views_handler_field_og_group_nids' => array(
@@ -228,6 +231,13 @@ function og_views_data_og() {
     'help' => t('Displays a link for joining a group when a user is not already a member.'),
     'field' => array(
       'handler' => 'og_views_handler_field_og_subscribe',
+    ),
+  );
+  $data['og']['invite'] = array(
+    'title' => t('Group: Invite link'),
+    'help' => t('Displays a link for inviting users to a group.'),
+    'field' => array(
+      'handler' => 'og_views_handler_field_og_invite',
     ),
   );
   if (module_exists('locale')) {
