@@ -1,5 +1,5 @@
 <?php
-// $Id: og.pages.inc,v 1.1.2.3 2009/08/08 17:37:37 weitzman Exp $
+// $Id: og.pages.inc,v 1.1.2.4 2010/02/21 17:32:35 amitaibu Exp $
 
 /**
  * @file
@@ -147,7 +147,7 @@ function og_create_admin_confirm_submit($form, &$form_state) {
     'body' => _og_mail_text('og_new_admin_body', $variables)
   );
 
-  module_invoke_all('og', 'admin create', $node->nid, $account->uid, $message);
+  module_invoke_all('og', 'admin new', $node->nid, $account->uid, $message);
 
   $form_state['#redirect'] = "og/users/$node->nid";
 }
