@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.module,v 1.32.4.5 2010/01/24 14:31:56 amitaibu Exp $
+// $Id: og_access.module,v 1.32.4.6 2010/02/22 10:46:16 amitaibu Exp $
 
 // visibility states for private groups. site admin chooses in og_access_settings()
 define('OG_PRIVATE_GROUPS_NEVER', 0);
@@ -194,8 +194,8 @@ function og_access_alter_nongroup_form(&$form, $form_state, $node) {
         $group_node->nid = $gid;
         og_load_group($group_node);
          if (!empty($group_node->og_private)) {
-           // Try not to show checkbox if admin likes to reduce decisions for node authors.
-           $vis = variable_get('og_visibility', 0) == OG_VISIBLE_BOTH ? OG_VISIBLE_GROUPONLY : OG_VISIBLE_CHOOSE_PRIVATE;
+           // Set visibility to the appropriate private option.
+           $vis = variable_get('og_visibility', 0) == OG_VISIBLE_GROUPONLY ? OG_VISIBLE_GROUPONLY : OG_VISIBLE_CHOOSE_PRIVATE;
           break;
         }
       }
