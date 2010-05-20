@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.34 2010/02/21 17:32:35 amitaibu Exp $
+// $Id: og.module,v 1.628.4.35 2010/05/20 07:41:23 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1398,9 +1398,6 @@ function og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
                           ),
           );
         }
-
-        $node->body .= '<div class="og_rss_groups">'. theme('links', $append). '</div>';
-        $node->teaser .= '<div class="og_rss_groups">'. theme('links', $append). '</div>';
         return $ret;
       }
       break;
