@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.71.4.6 2009/09/17 12:52:42 weitzman Exp $
+// $Id: og.install,v 1.71.4.7 2010/05/20 07:42:26 amitaibu Exp $
 
 /**
  * TODO: upgrade all update_14+ updates to d6
@@ -462,6 +462,7 @@ function og_uninstall() {
 
   foreach (node_get_types() as $type_name => $type) {
     $variables[] = 'og_max_groups_' . $type_name;
+    $variables[] = 'og_content_type_usage_' . $type_name;
   }
 
   foreach ($variables as $variable) {
