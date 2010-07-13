@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.37 2010/07/13 18:27:35 amitaibu Exp $
+// $Id: og.module,v 1.628.4.38 2010/07/13 18:34:18 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1711,8 +1711,11 @@ function og_node_delete_confirm_submit($form, &$form_state) {
   }
 }
 
-// Submit handler for group node delete form.
-// Move memberships to target group after a deletion of a group node. No access control.
+/**
+ * Submit handler for group node delete form.
+ *
+ * Move memberships to target group after a deletion of a group node. No access control.
+ */
 function og_node_delete_move_memberships($form, &$form_state) {
   if ($form_state['values']['verb'] == OG_DELETE_MOVE_NODES_MEMBERSHIPS) {
     $deleted_group_nid = $form_state['values']['nid'];
