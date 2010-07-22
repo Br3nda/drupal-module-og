@@ -1,0 +1,8 @@
+; $Id: og_theme.info,v 1.1.2.1 2010/07/22 03:57:31 amitaibu Exp $
+name = Group theme
+description = "Associate theme to a group."
+package = "Group"
+dependencies[] = og_context
+core = 7.x
+files[] = og_theme.module
+files[] = og_theme.install

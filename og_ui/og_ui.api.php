@@ -1,13 +1,13 @@
 <?php
-// $Id: og_ui.api.php,v 1.1.2.1 2010/01/28 07:48:36 amitaibu Exp $
+// $Id: og_ui.api.php,v 1.1.2.2 2010/07/22 03:57:32 amitaibu Exp $
 
 /**
  * @file
- * Hooks provided by the Organic groups module.
+ * Hooks provided by the Group module.
  */
 
 /**
- * @addtogroup hooks
+ * @addtgrouproup hooks
  * @{
  */
 
@@ -19,7 +19,7 @@ function hook_og_ui_get_group_admin() {
   $items['add_people'] = array(
     'title' => t('Add people'),
     'description' => t('Add group members.'),
-    // The final URL will be "og/$obj_type/$oid/admin/people/add-user".
+    // The final URL will be "group/$entity_type/$etid/admin/people/add-user".
     'href' => 'admin/people/add-user',
   );
 
@@ -38,5 +38,5 @@ function hook_og_ui_get_group_admin_alter(&$data) {
 }
 
 /**
- * @} End of "addtogroup hooks".
+ * @} End of "addtgrouproup hooks".
  */

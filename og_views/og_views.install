@@ -1,0 +1,19 @@
+<?php
+// $Id: og_views.install,v 1.1.2.1 2010/07/22 03:57:32 amitaibu Exp $
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Group views module.
+ */
+
+/**
+ * Implement hook_uninstall().
+ */
+function og_views_uninstall() {
+  $vars = array(
+    'og_views_global_view',
+  );
+  foreach ($vars as $var) {
+    variable_del($var);
+  }
+}

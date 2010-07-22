@@ -1,20 +1,19 @@
 <?php
-// $Id: og_access.install,v 1.1.2.1 2010/01/28 07:48:36 amitaibu Exp $
+// $Id: og_access.install,v 1.1.2.2 2010/07/22 03:57:31 amitaibu Exp $
 
 /**
  * @file
- * Install, update, and uninstall functions for the organic groups access.
+ * Install, update, and uninstall functions for the Group access module.
  */
 
 /**
- * Implement hook_enable().
- *
- * Add OG access fields to existing group content.
+ * Implement hook_uninstall().
  */
-function og_access_enable() {
-  foreach (node_type_get_names() as $type => $name){
-    if (og_is_group_content_type('node', $type) || og_is_group_type('node', $type)) {
-      og_create_field('og_access', 'node', $type);
-    }
+function og_access_uninstall() {
+  $vars = array(
+    'og_access_strict_private',
+  );
+  foreach ($vars as $var) {
+    variable_del($var);
   }
 }
