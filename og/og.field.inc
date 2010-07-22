@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.3 2010/07/22 20:29:07 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.4 2010/07/22 20:29:17 amitaibu Exp $
 
 /**
  * @file
@@ -496,7 +496,7 @@ function og_field_crud_group($op, $entity_type, $entity) {
       }
 
       // Check if the entity label has changed.
-      $label = entity_label($entity_type, $entity);
+      $label = og_entity_label($entity_type, $entity);
 
       if ($group->label != $label) {
         $group->label = $label;

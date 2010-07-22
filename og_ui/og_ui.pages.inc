@@ -1,5 +1,5 @@
 <?php
-// $Id: og_ui.pages.inc,v 1.1.2.2 2010/07/22 03:57:32 amitaibu Exp $
+// $Id: og_ui.pages.inc,v 1.1.2.3 2010/07/22 20:29:18 amitaibu Exp $
 
 /**
  * @file
@@ -36,19 +36,20 @@ function og_ui_subscribe($entity_type, $etid, $uid = NULL) {
       $account = user_load($uid);
     }
 
+    $entity = entity_load($entity_type, array($etid));
+    $entity = reset($entity);
+
     // Check user isn't already subscribed.
     if (in_array($group->gid, og_get_entity_groups('user', $account))) {
       $params = array(
         '@user' => $account->name,
-        // TODO: Use entity_label, but check user has permissions to see title.
-        '@group' => 'dummy - @todo: Use entity_label()',
+        // TODO: check user has permissions to see label (e.g. node title).
+        '@group' => og_entity_label($entity_type, $entity),
       );
 
       $message = $account->uid == $user->uid ? t('You are already a member of the group @group.', $params) : t('@user is already a member of the group @group.', $params);
       drupal_set_message($message);
 
-
-      $entity = reset(entity_load($entity_type, array($etid)));
       _group_ui_redirect($entity_type, $entity);
     }
     elseif (og_user_access($group->gid, 'subscribe', $account) || og_user_access($group->gid, 'subscribe without approval', $account)) {
@@ -127,6 +128,7 @@ function og_ui_unsubscribe($entity_type, $etid) {
 
 /**
  * Helper function; Redirect back to entity, if access is allowed.
+ *
  * @param $entity_type
  * @param $entity
  * @return unknown_type
