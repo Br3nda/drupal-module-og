@@ -1,4 +1,4 @@
-// $Id: README.txt,v 1.61.2.3 2010/07/22 03:57:31 amitaibu Exp $;
+// $Id: README.txt,v 1.61.2.4 2010/07/22 20:17:53 amitaibu Exp $;
 
 DESCRIPTION 
 -------------------------- 
@@ -49,7 +49,7 @@ As is the case with Drupal itself, in Organic Groups different permissions can
 be assigned to different user roles. This allows group members to perform a 
 different set of actions, in different group contexts.
 
-GROUP INSTALLATION DRUPAL 7.x
+INSTALLATION DRUPAL 7.x
 --------------------------------------------
 1. Enable the Group and the Group UI modules.
 2. Create a new content type via admin/structure/types/add. Call it "Group", and 
@@ -100,7 +100,7 @@ DEVELOPERS & SITE BUILDERS
 
 CREDITS
 ----------------------------
-- Organic groups authored by with versions 5 and 6 maintained by Moshe Weitzman -  
+- Organic groups for Drupal 5 and 6 authored by Moshe Weitzman -  
   <weitzman AT tejasa DOT com>
-- Group module author and current project maintainer of Organic group is Amitai 
-  Burstein (Amitaibu) - gizra.com
+- Current project maintainer and Drupal 7 author is Amitai Burstein (Amitaibu) - 
+  gizra.com
