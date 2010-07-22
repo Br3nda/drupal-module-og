@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.2 2010/07/22 03:57:31 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.3 2010/07/22 20:29:07 amitaibu Exp $
 
 /**
  * @file
@@ -10,6 +10,11 @@
  * Hook implementations
  ******************************************************************************/
 
+/**
+ * Implements hook_field_widget_properties_alter().
+ *
+ * Depends on http://drupal.org/node/806830
+ */
 function og_field_widget_properties_alter(&$widget, $context) {
   $field = $context['field'];
   if ($field['field_name'] == OG_AUDIENCE_FIELD) {
