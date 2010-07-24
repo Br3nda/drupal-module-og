@@ -1,9 +1,9 @@
 <?php
-// $Id: og.install,v 1.1.2.2 2010/07/22 03:57:31 amitaibu Exp $
+// $Id: og.install,v 1.1.2.3 2010/07/24 18:32:54 amitaibu Exp $
 
 /**
  * @file
- * Install, update, and uninstall functions for the Group module.
+ * Install, update, and uninstall functions for the Organic groups module.
  */
 
 /**

@@ -1,9 +1,9 @@
 <?php
-// $Id: og_ui.admin.inc,v 1.1.2.4 2010/07/23 19:32:54 amitaibu Exp $
+// $Id: og_ui.admin.inc,v 1.1.2.5 2010/07/24 18:32:54 amitaibu Exp $
 
 /**
  * @file
- * Admin settings for the Group module.
+ * Admin settings for Organic grops module.
  */
 
 /**

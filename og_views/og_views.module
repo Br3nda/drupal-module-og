@@ -1,9 +1,9 @@
 <?php
-// $Id: og_views.module,v 1.8.2.2 2010/07/22 03:57:32 amitaibu Exp $
+// $Id: og_views.module,v 1.8.2.3 2010/07/24 18:32:54 amitaibu Exp $
 
 /**
  * @file
- * Views integration for the Group module.
+ * Views integration for the Organic groups module.
  */
 
 /**

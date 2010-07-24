@@ -1,9 +1,9 @@
 <?php
-// $Id: og.api.php,v 1.1.2.2 2010/07/22 03:57:31 amitaibu Exp $
+// $Id: og.api.php,v 1.1.2.3 2010/07/24 18:32:54 amitaibu Exp $
 
 /**
  * @file
- * Hooks provided by the Group module.
+ * Hooks provided by the Organic groups module.
  */
 
 /**

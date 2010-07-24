@@ -1,9 +1,9 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.4 2010/07/22 20:29:17 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.5 2010/07/24 18:32:54 amitaibu Exp $
 
 /**
  * @file
- * Field module functionality for the Group module.
+ * Field module functionality for the Organic groups module.
  */
 
 /*******************************************************************************
