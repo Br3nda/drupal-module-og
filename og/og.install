@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.1.2.5 2010/07/24 18:57:50 amitaibu Exp $
+// $Id: og.install,v 1.1.2.6 2010/07/24 18:57:58 amitaibu Exp $
 
 /**
  * @file
@@ -373,7 +373,7 @@ function _og_upgrade_group_content(&$sandbox) {
   $query
     ->fields('nr', array('nid', 'vid'))
     ->fields('n', array('type', 'created'))
-    ->fields('oga', array('og_nid'))
+    ->fields('oga', array('group_nid'))
     ->condition('nr.vid', $sandbox['last'], '>')
     ->orderBy('nr.vid', 'ASC')
     ->range(0, $batch_size);
