@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.1.2.6 2010/07/24 18:57:58 amitaibu Exp $
+// $Id: og.install,v 1.1.2.7 2010/07/31 19:23:54 amitaibu Exp $
 
 /**
  * @file
@@ -214,8 +214,8 @@ function og_update_7000(&$sandbox) {
               $content_type['group'][] = $type->type;
               break;
 
-            case 'og_post_standard':
-            case 'og_post_wiki':
+            case 'group_post_standard':
+            case 'group_post_wiki':
               // The type of the group content is now determined via the
               // group permissions. We only care about adding the group content
               // fields to the node.
