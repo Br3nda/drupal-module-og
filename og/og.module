@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.4 2010/07/31 20:05:27 amitaibu Exp $
+// $Id: og.module,v 1.1.2.5 2010/08/01 03:42:16 amitaibu Exp $
 
 /**
  * @file
@@ -1200,7 +1200,7 @@ function og_label($gid) {
  * Determine the permissions for one or more roles.
  *
  * @param $roles
- *   An array whose keys are the role IDs of interest, such as $user->roles.
+ *   An array whose keys are the role IDs of interest.
  *
  * @return
  *   An array indexed by role ID. Each value is an array whose keys are the

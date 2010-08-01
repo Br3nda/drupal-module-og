@@ -1,5 +1,5 @@
 <?php
-// $Id: og_ui.admin.inc,v 1.1.2.5 2010/07/24 18:32:54 amitaibu Exp $
+// $Id: og_ui.admin.inc,v 1.1.2.6 2010/08/01 03:42:16 amitaibu Exp $
 
 /**
  * @file
@@ -407,7 +407,7 @@ function og_ui_user_admin_permissions($form, $form_state, $entity_type = NULL, $
     $role_names = array($rid => $role_names[$rid]);
   }
   // Fetch permissions for all roles or the one selected role.
-  $role_permissions = og_user_role_permissions(array_keys($role_names));
+  $role_permissions = og_user_role_permissions($role_names);
 
   // Store $role_names for use when saving the data.
   $form['role_names'] = array(
@@ -441,7 +441,7 @@ function og_ui_user_admin_permissions($form, $form_state, $entity_type = NULL, $
     }
   }
 
-  // Have to build checkboxes here after checkbox arrays are built
+  // Have to build checkboxes here after checkbox arrays are built.
   foreach ($role_names as $rid => $name) {
     $form['checkboxes'][$rid] = array('#type' => 'checkboxes', '#options' => $options, '#default_value' => isset($status[$rid]) ? $status[$rid] : array());
     $form['role_names'][$rid] = array('#markup' => $name, '#tree' => TRUE);
