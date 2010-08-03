@@ -1,5 +1,5 @@
 <?php
-// $Id: og.install,v 1.1.2.10 2010/08/03 20:21:44 amitaibu Exp $
+// $Id: og.install,v 1.1.2.11 2010/08/03 20:37:26 amitaibu Exp $
 
 /**
  * @file
@@ -38,7 +38,7 @@ function og_uninstall() {
 function og_schema() {
   $schema = array();
 
-  if (db_field_exists('og', 'nid')) {
+  if (db_table_exists('og')) {
     // Rename the old table, so we can populate the new {og} table using API
     // functions, that assume the new DB structure.
     db_rename_table('og', 'd6_og');

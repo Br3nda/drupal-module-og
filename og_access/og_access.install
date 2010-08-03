@@ -1,13 +1,13 @@
 <?php
-// $Id: og_access.install,v 1.1.2.2 2010/07/22 03:57:31 amitaibu Exp $
+// $Id: og_access.install,v 1.1.2.3 2010/08/03 20:37:26 amitaibu Exp $
 
 /**
  * @file
- * Install, update, and uninstall functions for the Group access module.
+ * Install, update, and uninstall functions for the Organic groups access module.
  */
 
 /**
- * Implement hook_uninstall().
+ * Implements hook_uninstall().
  */
 function og_access_uninstall() {
   $vars = array(
@@ -15,5 +15,14 @@ function og_access_uninstall() {
   );
   foreach ($vars as $var) {
     variable_del($var);
+  }
+}
+
+/**
+ * Implements hook_schema();
+ */
+function og_access_schema() {
+  if (db_table_exists('og_access_post')) {
+    db_rename_table('og_access_post', 'd6_og_access_post');
   }
 }
