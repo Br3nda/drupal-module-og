@@ -1,5 +1,5 @@
 <?php
-// $Id: og_access.install,v 1.1.2.3 2010/08/03 20:37:26 amitaibu Exp $
+// $Id: og_access.install,v 1.1.2.4 2010/08/03 20:37:33 amitaibu Exp $
 
 /**
  * @file
@@ -25,4 +25,25 @@ function og_access_schema() {
   if (db_table_exists('og_access_post')) {
     db_rename_table('og_access_post', 'd6_og_access_post');
   }
+}
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function og_access_update_dependencies() {
+  $dependencies = array();
+  $dependencies['og_access'][7000] = array(
+    'og' => 7000,
+  );
+
+  return $dependencies;
+
+}
+
+
+/**
+ * Upgrade from Organic groups access 6 to 7.
+ */
+function og_access_update_7000(&$sandbox) {
+
 }
