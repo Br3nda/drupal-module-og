@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.6 2010/08/01 03:45:10 amitaibu Exp $
+// $Id: og.module,v 1.1.2.7 2010/08/06 16:31:07 amitaibu Exp $
 
 /**
  * @file
@@ -279,6 +279,7 @@ function og_node_access($node, $op, $account) {
   $type = is_string($node) ? $node : (is_array($node) ? $node['type'] : $node->type);
   if (in_array($op, array('update', 'delete'))) {
     if (($group = og_get_group('node', $node->nid))) {
+      // The node is a group.
       return og_user_access($group->gid, $op . ' group', $account) ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
     }
     elseif ($gids = og_get_entity_groups('node', $node)) {
