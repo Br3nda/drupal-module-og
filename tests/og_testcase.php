@@ -1,5 +1,5 @@
 <?php
-// $Id: og_testcase.php,v 1.10.4.2 2010/06/07 07:51:02 amitaibu Exp $
+// $Id: og_testcase.php,v 1.10.4.3 2010/08/12 19:55:27 amitaibu Exp $
 
 /**
  * @file
@@ -20,7 +20,7 @@ class OgTestCase extends DrupalWebTestCase {
    *   The newly created node id.
    */
   function addOgGroup($type, $selective = OG_OPEN, $args = array()) {
-  	$edit = array();
+    $edit = array();
     $edit['og_description'] = $this->randomName(16);
     $edit['og_selective'] = $selective;
     $edit = array_merge($edit, $args);
@@ -38,7 +38,7 @@ class OgTestCase extends DrupalWebTestCase {
     $keys = array_merge($keys, array_keys($args));
 
     $og_type = t('Group node');
-    return $this->_addOgContent($type, $og_type, $edit, $keys);   	
+    return $this->_addOgContent($type, $og_type, $edit, $keys);
   }
 
   /**
