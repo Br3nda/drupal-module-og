@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.44 2010/08/12 18:36:42 amitaibu Exp $
+// $Id: og.module,v 1.628.4.45 2010/08/12 18:50:19 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -1904,7 +1904,11 @@ function og_form_add_og_audience(&$form, &$form_state) {
   );
 
   if (module_exists('content')) {
+    $form['og_nodeapi']['#type'] = 'fieldset';
+    $form['og_nodeapi']['#title'] = t('Groups');
     $form['og_nodeapi']['#group'] = 'additional_settings';
+    $form['og_nodeapi']['#collapsible'] = TRUE;
+    $form['og_nodeapi']['#collapsed'] = empty($groups);
     $form['og_nodeapi']['#weight'] = content_extra_field_weight($form['#node']->type, 'og_nodeapi');
   }
 
