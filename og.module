@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.43 2010/08/12 18:36:23 amitaibu Exp $
+// $Id: og.module,v 1.628.4.44 2010/08/12 18:36:42 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -25,6 +25,9 @@ define('OG_DELETE_ORPHANS', 1);
 define('OG_DELETE_MOVE_NODES', 2);
 define('OG_DELETE_MOVE_NODES_MEMBERSHIPS', 3);
 
+/**
+ * Implementation of hook_help().
+ */
 function og_help($path, $arg) {
   if ($path) {
     switch ($path) {
