@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.628.4.45 2010/08/12 18:50:19 amitaibu Exp $
+// $Id: og.module,v 1.628.4.46 2010/08/17 19:34:53 amitaibu Exp $
 
 // Selective groups states. chosen by the group admin
 define ('OG_OPEN', 0);
@@ -397,7 +397,9 @@ function og_is_group_admin($node, $account = NULL) {
   return og_is_group_type($node->type) && (user_access('administer nodes', $account) || !empty($account->og_groups[$node->nid]['is_admin']));
 }
 
-// An implementation of hook_theme().
+/**
+ * Implementation of hook_theme().
+ */
 function og_theme() {
   return array(
     'opml_icon' => array('arguments' => array('url')),
