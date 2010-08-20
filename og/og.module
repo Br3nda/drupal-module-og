@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.11 2010/08/20 11:12:59 amitaibu Exp $
+// $Id: og.module,v 1.1.2.12 2010/08/20 11:16:14 amitaibu Exp $
 
 /**
  * @file
@@ -1906,6 +1906,16 @@ function og_check_token($token, $seed) {
   return drupal_get_token($seed) == $token;
 }
 
+/**
+ * Set breadcrumbs according to a given group.
+ *
+ * @param $entity_type
+ *   The entity type.
+ * @param $etid
+ *   The entity ID.
+ * @param $path
+ *   Optional; The path to append to the breadcrumb.
+ */
 function og_set_breadcrumb($entity_type, $etid, $path = array()) {
   if ($entity = entity_load($entity_type, array($etid))) {
     $entity = reset($entity);
