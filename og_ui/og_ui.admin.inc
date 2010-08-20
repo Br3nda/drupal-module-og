@@ -1,5 +1,5 @@
 <?php
-// $Id: og_ui.admin.inc,v 1.1.2.6 2010/08/01 03:42:16 amitaibu Exp $
+// $Id: og_ui.admin.inc,v 1.1.2.7 2010/08/20 10:45:54 amitaibu Exp $
 
 /**
  * @file

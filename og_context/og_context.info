@@ -1,4 +1,4 @@
-; $Id: og_context.info,v 1.1.2.1 2010/07/22 03:57:31 amitaibu Exp $
+; $Id: og_context.info,v 1.1.2.2 2010/08/20 10:45:54 amitaibu Exp $
 name = Group context
 description = "Get a group from a viewed page."
 package = "Group"
