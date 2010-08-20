@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.12 2010/08/20 11:16:14 amitaibu Exp $
+// $Id: og.module,v 1.1.2.13 2010/08/20 11:18:25 amitaibu Exp $
 
 /**
  * @file
@@ -1882,6 +1882,7 @@ function og_fields_info($field_name = NULL) {
             'field access' => array(),
           );
 
+          // Add default values to field access.
           if (!empty($field['field access'])) {
             $field['field access'] += array(
               'permission' => 'edit ' . $key . ' field',
