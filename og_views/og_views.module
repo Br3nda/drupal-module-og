@@ -1,5 +1,5 @@
 <?php
-// $Id: og_views.module,v 1.8.2.5 2010/08/20 11:13:00 amitaibu Exp $
+// $Id: og_views.module,v 1.8.2.6 2010/08/23 15:56:15 amitaibu Exp $
 
 /**
  * @file
@@ -58,11 +58,6 @@ function og_views_og_fields_info() {
   $items[OG_VIEWS_FIELD] = array(
     'type' => array('group'),
     'description' => t('Add Group Views field to fieldable entities that are groups.'),
-    // Define field access.
-    'field access' => array(
-      'title' => t('Edit group views field'),
-      'description' => t('Access the group views field for existing groups.'),
-    ),
     'field' => array(
       'field_name' => OG_VIEWS_FIELD,
       'no_ui' => TRUE,
