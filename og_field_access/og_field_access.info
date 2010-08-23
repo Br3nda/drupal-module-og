@@ -1,0 +1,7 @@
+; $Id: og_field_access.info,v 1.1.2.1 2010/08/23 15:46:18 amitaibu Exp $
+name = Group field access
+description = "Provide field access based on group."
+package = "Group"
+dependencies[] = og
+core = 7.x
+files[] = og_field_access.module

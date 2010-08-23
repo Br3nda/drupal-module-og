@@ -1,5 +1,5 @@
 <?php
-// $Id: og.api.php,v 1.1.2.4 2010/08/20 10:45:54 amitaibu Exp $
+// $Id: og.api.php,v 1.1.2.5 2010/08/23 15:46:18 amitaibu Exp $
 
 /**
  * @file
@@ -173,6 +173,22 @@ function hook_og_audience_options_alter(&$options, $opt_group, $account) {
     $options['content groups'] = array_merge($options['content groups'], $gids);
   }
 }
+
+/**
+ * TODO
+ */
+function hook_og_fields_info() {
+
+}
+
+/**
+ * TODO
+ */
+function hook_og_fields_info_alter(&$fields_info) {
+
+}
+
+
 
 /**
  * @} End of "addtgrouproup hooks".
