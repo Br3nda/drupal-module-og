@@ -1,5 +1,5 @@
 <?php
-// $Id: og.api.php,v 1.1.2.5 2010/08/23 15:46:18 amitaibu Exp $
+// $Id: og.api.php,v 1.1.2.6 2010/08/23 15:56:02 amitaibu Exp $
 
 /**
  * @file
@@ -22,6 +22,16 @@ function hook_og_permission() {
       'roles' => array(OG_ANONYMOUS_ROLE),
     ),
   );
+}
+
+/**
+ * Alter the organic groups permissions.
+ *
+ * @param $perms
+ *   The permissions passed by reference.
+ */
+function hook_og_permission_alter(&$perms) {
+
 }
 
 /**
