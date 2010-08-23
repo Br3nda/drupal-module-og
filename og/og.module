@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.21 2010/08/23 19:17:49 amitaibu Exp $
+// $Id: og.module,v 1.1.2.22 2010/08/23 19:17:56 amitaibu Exp $
 
 /**
  * @file
@@ -1573,7 +1573,7 @@ function og_get_user_roles_name($rids = array()) {
  */
 function og_permissions_delete_by_module($module) {
    db_delete('og_role_permission')
-     ->condition('module', $modules, 'IN')
+     ->condition('module', $module, 'IN')
      ->execute();
 }
 
