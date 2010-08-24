@@ -1,5 +1,5 @@
 <?php
-// $Id: og_context.module,v 1.1.2.3 2010/08/20 11:12:59 amitaibu Exp $
+// $Id: og_context.module,v 1.1.2.4 2010/08/24 21:44:21 amitaibu Exp $
 
 /**
  * @file
@@ -75,7 +75,7 @@ function og_context_og_context_negotiation_info() {
 
   $providers['url'] = array(
     'name' => t('URL'),
-    'description' => t("URL."),
+    'description' => t("Select groups if they were passed in the URL (e.g. node/add/post?gids_node[]=4,5,6)."),
     'callback' => 'og_context_handler_url',
   );
 
