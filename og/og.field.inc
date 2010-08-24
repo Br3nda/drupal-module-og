@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.9 2010/08/20 10:45:54 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.10 2010/08/24 21:44:27 amitaibu Exp $
 
 /**
  * @file
@@ -358,7 +358,7 @@ function og_field_widget_form(&$form, &$form_state, $field, $instance, $langcode
         $options_type = $type;
       }
 
-      $properties = _options_properties($options_type, $element['#multiple'], $element['#required']);
+      $properties = _options_properties($options_type, $element['#multiple'], $element['#required'], $options);
 
       // If the element isn't required, and there are some options.
       if (!$element['#required'] && $type != 'item') {
