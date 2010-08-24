@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.27 2010/08/24 21:44:44 amitaibu Exp $
+// $Id: og.module,v 1.1.2.28 2010/08/24 21:49:15 amitaibu Exp $
 
 /**
  * @file
@@ -1731,7 +1731,7 @@ function og_user_role_grant_permissions($rid, array $permissions = array()) {
   foreach (og_get_permissions() as $name => $value) {
     $modules[$name] = $value['module'];
   }
-	// Grant new permissions for the role.
+  // Grant new permissions for the role.
   foreach ($permissions as $name) {
     db_merge('og_role_permission')
       ->key(array(
