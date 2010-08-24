@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.26 2010/08/24 21:44:34 amitaibu Exp $
+// $Id: og.module,v 1.1.2.27 2010/08/24 21:44:44 amitaibu Exp $
 
 /**
  * @file
@@ -1307,12 +1307,13 @@ function og_get_default_roles($include = TRUE) {
     $roles[$module] = module_invoke($module, 'og_default_roles');
   }
 
-  // Allow other modules to alter the defult roles.
+  // Allow other modules to alter the defult roles, excpet of the anonymous and
+  // authenticated.
   drupal_alter('og_default_roles', $roles);
 
   if ($include) {
-    $roles['og'][] = OG_ANONYMOUS_ROLE;
-    $roles['og'][] = OG_AUTHENTICATED_ROLE;
+    $roles += array('og' => array());
+    array_unshift($roles['og'], OG_ANONYMOUS_ROLE, OG_AUTHENTICATED_ROLE);
   }
 
   return $roles;
