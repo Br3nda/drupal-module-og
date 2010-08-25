@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.10 2010/08/24 21:44:27 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.11 2010/08/25 18:34:30 amitaibu Exp $
 
 /**
  * @file
@@ -131,7 +131,8 @@ function og_field_formatter_view($entity_type, $entity, $field, $instance, $lang
         $label = og_label($group->gid);
         $entity = entity_load($group->entity_type, array($group->etid));
         $entity = current($entity);
-        $uri = entity_uri($entity_type, $entity);
+        // Get the entity type of the group entity.
+        $uri = entity_uri($group->entity_type, $entity);
         $element[$delta] = array(
           '#type' => 'link',
           '#title' => $label,
