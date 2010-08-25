@@ -1,5 +1,5 @@
 <?php
-// $Id: og_context.module,v 1.1.2.5 2010/08/25 18:10:54 amitaibu Exp $
+// $Id: og_context.module,v 1.1.2.6 2010/08/25 21:07:34 amitaibu Exp $
 
 /**
  * @file
@@ -362,7 +362,6 @@ function og_context_handler_node() {
     }
     $return = _group_context_handler_entity('node', $node);
   }
-  $node = is_object($item['map'][1]) ? $item['map'][1] : node_load($item['map'][1]);
   return $return;
 }
 

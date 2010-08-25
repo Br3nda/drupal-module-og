@@ -1,5 +1,5 @@
 <?php
-// $Id: og_theme.install,v 1.1.2.2 2010/08/20 10:45:54 amitaibu Exp $
+// $Id: og_theme.install,v 1.1.2.3 2010/08/25 21:07:34 amitaibu Exp $
 
 /**
  * @file
@@ -96,7 +96,7 @@ if (module_exists('og_theme')) {
  */
 function og_theme_update_dependencies() {
   $dependencies['og_theme'][7000] = array(
-    'group' => 7000,
+    'og' => 7000,
   );
   return $dependencies;
 }

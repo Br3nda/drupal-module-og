@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.11 2010/08/25 18:34:30 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.12 2010/08/25 21:07:34 amitaibu Exp $
 
 /**
  * @file
@@ -551,6 +551,7 @@ function og_field_audience_options($opt_group = FALSE, $account = NULL) {
   $return = array('content groups' => array(), 'other groups' => array());
 
   $content_groups = og_get_entity_groups('user', $account);
+
   $return['content groups'] = $content_groups;
 
   if ($opt_group) {
