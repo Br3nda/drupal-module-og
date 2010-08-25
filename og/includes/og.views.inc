@@ -1,5 +1,5 @@
 <?php
-// $Id: og.views.inc,v 1.1.2.2 2010/08/20 10:45:54 amitaibu Exp $
+// $Id: og.views.inc,v 1.1.2.3 2010/08/25 18:11:01 amitaibu Exp $
 
 /**
  * @file
@@ -35,7 +35,7 @@ function og_views_data() {
       'handler' => 'views_handler_filter_numeric',
     ),
     'argument' => array(
-      'handler' => 'views_handler_argument_numeric',
+      'handler' => 'og_handler_argument_group_audience_gid',
     ),
   );
 

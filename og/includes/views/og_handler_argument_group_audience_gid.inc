@@ -1,5 +1,5 @@
 <?php
-// $Id: og_handler_argument_group_audience_gid.inc,v 1.1.2.2 2010/08/20 10:45:54 amitaibu Exp $
+// $Id: og_handler_argument_group_audience_gid.inc,v 1.1.2.3 2010/08/25 18:11:01 amitaibu Exp $
 /**
  * @file
  * Contains the group argument for field group audience.
@@ -15,11 +15,10 @@ class og_handler_argument_group_audience_gid extends views_handler_argument_nume
    */
   function title() {
     $title = '';
-    if ($entity = entity_load($this->options['og_type'], array($this->argument))) {
-      $entity = current($entity);
+    if ($group = og_context()) {
 
-      // FIXME: Implement when http://drupal.org/node/629484
-      $title = '@placeholder';
+      // TODO: Use wrapper function.
+      $title = check_plain($group->label);
     }
 
     return $title;
