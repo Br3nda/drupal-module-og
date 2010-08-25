@@ -1,5 +1,5 @@
 <?php
-// $Id: og_field_access.module,v 1.1.2.11 2010/08/24 21:47:47 amitaibu Exp $
+// $Id: og_field_access.module,v 1.1.2.12 2010/08/25 18:08:12 amitaibu Exp $
 
 /**
  * @file
@@ -65,10 +65,13 @@ function og_field_access_field_attach_form($entity_type, $entity, &$form, $form_
 function og_field_access_field_attach_view_alter(&$result, $context) {
   // Clone the result so it won't be changed in element_children().
   $fields = $result;
-  $field_name = element_children($fields);
-  $field_name = reset($field_name);
+  if ($field_names = element_children($fields)) {
+    foreach ($field_names as $field_name) {
+      og_field_access_check_access($context['entity_type'], $context['entity'], $result, array(), array(), $field_name, 'view');
+    }
+  }
 
-  og_field_access_check_access($context['entity_type'], $context['entity'], $result, array(), array(), $field_name, 'view');
+
 }
 
 
