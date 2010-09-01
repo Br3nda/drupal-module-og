@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.12 2010/08/25 21:07:34 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.13 2010/09/01 19:09:13 amitaibu Exp $
 
 /**
  * @file
@@ -432,6 +432,31 @@ function og_field_attach_update($entity_type, $entity) {
  */
 function og_field_attach_delete($entity_type, $entity) {
   og_field_crud_group('delete', $entity_type, $entity);
+}
+
+/**
+ * Implements hook_field_attach_form().
+ *
+ * Add access check on the field.
+ */
+function og_field_attach_form($entity_type, $entity, &$form, $form_state, $langcode) {
+  $item = menu_get_item();
+  if (!empty($form[OG_GROUP_FIELD]) && (($entity_type == 'node' && !empty($entity->tnid) && $entity->tnid != $entity->nid)) || $item['page_callback'] == 'node_add' && !empty($_GET['translation']) && !empty($_GET['target'])) {
+
+    // Prevent changing the group state on nodes that are translated.
+    // Load the original node.
+    $description = t('You can not change the group state from a translated content.');
+
+    $tnid = !empty($entity->tnid) ? $entity->tnid : $_GET['translation'];
+    if (($node = node_load($tnid)) && node_access('update', $node)) {
+      $description .= ' ' . t('Changing the group state can only be done via <a href="@node">@title</a>.', array('@node' => url('node/' . $node->nid . '/edit'), '@title' => $node->title));
+    }
+
+    $form[OG_GROUP_FIELD][LANGUAGE_NONE]['#options'] = array();
+    $form[OG_GROUP_FIELD][LANGUAGE_NONE]['#description'] = $description;
+    $form[OG_GROUP_FIELD][LANGUAGE_NONE]['#disabled'] = TRUE;
+    $form[OG_GROUP_FIELD][LANGUAGE_NONE]['#required'] = FALSE;
+  }
 }
 
 /**
