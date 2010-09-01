@@ -1,5 +1,5 @@
 <?php
-// $Id: og.module,v 1.1.2.29 2010/08/25 21:07:34 amitaibu Exp $
+// $Id: og.module,v 1.1.2.30 2010/09/01 16:29:16 amitaibu Exp $
 
 /**
  * @file
@@ -53,12 +53,12 @@ define('OG_DEFAULT_ACCESS_FIELD', 'og_roles_permissions');
 /**
  * The role name of group non-members.
  */
-define('OG_ANONYMOUS_ROLE', 'anonymous member');
+define('OG_ANONYMOUS_ROLE', 'non-member');
 
 /**
  * The role name of group member.
  */
-define('OG_AUTHENTICATED_ROLE', 'authenticated member');
+define('OG_AUTHENTICATED_ROLE', 'member');
 
 /**
  * The role name of group administrator.
