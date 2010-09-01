@@ -1,5 +1,5 @@
 <?php
-// $Id: og_context.admin.inc,v 1.1.2.2 2010/08/20 10:45:54 amitaibu Exp $
+// $Id: og_context.admin.inc,v 1.1.2.3 2010/09/01 19:52:40 amitaibu Exp $
 
 /**
  * @file
@@ -50,8 +50,10 @@ function _group_context_configure_form_table(&$form) {
   );
 
   $group_context_providers = $form['#group_context_providers'];
-  $enabled_providers = variable_get("og_context_negotiation_$type", array());
-  $providers_weight = variable_get("group_context_providers_weight_$type", array());
+  // Enable url and node context handlers by default.
+  $defaults = array('url' => -5, 'node' => -4);
+  $enabled_providers = variable_get("og_context_negotiation_$type", $defaults);
+  $providers_weight = variable_get("og_context_providers_weight_$type", $defaults);
 
   // Add missing data to the providers lists.
   foreach ($group_context_providers as $id => $provider) {
@@ -176,7 +178,7 @@ function og_context_configure_form_submit($form, &$form_state) {
   }
 
   og_context_negotiation_set($negotiation);
-  variable_set("group_context_providers_weight_$type", $providers_weight);
+  variable_set("og_context_providers_weight_$type", $providers_weight);
 
   $form_state['redirect'] = 'admin/config/group/context';
   drupal_set_message(t('Group context negotiation configuration saved.'));
