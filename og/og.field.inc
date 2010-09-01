@@ -1,5 +1,5 @@
 <?php
-// $Id: og.field.inc,v 1.1.2.13 2010/09/01 19:09:13 amitaibu Exp $
+// $Id: og.field.inc,v 1.1.2.14 2010/09/01 19:09:42 amitaibu Exp $
 
 /**
  * @file
@@ -436,8 +436,6 @@ function og_field_attach_delete($entity_type, $entity) {
 
 /**
  * Implements hook_field_attach_form().
- *
- * Add access check on the field.
  */
 function og_field_attach_form($entity_type, $entity, &$form, $form_state, $langcode) {
   $item = menu_get_item();
