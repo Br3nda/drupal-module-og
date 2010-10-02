@@ -1,5 +1,5 @@
 <?php
-// $Id: og_register.module,v 1.1.2.5 2010/08/23 15:56:15 amitaibu Exp $
+// $Id: og_register.module,v 1.1.2.6 2010/10/02 19:02:47 amitaibu Exp $
 
 /**
  * @file
@@ -21,7 +21,7 @@ function og_register_form_user_register_form_alter(&$form, $form_state) {
   global $user;
   if ($gids = og_register_get_groups()) {
     $entity = $user;
-    field_attach_form('user', $entity, &$form, &$form_state);
+    field_attach_form('user', $entity, $form, $form_state);
   }
 }
 
