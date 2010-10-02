@@ -1,5 +1,5 @@
 <?php
-// $Id: og.pages.inc,v 1.1.2.8 2010/09/30 21:25:06 amitaibu Exp $
+// $Id: og.pages.inc,v 1.1.2.9 2010/10/02 17:52:56 amitaibu Exp $
 
 /**
  * @file
@@ -269,7 +269,7 @@ function og_subscribe($node, $uid = NULL) {
   global $user;
   if (is_null($uid)) {
     if ($user->uid) {
-      $account = $user;
+      $account = drupal_clone($user);
     }
     else {
       $dest = drupal_get_destination();
