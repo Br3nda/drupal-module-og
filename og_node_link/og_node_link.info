@@ -1,7 +1,7 @@
-; $Id: og_node_link.info,v 1.1.2.1 2010/08/20 11:05:10 amitaibu Exp $
-name = Group node link
+; $Id: og_node_link.info,v 1.1.2.2 2010/10/06 14:03:05 amitaibu Exp $
+name = Organic groups node link
 description = "Add content creation links field."
-package = "Group"
+package = "Organic groups"
 dependencies[] = og
 core = 7.x
 files[] = og_node_link.module

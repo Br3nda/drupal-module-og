@@ -1,6 +1,7 @@
-name = Group access control
+; $Id: og_access.info,v 1.1.2.2 2010/10/06 14:03:06 amitaibu Exp $
+name = Organic groups access control
 description = "Enable access control for private and public groups and group content."
-package = "Group"
+package = "Organic groups"
 dependencies[] = og
 core = 7.x
 version = VERSION
